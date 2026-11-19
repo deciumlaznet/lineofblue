@@ -1,0 +1,11 @@
+{
+  "note": "Keyword sets for X recent search. Narrative-first: topics only, never accounts (from:, to: and @ are refused). A set runs only when its status is 'approved' by the NPCC Comms lead (workflow step W1.1). Queries use X search syntax; recent search covers the last 7 days.",
+  "sets": [
+    {"id": "XS-01", "label": "Fake police notices and curfews", "status": "proposed", "maxPerRun": 50,
+     "query": "(police OR constabulary) (curfew OR \"fake notice\" OR \"fake letter\" OR \"not from us\") lang:en -is:retweet"},
+    {"id": "XS-02", "label": "Spiking claims", "status": "proposed", "maxPerRun": 50,
+     "query": "(spiked OR spiking OR \"injection spiking\") (club OR bar OR freshers OR uni) lang:en -is:retweet"},
+    {"id": "XS-03", "label": "Fake police fine texts", "status": "proposed", "maxPerRun": 50,
+     "query": "(\"police fine\" OR \"speeding fine\" OR \"penalty notice\") (text OR sms OR scam) lang:en -is:retweet"}
+  ]
+}
