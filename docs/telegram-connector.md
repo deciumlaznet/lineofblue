@@ -8,6 +8,18 @@ The connector reads public Telegram broadcast channels for the same eight topics
 2. Enter the phone number for the Telegram account. Telegram then sends a code to that phone. Type the code in.
 3. The script prints a long session string. Save it as the Replit secret **TELEGRAM_SESSION**. That string gives full access to the account, so keep it only in Replit secrets.
 
+## Choosing channels to watch
+
+Telegram's keyword search (the `search` sources TS-01 to TS-08) only looks inside channels the account has
+joined, so on a fresh account it finds nothing. The connector therefore needs a shortlist of public broadcast
+channels (`channel` sources), which it reads without joining and filters by the topic keywords.
+
+1. Run `python ingest/telegram/find_channels.py` (or pass your own terms in quotes). It lists public channels
+   whose names match UK news, policing, protest and migration terms, biggest first, and saves them to
+   `data/ingest/telegram-candidates.json`. It does not join, follow or post anything, and skips groups.
+2. A person picks which channels to watch. Each is added to `sources.json` as `TC-nn` with `mode: channel`,
+   and runs only once its status is `approved`.
+
 ## Run it
 
 | Command | What it does |
