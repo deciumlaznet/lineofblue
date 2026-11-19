@@ -16,6 +16,12 @@ class FindChannels(unittest.TestCase):
         self.assertEqual([r["channel"] for r in rows], ["BigChannel", "UKNewsDesk"])
         self.assertEqual(rows[1]["terms"], ["uk news", "breaking uk"])
 
+    def test_drops_ukraine_and_cyrillic_matches(self):
+        found = [("uk news", {"broadcast": True, "username": "ukrpravda_news", "title": "Українська правда", "subscribers": 9}),
+                 ("uk police", {"broadcast": True, "username": "PCU_PoliceControlUkraine", "title": "Police Control Ukraine", "subscribers": 9}),
+                 ("uk news", {"broadcast": True, "username": "ukbreaking", "title": "UK breaking news", "subscribers": 9})]
+        self.assertEqual([r["channel"] for r in shortlist(found)], ["ukbreaking"])
+
     def test_proposals_are_valid_but_not_approved(self):
         src = proposed_sources(shortlist(self.FOUND))
         self.assertTrue(all(s["status"] == "proposed" and s["mode"] == "channel" for s in src))

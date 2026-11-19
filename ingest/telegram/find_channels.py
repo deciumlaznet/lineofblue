@@ -7,18 +7,27 @@ public broadcast channels. This script asks Telegram's directory search for chan
 term and prints them biggest first. It does not join, follow or post anything. Groups and private chats are
 skipped. Nothing is added to sources.json: a person picks from the list and approves each channel (W1.1).
 Results are saved to data/ingest/telegram-candidates.json."""
-import asyncio, json, os, sys
+import asyncio, json, os, re, sys
 from pathlib import Path
 
-TERMS = ["uk news", "britain news", "breaking uk", "london news", "uk politics", "uk police", "uk riots",
-         "uk protest", "small boats", "uk migrants", "patriots uk", "uk uncensored", "fact check uk", "scotland news", "wales news"]
+TERMS = ["britain news", "british news", "england news", "great britain", "british patriots", "english patriots",
+         "london news", "manchester news", "birmingham news", "scotland news", "welsh news", "small boats",
+         "british politics", "unite the kingdom", "british police", "uk news", "uk protests", "fact check uk"]
+
+# "uk" also matches "Ukraine" and "Ukrposhta": drop those, and titles mostly in Cyrillic.
+OFF_TOPIC = re.compile(r"ukrain|ukr\b|ukrp|украин|україн|new south wales|kitesurf|crypto|nft", re.I)
+
+
+def off_topic(title, username):
+    cyr = sum(1 for ch in title if "\u0400" <= ch <= "\u04ff")
+    return bool(OFF_TOPIC.search(f"{title} {username}")) or cyr > len(title) / 3
 
 
 def shortlist(found):
     """found: list of (term, chat dict). Keep public broadcast channels, one row each, largest first."""
     rows = {}
     for term, ch in found:
-        if not ch.get("broadcast") or not ch.get("username"):
+        if not ch.get("broadcast") or not ch.get("username") or off_topic(ch.get("title", ""), ch["username"]):
             continue
         r = rows.setdefault(ch["username"].lower(), {"channel": ch["username"], "title": ch.get("title", ""),
                                                      "subscribers": ch.get("subscribers") or 0, "terms": []})
