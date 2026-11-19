@@ -1,0 +1,45 @@
+{
+ "note": "Round 1 probe variants (2026-11-19). One per approved topic, rewritten in the words people actually use. Run with ingest/x/probe.mjs; 10 posts each.",
+ "sets": [
+  {
+   "id": "P01",
+   "label": "Fake police notices and curfews",
+   "query": "(\"fake police\" OR \"police hoax\" OR \"fake letter\" OR \"not from the police\" OR \"fake curfew\" OR \"curfew notice\") (UK OR Britain OR British OR England OR Scotland OR Wales OR London OR constabulary OR \"Met Police\" OR \"Home Office\") -is:retweet lang:en"
+  },
+  {
+   "id": "P02",
+   "label": "Spiking claims",
+   "query": "(spiked OR spiking OR \"needle spiking\") (police OR \"reported it\") (uni OR freshers OR club OR nightclub OR Manchester OR Leeds OR London OR Glasgow OR Nottingham OR Newcastle OR Bristol) -is:retweet lang:en"
+  },
+  {
+   "id": "P03",
+   "label": "Fake fines and penalty scams",
+   "query": "(\"police fine\" OR \"penalty notice\" OR \"speeding fine\" OR PCN OR \"parking fine\") (scam OR fake OR phishing) (text OR sms OR email OR message) -is:retweet lang:en"
+  },
+  {
+   "id": "P04",
+   "label": "Suspect identity rumours after an attack",
+   "query": "(\"named as\" OR \"real name\" OR \"won't name\" OR \"refuse to name\" OR \"hiding his name\") (stabbing OR attack OR attacker OR suspect) (police OR constabulary OR \"Met Police\") -is:retweet lang:en"
+  },
+  {
+   "id": "P05",
+   "label": "Police cover-up claims",
+   "query": "(\"police cover up\" OR \"police covering up\" OR \"media blackout\" OR \"what are they hiding\" OR \"the police lied\") (UK OR Britain OR British OR England OR Scotland OR Wales OR London OR constabulary OR \"Met Police\" OR \"Home Office\") -is:retweet lang:en"
+  },
+  {
+   "id": "P06",
+   "label": "Calls to gather at sites",
+   "query": "(\"be there\" OR \"get down there\" OR \"meet at\" OR \"take to the streets\" OR \"turn up\") (\"asylum hotel\" OR \"migrant hotel\" OR mosque OR \"police station\") -is:retweet lang:en"
+  },
+  {
+   "id": "P07",
+   "label": "Old footage passed off as new",
+   "query": "(\"old footage\" OR \"old video\" OR \"not from today\" OR \"years ago\" OR \"this was filmed\") (riot OR riots OR disorder OR protest OR police) (UK OR Britain OR British OR England OR Scotland OR Wales OR London OR constabulary OR \"Met Police\" OR \"Home Office\") -is:retweet lang:en"
+  },
+  {
+   "id": "P08",
+   "label": "Fake official statements",
+   "query": "(\"fake statement\" OR doctored OR photoshopped OR \"fake screenshot\" OR \"not a real\" OR \"never said\") (\"police statement\" OR \"Home Office\" OR constabulary OR \"Met Police\" OR \"police said\") -is:retweet lang:en"
+  }
+ ]
+}

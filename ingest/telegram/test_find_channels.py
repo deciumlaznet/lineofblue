@@ -1,6 +1,7 @@
 import unittest
 from find_channels import shortlist, proposed_sources
 from connector import load_sources
+from sample_channels import score
 import json, tempfile
 
 
@@ -28,6 +29,12 @@ class FindChannels(unittest.TestCase):
         with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
             json.dump({"sources": src}, f)
         self.assertEqual(len(load_sources(f.name)), 2)
+
+
+    def test_score_counts_topics_uk_share_and_scrubs_examples(self):
+        r = score(["Fake police curfew notice in Leeds, ask @someone", "Football tonight", "Asylum hotel protest in London"])
+        self.assertEqual(r["messages"], 3); self.assertEqual(r["onTopicShare"], 0.67); self.assertEqual(r["ukShare"], 0.67)
+        self.assertIn("fake notices", r["topics"]); self.assertNotIn("@someone", r["examples"][0]["text"])
 
 
 if __name__ == "__main__":
