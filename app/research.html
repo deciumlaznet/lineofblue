@@ -180,6 +180,90 @@ p { max-width: 66ch; }
 .lib .use { font-size: 13.5px; color: var(--muted); }
 .empty { color: var(--muted); padding: 20px 0; }
 
+/* Remit */
+.remit { display: grid; border-top: 1px solid var(--rule); }
+.remit-row { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 2fr) 170px; gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--rule); align-items: start; }
+.remit-row h3 { font-size: 19px; }
+.remit-row p { margin: 0; color: var(--muted); font-size: 14.5px; }
+.remit-row .lob { font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
+.remit-row .lob small { color: var(--faint); font-size: 12.5px; line-height: 1.4; }
+.st.plan::before, .legend .plan::before { border-style: dashed; border-color: var(--blue); }
+.st.part::before, .legend .part::before { background: linear-gradient(90deg, var(--blue) 50%, transparent 50%); }
+
+/* Policy spectrum */
+.spec { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); position: relative; margin-top: 8px; }
+.spec::before { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 1.4px; background: linear-gradient(90deg, var(--blue), #7fb9ff 50%, var(--blue)); }
+.spec > div { position: relative; padding: 30px 22px 0 0; min-width: 0; display: grid; gap: 8px; align-content: start; }
+.spec > div::before { content: ""; position: absolute; left: 0; top: 0; width: 13px; height: 13px; border-radius: 50%; background: var(--ground); border: 1.5px solid var(--blue); }
+.spec .pos { font: 500 11px var(--mono); color: var(--blue); letter-spacing: .12em; text-transform: uppercase; }
+.spec h3 { font-size: 18px; }
+.spec p { margin: 0; font-size: 14px; color: var(--muted); }
+.guard { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 52px; }
+.guard div { border-top: 1px solid var(--rule); padding: 16px 0; min-width: 0; }
+.guard b { display: block; font-weight: 500; margin-bottom: 4px; }
+.guard span { color: var(--muted); font-size: 14.5px; }
+.wf { margin-top: 52px; }
+.wf ol { list-style: none; padding: 0; margin: 16px 0 0; display: grid; border-top: 1px solid var(--rule); }
+.wf li { display: grid; grid-template-columns: 64px minmax(0, 1fr) 220px; gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+.wf .id { font: 500 12px var(--mono); color: var(--faint); }
+.wf .who { color: var(--muted); font-size: 13.5px; display: block; margin-top: 2px; }
+.lvl { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); }
+.lvl i { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+
+/* Incidents by region */
+.lanes { overflow-x: auto; margin-inline: -4px; }
+.lanes svg { display: block; min-width: 920px; width: 100%; height: auto; }
+.lanes .lane-line { stroke: var(--rule); stroke-width: 1; }
+.lanes .lane-name { fill: var(--muted); font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.lanes .yr-tick { fill: var(--faint); font: 400 11px var(--mono); }
+.lanes .yr-grid { stroke: var(--rule); stroke-dasharray: 2 4; }
+.lanes .dot { fill: var(--ground); stroke: var(--blue); stroke-width: 1.6; }
+.lanes .dot.good { fill: var(--blue); }
+.lanes .plc { fill: var(--ink); font: 400 13px var(--sans); }
+.lanes a:hover .plc { fill: var(--blue); }
+.lanes .spine { stroke: var(--blue); stroke-width: 1.4; }
+.patterns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-top: 40px; }
+.pattern { background: var(--ground); padding: 22px 22px 24px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.pattern h3 { font-size: 20px; }
+.pattern ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.pattern li { font-size: 14px; color: var(--muted); line-height: 1.45; }
+.pattern li a { color: var(--ink); text-decoration: none; border-bottom: 1px solid #2a3647; }
+.pattern li a:hover { color: var(--blue); border-color: var(--blue); }
+.pattern li .when { font: 400 11.5px var(--mono); color: var(--faint); margin-right: 6px; }
+.pattern .fix { padding-top: 10px; border-top: 1px solid var(--rule); font-size: 14px; }
+.pattern .fix b { font-weight: 500; color: var(--blue); }
+
+/* Case studies */
+.verdict-bar { display: grid; gap: 10px; margin-bottom: 36px; max-width: 820px; }
+.vb { display: flex; gap: 2px; height: 30px; }
+.vb div { display: flex; align-items: center; padding-left: 10px; font: 500 12px var(--mono); }
+.vb .good { background: var(--blue); color: #04060a; border-radius: 4px 0 0 4px; }
+.vb .mixed { background: #24527f; color: var(--ink); }
+.vb .bad { background: var(--blue-soft); color: var(--ink); border-radius: 0 4px 4px 0; }
+.vkey { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 13px; color: var(--muted); }
+.vkey span { display: inline-flex; align-items: center; gap: 8px; }
+.vkey svg { width: 14px; height: 14px; }
+.vk-dot { stroke: var(--blue); stroke-width: 1.6; fill: var(--ground); }
+.vk-dot.good { fill: var(--blue); }
+.vk-in { fill: var(--blue); }
+.case-tools { display: flex; flex-wrap: wrap; gap: 10px; margin: 36px 0 18px; }
+.cases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.case { background: var(--ground); padding: 22px 22px 22px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.case header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.case h3 { font-size: 21px; }
+.case .meta { font: 400 11.5px var(--mono); color: var(--faint); letter-spacing: .04em; }
+.verdict { font: 500 10.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; padding: 5px 8px; border-radius: 3px; margin-left: auto; white-space: nowrap; }
+.verdict.good { background: var(--blue); color: #04060a; }
+.verdict.mixed { border: 1px solid var(--blue); color: var(--blue); }
+.verdict.bad { border: 1px dashed var(--muted); color: var(--muted); }
+.case p { margin: 0; font-size: 14.5px; color: var(--muted); }
+.case p b { color: var(--ink); font-weight: 500; }
+.case .learn { color: var(--ink); font: 300 17px/1.45 var(--serif); padding-top: 10px; border-top: 1px solid var(--rule); }
+.case .srcs { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.lessons { margin-top: 56px; }
+.lessons h3 { margin-bottom: 4px; }
+.pattern .n { font: 400 12px var(--mono); color: var(--faint); }
+
 footer { padding-block: 48px 72px; color: var(--faint); font-size: 13px; }
 footer p { max-width: 80ch; }
 
@@ -188,7 +272,12 @@ footer p { max-width: 80ch; }
   .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 36px; }
   .steps::before { display: none; }
 }
+@media (max-width: 1100px) { .spec { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; } .spec::before { display: none; } }
 @media (max-width: 860px) {
+  .remit-row { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .guard, .patterns, .cases { grid-template-columns: minmax(0, 1fr); }
+  .wf li { grid-template-columns: 52px minmax(0, 1fr); }
+  .wf li .lvl { grid-column: 2; }
   :root { --rail: 0px; }
   .rail { position: sticky; top: 0; inset: auto; width: auto; height: auto; border-right: 0; border-bottom: 1px solid var(--rule);
     flex-direction: row; flex-wrap: wrap; align-items: center; padding: env(safe-area-inset-top, 0px) max(16px, env(safe-area-inset-right, 0px)) 0 0; }
@@ -211,6 +300,7 @@ footer p { max-width: 80ch; }
   section { padding-block: 56px; }
 }
 @media (max-width: 560px) {
+  .spec { grid-template-columns: minmax(0, 1fr); }
   .models { grid-template-columns: minmax(0, 1fr); }
   .steps { grid-template-columns: minmax(0, 1fr); }
   .credit { grid-template-columns: minmax(0, 1fr); }
@@ -223,7 +313,9 @@ footer p { max-width: 80ch; }
   <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="rail">Menu</button>
   <nav aria-label="Sections">
     <a href="#top">Overview</a>
-    <a href="#why">The first hour</a>
+    <a href="#remit">The whole job</a>
+    <a href="#policy">Policy and government</a>
+    <a href="#why">Incidents worldwide</a>
     <a href="#peers">What the best teams do</a>
     <a href="#design">From evidence to design</a>
     <a href="#comply">UK law and guidance</a>
@@ -242,7 +334,7 @@ footer p { max-width: 80ch; }
     <section class="hero" id="top">
       <p class="eyebrow">Research and design</p>
       <h1>The evidence behind Line of Blue</h1>
-      <p class="lede">Line of Blue helps police communicators put the verified facts out first, before a false story takes hold. Every screen, workflow and safeguard in it traces back to published law, national guidance, inspection findings, and what the best national teams abroad have learned the hard way.</p>
+      <p class="lede">Line of Blue supports the whole job of national police communications: speaking for policing on government policy, keeping public confidence, working with the media and partners, and putting the verified facts out first when something goes wrong. Every screen, workflow and safeguard traces back to published law, national guidance, inspection findings, and what police and governments around the world have learned the hard way.</p>
       <div class="hero-line" aria-hidden="true"><svg id="heroLine"></svg></div>
       <dl class="credit">
         <dt>Author</dt>
@@ -255,13 +347,45 @@ footer p { max-width: 80ch; }
       <div class="figures" id="figures"></div>
     </section>
 
+    <section id="remit">
+      <div class="sec-head">
+        <p class="eyebrow">The whole job</p>
+        <h2>Managing damage is one part of a much wider remit</h2>
+        <p>A national police communications team speaks for policing on government policy, builds confidence through campaigns, runs a national press office, keeps 43 force teams aligned, and works with partners from the Home Office to the platforms. Crisis work is where minutes matter most, so the demo starts there, but the product is designed for all of it.</p>
+      </div>
+      <div class="legend"><span class="demo">In the demo today</span><span class="part">Partly in the demo</span><span class="plan">Planned</span></div>
+      <div class="remit" id="remitRows"></div>
+    </section>
+
+    <section id="policy">
+      <div class="sec-head">
+        <p class="eyebrow">Policy and government</p>
+        <h2>Speaking for policing on policy means treading a fine line</h2>
+        <p>Chiefs answer to the law, not to ministers, for operational decisions. On policy, policing sometimes co-owns the plan, sometimes backs it with conditions, sometimes challenges it, and always protects its impartiality. The examples below are real positions taken in public.</p>
+      </div>
+      <div class="spec" id="spec"></div>
+      <div class="guard" id="guard"></div>
+      <div class="wf">
+        <h3>Proposed workflow 8: policy and government response</h3>
+        <p class="muted" style="margin:6px 0 0">Not yet in the demo. The same autonomy scale applies: the agent does the scanning and drafting, people decide the position and who hears it first.</p>
+        <ol id="wf8"></ol>
+      </div>
+    </section>
+
     <section id="why">
       <div class="sec-head">
-        <p class="eyebrow">The first hour</p>
-        <h2>The damage happens in the gap before the first fact</h2>
-        <p>Every major review lands on the same point. In the first hours after an incident there is an information vacuum, and whoever speaks first fills it. Six incidents shaped the design.</p>
+        <p class="eyebrow">Incidents worldwide</p>
+        <h2>What good and bad handling look like, on every continent</h2>
+        <p>Twenty-seven incidents from Europe, the Americas, Asia, Africa and Oceania, each documented by an inquiry, court, review or reputable reporting. Each is judged on how the authorities communicated, not on the incident itself, and each leaves a lesson that shaped Line of Blue.</p>
       </div>
-      <div class="tl"><svg id="timeline" role="img" aria-label="Timeline of six incidents from 2011 to 2024 and the lesson each taught"></svg></div>
+      <div class="verdict-bar" id="verdictBar"></div>
+      <div class="lanes"><svg id="lanes" role="img" aria-label="Twenty-seven incidents from 2011 to 2025, arranged by region and marked by how well they were handled"></svg></div>
+      <div class="case-tools" id="caseTools"></div>
+      <div class="cases" id="cases"></div>
+      <div class="lessons">
+        <h3>Eight lessons, and where they live in Line of Blue</h3>
+        <div class="patterns" id="patterns"></div>
+      </div>
       <div class="gap-chart" aria-label="Comparison of a false name's head start and the first-fact standard">
         <p class="cap">Head start of a false claim compared with the first-fact standard Line of Blue works to (minutes, to scale)</p>
         <div class="bar-row"><div class="lbl"><b>About 16 hours</b>False name circulating before police identified the Bondi Junction attacker</div><div class="bar ghost" style="width:100%"></div></div>
@@ -463,7 +587,43 @@ footer p { max-width: 80ch; }
     ["media", "Police PRs agree to answer the phone", "Press Gazette", 2026, "https://pressgazette.co.uk/news/breakthrough-for-crime-reporters-as-police-prs-agree-to-answer-the-phone/", "The media charter in practice."],
     ["media", "UK police failed to tackle social media risk to public order", "Euronews", 2025, "https://www.euronews.com/2025/05/07/report-uk-police-failed-to-tackle-risk-social-media-poses-to-public-order-following-child-", "Independent coverage of the inspectorate's findings."],
     ["media", "Minister rebuffs concern about rebranded anti-disinformation unit", "Civil Service World", 2024, "https://www.civilserviceworld.com/professions/article/national-security-online-information-team-counter-disinformation-unit-minister-rebuffs-concern", "Why scope and transparency must be published."],
-    ["media", "AI fact-checker Logically sold off in administration deal", "UKTN", 2025, "https://www.uktech.news/ai/ai-fact-checker-logically-sold-off-in-administration-deal-20250707", "Supplier risk in the UK monitoring market."]
+    ["media", "AI fact-checker Logically sold off in administration deal", "UKTN", 2025, "https://www.uktech.news/ai/ai-fact-checker-logically-sold-off-in-administration-deal-20250707", "Supplier risk in the UK monitoring market."],
+    ["media", "Police chiefs back call for fewer, bigger forces", "Radio X / PA", 2025, "https://www.radiox.co.uk/news/uk-world/police-chiefs-back-call-for-fewer-bigger-forc/", "Policing backing a government reform, with conditions."],
+
+    ["law", "Policing Protocol Order 2023", "UK Parliament", 2023, "https://www.legislation.gov.uk/uksi/2023/649/contents/made", "Operational independence: what chiefs decide and what PCCs and ministers decide."],
+    ["law", "Police Reform and Social Responsibility Act 2011", "UK Parliament", 2011, LG + "ukpga/2011/13", "The accountability model chiefs and PCCs speak within."],
+    ["gov", "Government response: changes to the Policing Protocol", "Home Office", 2023, "https://gov.uk/government/consultations/changes-to-the-policing-protocol/outcome/government-response-changes-to-the-policing-protocol-accessible", "How operational independence was clarified."],
+    ["gov", "Modern Communications Operating Model 3.0", "Government Communication Service", 2024, "https://communications.gov.uk/modern-communications-operating-model-3-0", "How a modern public-sector comms function is organised beyond crisis work."],
+    ["gov", "Professional standards for government communicators", "Government Communication Service", 2024, "https://www.communications.gov.uk/guidance/professional-standards", "Propriety: public money is never spent on party-political messaging."],
+    ["guide", "Policing Vision 2030", "NPCC and APCC", 2023, "https://apccs.police.uk/latest-news/policing-vision-2030", "The strategy chiefs and PCCs co-own."],
+    ["guide", "Response to the consultation on further emergency services collaboration", "NPCC", 2025, "https://prgloo-prod-newsroom-npcc-01.azurewebsites.net/releases/npcc-response-to-launch-of-consultation-on-further-emergency-services-collaboration", "A public response to a government consultation."],
+    ["guide", "Response to the Criminal Justice Alliance super-complaint", "NPCC", 2024, "https://www.gov.uk/government/publications/responses-to-the-super-complaint-from-the-criminal-justice-alliance/national-police-chiefs-council-response-cja-super-complaint", "Accepting findings in public and setting out what will change."],
+
+    ["inc", "Establishing @metpoliceuk as a trusted source", "CorpComms Magazine", 2017, "https://corpcommsmagazine.co.uk/2017/12/establishing-metpoliceuk-as-a-trusted-source", "How the Met communicated after the Westminster attack."],
+    ["inc", "Manchester Arena bombing report finds critical communication issues", "HuffPost UK (Kerslake review)", 2018, "https://www.huffingtonpost.co.uk/2018/01/12/manchester-arena-bombing-report-finds-critical-communication-issues_n_18986550.html", "Communication failures between agencies on the night."],
+    ["inc", "Christchurch attack “textbook example” of communication during emergency", "Gulf News", 2019, "https://gulfnews.com/uae/christchurch-attack-textbook-example-of-communication-during-emergency-1.62792748", "Why New Zealand's public communication was praised."],
+    ["inc", "Nashville shooting: swift police response and footage", "TIME", 2023, "https://time.com/6267116/nashville-shooting-uvalde-police-response", "Body-camera footage released the next day."],
+    ["inc", "South Korea response to Halloween crowd crush ‘inadequate’, says police chief", "Al Jazeera", 2022, "https://www.aljazeera.com/news/2022/11/1/s-korea-response-to-crowd-crush-inadequate-says-police-chief", "An early admission of failings."],
+    ["inc", "How social media shaped our understanding of the Paris attacks", "The Conversation", 2015, "https://theconversation.com/how-social-media-shaped-our-understanding-of-the-paris-attacks-50814", "False reports of further attacks spread alongside real ones."],
+    ["inc", "Successful practices for using social media by police: the Munich police", "ECIS 2019 (TU Munich)", 2019, "https://aisel.aisnet.org/ecis2019_rp/18/", "Munich police countered false reports of other shootings in several languages."],
+    ["inc", "Hoaxes circulate on social media after Manchester Arena bombing", "CBS News", 2017, "https://www.cbsnews.com/news/hoaxes-circulate-on-social-media-after-manchester-arena-bombing", "Fake missing-child appeals exploiting grief."],
+    ["inc", "Chemnitz: how alternative news sites stoked anti-immigrant anger", "The Bureau of Investigative Journalism", 2018, "https://thebureauinvestigates.com/stories/2018-09-04/chemnitz-far-right-alternative-news", "False claims about a stabbing mobilised protests within hours."],
+    ["inc", "Gardaí surprised at speed disinformation spread before Dublin disorder", "The Irish Times", 2023, "https://www.irishtimes.com/crime-law/2023/12/19/dublin-riots-gardai-surprised-at-speed-disinformation-spread-online-before-disorder-says-harris", "Rumours about the attacker's nationality preceded riots."],
+    ["inc", "Incorrect name for Southport stabbings suspect circulates online", "Full Fact", 2024, "https://fullfact.org/online/incorrect-name-southport-stabbings-suspect/", "A false name and religion filled the vacuum."],
+    ["inc", "Experts praise police for swift release of details about Liverpool crash suspect", "Euronews", 2025, "https://www.euronews.com/2025/05/27/experts-praise-police-for-swift-release-of-details-about-liverpool-crash-suspect", "Early, factual disclosure stopped a terror rumour."],
+    ["inc", "Social media and the Boston Marathon bombing", "Markkula Center, Santa Clara University", 2013, "https://scu.edu/ethics/focus-areas/internet-ethics/resources/social-media-and-the-boston-marathon-bombing", "Crowd-sourced misidentification of innocent people."],
+    ["inc", "Journalists trying to stop the deadly spread of fake news in Mexico", "GIJN", 2019, "https://gijn.org/stories/the-journalists-trying-to-stop-the-dangerous-and-deadly-spread-of-fake-news-in-mexico/", "A WhatsApp kidnapping rumour led to two men being killed in Acatlán."],
+    ["inc", "Evidence in Chauvin case contradicted first police statement", "MPR News", 2021, "https://www.mprnews.org/story/2021/04/23/evidence-in-chauvin-case-contradicted-first-police-statement", "A first statement that video later contradicted."],
+    ["inc", "Five takeaways from the House committee report on the Uvalde shooting", "The Texas Tribune", 2022, "https://www.texastribune.org/2022/07/17/house-uvalde-investigation-takeaways", "Shifting official accounts eroded trust."],
+    ["inc", "How rumors and conspiracy theories got in the way of Maui's fire recovery", "NPR", 2023, "https://www.npr.org/2023/09/28/1202110410/how-rumors-and-conspiracy-theories-got-in-the-way-of-mauis-fire-recovery", "Rumours about aid and land deterred people from getting help."],
+    ["inc", "UN: Facebook had a role in Rohingya genocide", "Al Jazeera", 2018, "https://www.aljazeera.com/news/2018/3/13/un-facebook-had-a-role-in-rohingya-genocide", "UN investigators on hate spread at national scale."],
+    ["inc", "A single WhatsApp rumour has killed 29 people in India", "ThePrint", 2018, "https://theprint.in/opinion/a-single-whatsapp-rumour-has-killed-29-people-in-india-and-nobody-cares/77634", "Child-kidnapping rumours in closed groups led to lynchings."],
+    ["inc", "Facebook apologises for role in 2018 anti-Muslim riots", "Al Jazeera", 2020, "https://www.aljazeera.com/news/2020/5/13/sri-lanka-facebook-apologises-for-role-in-2018-anti-muslim-riots", "Rumours on social media fuelled violence in Kandy district."],
+    ["inc", "Sri Lanka blocks social media after Easter Sunday bombings", "NBC News", 2019, "https://www.nbcnews.com/tech/tech-news/sri-lanka-blocks-social-media-after-easter-sunday-bombings-n996886", "A shutdown also cut official and family channels."],
+    ["inc", "Families of Itaewon crowd crush victims face online abuse", "South China Morning Post", 2023, "https://scmp.com/news/asia/east-asia/article/3216516/south-korea-families-itaewon-crowd-crush-victims-face-unspeakable-online-abuse", "Rumours and abuse aimed at victims and families."],
+    ["inc", "Strategic communications and the Westgate attack", "ICCT", 2022, "https://icct.nl/sites/default/files/2022-12/StratComms-Report-3-Muindi-Final.pdf", "Contradictory official messages while attackers posted live."],
+    ["inc", "Inside the Lagos #EndSARS panel report", "TheCable", 2021, "https://www.thecable.ng/soldiers-killed-protesters-lcc-manipulated-footage-inside-lagos-endsars-panel-report", "A judicial panel found official accounts and footage unreliable."],
+    ["inc", "Report of the expert panel into the July 2021 civil unrest", "South African Presidency (via Polity)", 2022, "https://polity.org.za/article/report-of-the-expert-panel-into-the-july-2021-civil-unrest-2022-02-07", "Social media used to organise and inflame unrest."]
   ];
   function ref(t) { for (var i = 0; i < REFS.length; i++) if (REFS[i][1].indexOf(t) === 0) return REFS[i]; return null; }
   function cite(t, label) { var r = ref(t); return r ? '<a class="cite" href="' + r[4] + '">' + esc(label || r[2]) + '</a>' : ""; }
@@ -478,30 +638,153 @@ footer p { max-width: 80ch; }
     if (!still && line.animate) line.animate([{ strokeDasharray: w + " " + w, strokeDashoffset: w }, { strokeDasharray: w + " " + w, strokeDashoffset: 0 }], { duration: 1800, delay: 500, easing: "cubic-bezier(.5,0,.5,1)" });
   }
   var counts = {}; REFS.forEach(function (r) { counts[r[0]] = (counts[r[0]] || 0) + 1; });
-  var figs = [[REFS.length, "linked sources"], [counts.law, "UK statutes checked"], [12, "national models studied"], [320, "actor-test steps passed"]];
+  var figs = [[REFS.length, "linked sources"], [27, "incidents on five continents"], [12, "national models studied"], [counts.law, "UK laws checked"]];
   document.getElementById("figures").innerHTML = figs.map(function (f) { return "<div><b>" + f[0] + "</b><span>" + f[1] + "</span></div>"; }).join("");
   document.getElementById("kSources").textContent = REFS.length + " sources";
 
-  /* ---------- Timeline on the line ---------- */
-  var INCIDENTS = [
-    ["2011", "Oslo and Utøya", "A tip with the attacker's description sat unread", "Gjørv Report"],
-    ["2019", "Christchurch", "Attack livestreamed; led to a shared platform protocol", "Christchurch Call"],
-    ["2020", "Nova Scotia", "Public not warned in time about the replica police car", "Mass Casualty Commission"],
-    ["2021", "Singapore", "False police bullying claim corrected within three days", "Correction directions"],
-    ["Apr 2024", "Bondi Junction", "Innocent man named; about 16 hours to correct", "How the false Bondi"],
-    ["Jul 2024", "Southport", "False name spread unchecked, then disorder", "Police response to the public disorder"]
+  /* ---------- The whole job ---------- */
+  var REMIT = [
+    ["Policy and government relations", "Respond to white papers, bills, consultations and select committees; agree one position across chiefs; brief officials and PCCs without surprises.", "plan", "Proposed workflow 8, below"],
+    ["Incident and crisis communications", "The golden hour, holding lines, rebuttal and the update rhythm when something goes wrong.", "demo", "Golden Hour, Safe to Say, Narrative Radar"],
+    ["Media relations", "A national press office: enquiries, briefings and interviews under the Policing and Media Charter.", "part", "Media enquiries step (W6.2)"],
+    ["Public confidence and campaigns", "Recruitment, violence against women and girls, knife crime and prevention campaigns, planned and evaluated.", "part", "Pre-bunking calendar; campaign planning planned"],
+    ["Internal and workforce communications", "Keep 43 force teams and officers on the same page, fast, with the reasons behind a line.", "demo", "National lines and cascade"],
+    ["Partners and stakeholders", "Home Office, PCCs and the APCC, the College of Policing, inspectorates, IOPC, platforms and Ofcom.", "part", "Escalations and partner views"],
+    ["Insight and evaluation", "Know what the public thinks, which messages land, and whether trust is rising or falling.", "demo", "National picture, map and outcome clocks"]
   ];
-  function wrapText(parent, x, y, text, max, cls) { var words = text.split(" "), line = "", dy = 0, t; words.forEach(function (w) { if ((line + " " + w).trim().length > max) { el("text", { x: x, y: y + dy, "class": cls }, parent, line.trim()); dy += 18; line = w; } else line += " " + w; }); el("text", { x: x, y: y + dy, "class": cls }, parent, line.trim()); }
-  function timeline() {
-    var svg = document.getElementById("timeline"), W = 1000, H = 190; svg.setAttribute("viewBox", "0 0 " + W + " " + H); svg.innerHTML = "";
-    el("line", { x1: 0, y1: 58, x2: W, y2: 58, "class": "base" }, svg);
-    INCIDENTS.forEach(function (d, i) {
-      var x = 20 + i * (W - 40) / 6, r = ref(d[3]), g = r ? el("a", { href: r[4] }, svg) : svg;
-      el("text", { x: x, y: 38, "class": "yr" }, g, d[0]);
-      el("circle", { cx: x + 5, cy: 58, r: 5, "class": "node" }, g);
-      el("text", { x: x, y: 92, "class": "nm" }, g, d[1]);
-      wrapText(g, x, 116, d[2], 22, "ls");
+  var RST = { demo: "In the demo today", part: "Partly in the demo", plan: "Planned" };
+  document.getElementById("remitRows").innerHTML = REMIT.map(function (r) {
+    return '<div class="remit-row"><h3>' + esc(r[0]) + '</h3><p>' + esc(r[1]) + '</p><div class="lob"><span class="st ' + r[2] + '">' + RST[r[2]] + '</span><small>' + esc(r[3]) + '</small></div></div>';
+  }).join("");
+
+  /* ---------- Policy and government ---------- */
+  var SPEC = [
+    ["Co-own", "A shared strategy", "Chiefs and PCCs published Policing Vision 2030 together, so policing speaks with one voice on its own direction.", [["Policing Vision 2030", "NPCC and APCC"]]],
+    ["Support, with conditions", "Structural reform", "Police chiefs backed fewer, bigger forces, and set out what a National Police Service would need to work.", [["Police chiefs back call", "PA"], ["Response to plans to create a National Police Service", "NPCC"]]],
+    ["Challenge", "Partners must act too", "After the 2024 disorder, policing set out what it had done and called on platforms and others to step up.", [["Policing took action", "NPCC"]]],
+    ["Accept and act", "Owning criticism", "Responding in public to super-complaints and inspections: accept what is right, say what will change, and by when.", [["Response to the Criminal Justice Alliance", "NPCC"], ["Response to the inspectorate report", "NPCC"]]]
+  ];
+  document.getElementById("spec").innerHTML = SPEC.map(function (x) {
+    return '<div><span class="pos">' + esc(x[0]) + '</span><h3>' + esc(x[1]) + '</h3><p>' + esc(x[2]) + '</p><span class="cite">' + x[3].map(function (c) { return cite(c[0], c[1]); }).join(" · ") + '</span></div>';
+  }).join("");
+  var GUARD = [
+    ["Operational independence", "Operational decisions belong to chiefs. Comms never lets a policy line read as a minister directing an operation, or the reverse.", ["Policing Protocol Order 2023", "Policing Protocol 2023"]],
+    ["Political impartiality", "Comment on the policing effect of a policy, never on party politics. Officers and staff stay impartial in public.", ["Code of Ethics", "Code of Ethics"]],
+    ["Pre-election period", "Tighter rules on announcements and comment during elections, including PCC elections.", ["Election guidance", "Cabinet Office"]],
+    ["Propriety and no surprises", "Public money is not spent on political messaging, and partners hear significant positions before the media does.", ["Professional standards", "GCS"]]
+  ];
+  document.getElementById("guard").innerHTML = GUARD.map(function (g) { return '<div><b>' + esc(g[0]) + '</b><span>' + esc(g[1]) + '</span> <span class="cite">' + cite(g[2][0], g[2][1]) + '</span></div>'; }).join("");
+  var LV = { 1: ["Fully agentic", "--l1"], 2: ["Agentic, human signs off", "--l2"], 3: ["Iterative human and agent", "--l3"], 4: ["Human-led, agent QA", "--l4"], 5: ["Fully human", "--l5"] };
+  var WF8 = [
+    ["W8.1", "Scan bills, white papers, consultations, select committees and ministerial statements", "Agent; policy lead reviews the weekly digest", 1],
+    ["W8.2", "Summarise what each proposal means for policing, by portfolio", "Portfolio lead signs off", 2],
+    ["W8.3", "Agree the national position: support, support with conditions, challenge", "Chiefs' council or portfolio lead", 5],
+    ["W8.4", "Draft the statement, Q&A and briefing for chiefs and force comms heads", "Comms lead and agent refine together", 3],
+    ["W8.5", "Check tone and propriety: impartiality, operational independence, pre-election rules", "Comms lead decides; agent flags risks", 4],
+    ["W8.6", "Give partners notice before release (Home Office, APCC, College)", "Named lead makes the calls; agent prepares the pack", 4],
+    ["W8.7", "Track coverage, stakeholder reaction and parliamentary mentions", "Agent; insight lead reviews", 1]
+  ];
+  document.getElementById("wf8").innerHTML = WF8.map(function (w) {
+    return '<li><span class="id">' + w[0] + '</span><span>' + esc(w[1]) + '<span class="who">' + esc(w[2]) + '</span></span><span class="lvl"><i style="background:var(' + LV[w[3]][1] + ')"></i>' + LV[w[3]][0] + '</span></li>';
+  }).join("");
+
+  /* ---------- Incidents: case studies ---------- */
+  // [year (month as fraction), region, place, country, verdict, what happened, how it was handled, lesson, [reference title prefixes], pattern]
+  var INC = [
+    [2011.55, "Europe", "Oslo and Utøya", "Norway", "mixed", "A bomb in Oslo, then a shooting on Utøya; 77 people killed.", "The government's public communication was praised, but a tip with the attacker's description and number plate sat unread and no national alert went out.", "Information sharing inside policing matters as much as what is said outside it.", ["Gjørv Report"], "silence"],
+    [2013.29, "Americas", "Boston", "United States", "mixed", "Bombing at the marathon finish line.", "Online sleuths and some media named innocent people. The FBI released images of the real suspects to take back control of the search.", "Releasing verified facts or images can stop a crowd-sourced witch hunt.", ["Social media and the Boston"], "wrongname"],
+    [2013.72, "Africa", "Nairobi", "Kenya", "bad", "Siege at the Westgate shopping mall; the attackers' supporters posted live on Twitter.", "Official accounts of casualties and progress contradicted each other, and outcomes were claimed before they were confirmed.", "One coordinated voice across agencies, and never announce an outcome before it is confirmed.", ["Strategic communications and the Westgate"], "phantom"],
+    [2015.87, "Europe", "Paris", "France", "mixed", "Coordinated attacks across the city; 130 people killed.", "Police asked the public not to share unverified reports and people offered shelter through #PorteOuverte, but false reports of attacks at other sites caused panic.", "Say clearly what is not happening, as fast as what is.", ["How social media shaped"], "phantom"],
+    [2016.55, "Europe", "Munich", "Germany", "good", "A shooting at a shopping centre, with false reports of attacks across the city.", "Munich police posted updates in several languages, asked people not to share speculation or images of police positions, and corrected rumours as they appeared.", "A visible, multilingual official channel becomes the place people check first.", ["Successful practices for using social media"], "phantom"],
+    [2017.22, "Europe", "Westminster", "United Kingdom", "good", "Vehicle and knife attack outside Parliament.", "The Met set itself up as the trusted source with regular, factual updates, even as a misleading photo of a Muslim woman was shared by others.", "Plain, regular updates build the trust you will need for the next rumour.", ["Establishing @metpoliceuk"], "phantom"],
+    [2017.39, "Europe", "Manchester", "United Kingdom", "mixed", "Bombing at the end of a concert at Manchester Arena; 22 people killed.", "Fake missing-child appeals spread within hours, and the Kerslake review found critical communication problems between the emergency services on the night.", "Agencies must share one picture, and families need one official route for information.", ["Manchester Arena bombing report finds", "Hoaxes circulate"], "grief"],
+    [2017.6, "Asia", "Myanmar", "Myanmar", "bad", "Hate speech and rumours against the Rohingya spread on social media before and during mass violence.", "UN investigators found social media had substantively contributed to the spread of hatred, which went unchecked.", "Early warning and platform protocols must exist before hate reaches national scale.", ["UN: Facebook"], "closed"],
+    [2018.18, "Asia", "Kandy", "Sri Lanka", "bad", "Rumours on social media fuelled anti-Muslim riots.", "The government declared an emergency and blocked social media; Facebook later apologised for its role.", "Blocking platforms is a blunt last resort; partnerships and fast counter-messaging come first.", ["Facebook apologises"], "closed"],
+    [2018.24, "Americas", "Acatlán", "Mexico", "bad", "A WhatsApp rumour about child kidnappers spread through the town.", "Police could not stop a crowd that killed two men who had nothing to do with it.", "Rumours in closed groups need trusted local messengers who can reach those groups.", ["Journalists trying"], "closed"],
+    [2018.4, "Asia", "India", "India", "mixed", "Child-kidnapping rumours in WhatsApp groups led to dozens of killings across several states.", "Some police forces ran village awareness campaigns and WhatsApp limited forwarding, but only after many deaths.", "Community awareness works; start it with the first rumour, not after the first death.", ["A single WhatsApp rumour"], "closed"],
+    [2018.65, "Europe", "Chemnitz", "Germany", "mixed", "A fatal stabbing, followed by false claims about what happened.", "Officials corrected false claims and named fake news as a cause, but police were outnumbered as protests and attacks followed.", "Corrections have to reach the same channels the rumour travelled on.", ["Chemnitz"], "organise"],
+    [2019.2, "Oceania", "Christchurch", "New Zealand", "good", "Attacks on two mosques, livestreamed by the attacker; 51 people killed.", "Clear, compassionate communication from government and police was widely praised, and the Christchurch Call with platforms followed.", "Lead with people, not process; then fix the system with partners.", ["Christchurch attack “textbook", "Christchurch Call"], "organise"],
+    [2019.3, "Asia", "Colombo", "Sri Lanka", "bad", "Easter Sunday bombings at churches and hotels.", "The government blocked social media to stop rumours, which also cut off families and official updates.", "Shutdowns and silence leave a vacuum; use every channel instead.", ["Sri Lanka blocks social media"], "silence"],
+    [2020.3, "Americas", "Nova Scotia", "Canada", "bad", "A gunman driving a replica police car killed 22 people.", "The RCMP relied mainly on social media, warned the public late about the car, and sent no emergency alert.", "Use every channel, including alerts and local media, and trust the public with threat information.", ["Mass Casualty Commission"], "silence"],
+    [2020.4, "Americas", "Minneapolis", "United States", "bad", "The death of George Floyd in police custody.", "The first police statement described a man in “medical distress”; bystander video showed what had happened.", "Only say what is confirmed. A first statement that is later contradicted costs trust for years.", ["Evidence in Chauvin"], "contradicted"],
+    [2020.8, "Africa", "Lagos", "Nigeria", "bad", "Shooting of #EndSARS protesters at the Lekki toll gate.", "Authorities denied deaths. A judicial panel later found that protesters were killed, and the government rejected the panel's report.", "Denial without evidence hands the story to others.", ["Inside the Lagos"], "contradicted"],
+    [2021.38, "Asia", "Singapore", "Singapore", "good", "A false claim that police had bullied a man spread online.", "Police published a detailed clarification within days, on a standing clarifications page.", "A standing rumour and fact page is fast and reusable.", ["Correction directions"], "aftermath"],
+    [2021.53, "Africa", "KwaZulu-Natal", "South Africa", "bad", "Unrest and looting after the former president was jailed; more than 300 people died.", "An expert panel found police and intelligence were not ready, and that social media was used to inflame and organise the unrest.", "Watch for the move from posts to mobilisation, and have a plan to act on it.", ["Report of the expert panel"], "organise"],
+    [2022.4, "Americas", "Uvalde", "United States", "bad", "A school shooting; 21 people killed.", "Official accounts of how police responded changed repeatedly over the following days.", "Correct quickly and openly; drip-fed changes destroy credibility.", ["Five takeaways"], "contradicted"],
+    [2022.83, "Asia", "Seoul", "South Korea", "bad", "The Itaewon crowd crush; 159 people died.", "The national police chief admitted the response was inadequate, while rumours and abuse targeted victims' families.", "Admit failings early, and protect families from the rumour mill.", ["South Korea response to Halloween", "Families of Itaewon"], "grief"],
+    [2023.24, "Americas", "Nashville", "United States", "good", "A school shooting; six people killed.", "Police released body-camera footage of the officers' response the next day, closing down speculation.", "Release evidence fast where the law allows. In the UK, contempt law limits this, so the principle is speed with what can be said.", ["Nashville shooting"], "contradicted"],
+    [2023.6, "Americas", "Maui", "United States", "mixed", "Wildfires destroyed Lahaina; about 100 people died.", "Agencies set up rumour responses, but rumours about aid and land seizures still deterred people from getting help.", "Recovery needs a standing rumour page and trusted local voices for months, not days.", ["How rumors and conspiracy"], "aftermath"],
+    [2023.9, "Europe", "Dublin", "Ireland", "bad", "A stabbing outside a school.", "Rumours about the attacker's nationality spread for hours before riots; the Garda Commissioner said police were surprised by the speed.", "Forecast the identity rumour at declaration, and say early what is not true.", ["Gardaí surprised"], "wrongname"],
+    [2024.28, "Oceania", "Bondi Junction", "Australia", "mixed", "Six people killed at a shopping centre.", "Police named the attacker and the falsely accused man was cleared, but only after about 16 hours of spread, amplified by a TV network.", "Watch for misidentification from the first hour.", ["How the false Bondi"], "wrongname"],
+    [2024.58, "Europe", "Southport", "United Kingdom", "bad", "Three girls killed at a children's dance class.", "Little was said while a false name and religion for the suspect spread; disorder followed in towns across the UK.", "Fill the vacuum fast and repeat the facts as they change.", ["Incorrect name for Southport", "Police response to the public disorder"], "wrongname"],
+    [2025.4, "Europe", "Liverpool", "United Kingdom", "good", "A car driven into crowds at a football victory parade.", "Within hours police said a 53-year-old white British man had been arrested and the incident was not being treated as terrorism.", "Early, factual disclosure within the law stops rumours before they start.", ["Experts praise police"], "wrongname"]
+  ];
+  var VERD = { good: "Well handled", mixed: "Mixed", bad: "Badly handled" };
+  var PATTERNS = [
+    ["wrongname", "The wrong person named", "Golden Hour forecasts misidentification at declaration; the first holding line says what is not true, and the disclosure guidance is checked before suspect details go out."],
+    ["phantom", "Phantom attacks and mixed messages", "One verified source across agencies, a “what is not happening” line, and versions in community languages."],
+    ["contradicted", "First accounts that evidence contradicts", "Safe to Say lets only confirmed facts through, the holding line is drafted from the verified log, and corrections go out fast and openly."],
+    ["closed", "Rumours in closed groups turn violent", "Line of Blue cannot see private chats and does not try. Approved lines go to trusted local messengers and community partners, in the languages people use."],
+    ["silence", "Silence, shutdowns and single channels", "Use every channel, including alerts and local media; never rely on one platform, and never go quiet while facts are checked."],
+    ["grief", "Hoaxes and abuse that exploit grief", "An official route for missing-person and family information, and contact with victims and families kept fully human."],
+    ["organise", "Rumours used to organise disorder", "Narrative Radar watches acceleration from fringe to mainstream, and platform protocols are agreed before the day they are needed."],
+    ["aftermath", "Long-tail rumours after the event", "A standing rumour and fact page, and a rhythm of updates that carries on into recovery."]
+  ];
+  var REGIONS = ["Europe", "Americas", "Asia", "Africa", "Oceania"];
+  function dotShape(parent, cx, cy, v) {
+    var c = el("circle", { cx: cx, cy: cy, r: 5.5, "class": "dot" + (v === "good" ? " good" : "") }, parent);
+    if (v === "mixed") el("circle", { cx: cx, cy: cy, r: 2, fill: "var(--blue)" }, parent);
+    return c;
+  }
+  function verdictBar() {
+    var n = { good: 0, mixed: 0, bad: 0 }; INC.forEach(function (d) { n[d[4]]++; });
+    var key = function (v) { return '<span><svg viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.5" class="vk-dot' + (v === "good" ? " good" : "") + '"/>' + (v === "mixed" ? '<circle cx="7" cy="7" r="2" class="vk-in"/>' : '') + '</svg>' + VERD[v] + ' (' + n[v] + ')</span>'; };
+    document.getElementById("verdictBar").innerHTML = '<div class="vb" role="img" aria-label="' + n.good + ' well handled, ' + n.mixed + ' mixed, ' + n.bad + ' badly handled"><div class="good" style="flex:' + n.good + '">' + n.good + '</div><div class="mixed" style="flex:' + n.mixed + '">' + n.mixed + '</div><div class="bad" style="flex:' + n.bad + '">' + n.bad + '</div></div><div class="vkey">' + key("good") + key("mixed") + key("bad") + '</div>';
+  }
+  function lanes() {
+    var svg = document.getElementById("lanes"), W = 1000, L = 110, R = 30, top = 34, RH = 92, H = top + RH * REGIONS.length + 6;
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H); svg.innerHTML = "";
+    var x = function (y) { return L + (y - 2010.5) / (2026 - 2010.5) * (W - L - R); };
+    for (var yr = 2011; yr <= 2025; yr += 2) { el("line", { x1: x(yr), x2: x(yr), y1: top - 6, y2: H, "class": "yr-grid" }, svg); el("text", { x: x(yr), y: 14, "text-anchor": "middle", "class": "yr-tick" }, svg, yr); }
+    REGIONS.forEach(function (reg, ri) {
+      var cy = top + RH * ri + RH / 2;
+      el("text", { x: 0, y: cy + 4, "class": "lane-name" }, svg, reg);
+      el("line", { x1: L - 10, x2: W - R + 10, y1: cy, y2: cy, "class": "spine" }, svg);
+      var levels = [[-13], [23], [-29], [39]].map(function (o) { return { dy: o[0], used: [] }; });
+      INC.filter(function (d) { return d[1] === reg; }).sort(function (a, b) { return a[0] - b[0]; }).forEach(function (d) {
+        var g = el("a", { href: "#case-" + slug(d[2]) }, svg), cx = x(d[0]), half = d[2].length * 3.6 + 6;
+        dotShape(g, cx, cy, d[4]);
+        el("title", {}, g, d[2] + ", " + Math.floor(d[0]) + ": " + VERD[d[4]]);
+        // place the label on the first level where it does not collide with an earlier one
+        var lv = levels.filter(function (l) { return l.used.every(function (u) { return cx - half > u[1] || cx + half < u[0]; }); })[0] || levels[0];
+        lv.used.push([cx - half, cx + half]);
+        el("text", { x: cx, y: cy + lv.dy, "text-anchor": "middle", "class": "plc" }, g, d[2]);
+      });
     });
+  }
+  function slug(t) { return t.toLowerCase().replace(/[^a-z]+/g, "-"); }
+  var caseSel = "all";
+  function caseTools() {
+    var box = document.getElementById("caseTools");
+    ["all", "good", "mixed", "bad"].forEach(function (k) {
+      var n = k === "all" ? INC.length : INC.filter(function (d) { return d[4] === k; }).length;
+      var b = h("button", "chip", (k === "all" ? "All cases" : VERD[k]) + "<b>" + n + "</b>"); b.type = "button"; b.dataset.v = k; b.setAttribute("aria-pressed", String(k === caseSel));
+      b.addEventListener("click", function () { caseSel = k; box.querySelectorAll(".chip").forEach(function (c) { c.setAttribute("aria-pressed", String(c.dataset.v === k)); }); cases(); });
+      box.appendChild(b);
+    });
+  }
+  function cases() {
+    var rows = INC.filter(function (d) { return caseSel === "all" || d[4] === caseSel; }).slice().sort(function (a, b) { return b[0] - a[0]; });
+    document.getElementById("cases").innerHTML = rows.map(function (d) {
+      var srcs = d[8].map(function (t) { var r = ref(t); return r ? '<a class="cite" href="' + r[4] + '">' + esc(r[2]) + ' ↗</a>' : ""; }).join("");
+      return '<article class="case" id="case-' + slug(d[2]) + '"><header><h3>' + esc(d[2]) + '</h3><span class="meta">' + Math.floor(d[0]) + ' · ' + esc(d[3]) + '</span><span class="verdict ' + d[4] + '">' + VERD[d[4]] + '</span></header><p><b>What happened.</b> ' + esc(d[5]) + '</p><p><b>How it was handled.</b> ' + esc(d[6]) + '</p><p class="learn">' + esc(d[7]) + '</p><div class="srcs">' + srcs + '</div></article>';
+    }).join("");
+  }
+  function patterns() {
+    document.getElementById("patterns").innerHTML = PATTERNS.map(function (p) {
+      var items = INC.filter(function (d) { return d[9] === p[0]; }).sort(function (a, b) { return a[0] - b[0]; });
+      return '<article class="pattern"><h3>' + esc(p[1]) + '</h3><span class="n">' + items.map(function (d) { return esc(d[2]); }).join(" · ") + '</span><p class="fix"><b>In Line of Blue:</b> ' + esc(p[2]) + '</p></article>';
+    }).join("");
   }
 
   /* ---------- Peer models ---------- */
@@ -623,7 +906,7 @@ footer p { max-width: 80ch; }
     document.querySelectorAll("main section[id]").forEach(function (s) { io.observe(s); });
   }
 
-  drawMark(); heroLine(); timeline(); models(); world(); e2d(); comp(); chips(); lib();
+  drawMark(); heroLine(); verdictBar(); lanes(); caseTools(); cases(); patterns(); models(); world(); e2d(); comp(); chips(); lib();
   var t; addEventListener("resize", function () { clearTimeout(t); t = setTimeout(function () { drawMark(); heroLine(); }, 120); });
 })();
 </script>
