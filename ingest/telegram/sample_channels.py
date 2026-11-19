@@ -44,6 +44,7 @@ def score(texts):
 
 async def main(names):
     from live import client
+    from telethon.tl.types import PeerChannel
     rows, fwd = [], {}
     async with client() as c:
         for name in names:
@@ -64,7 +65,7 @@ async def main(names):
         sources = []
         for cid, n in sorted(fwd.items(), key=lambda kv: -kv[1])[:20]:
             try:
-                e = await c.get_entity(cid)
+                e = await c.get_entity(PeerChannel(cid))
                 if getattr(e, "username", None) and getattr(e, "broadcast", False):
                     sources.append({"channel": e.username, "title": getattr(e, "title", ""), "forwardedTimes": n})
             except Exception:  # noqa: BLE001 - private or unknown to this account
