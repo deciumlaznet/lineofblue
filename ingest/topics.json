@@ -1,13 +1,37 @@
 {
  "note": "What each approved topic means, for judging whether a post is on target. Narrative-first: we look for claims and calls to action about policing in the UK, never for individuals. Lawful political opinion (for example criticism of the police or of 'two-tier policing') is NOT a hit on its own.",
  "topics": {
-  "P01": {"label": "Fake police notices and curfews", "hit": "A UK post sharing, warning about or debunking a fake police notice, letter, leaflet or curfew."},
-  "P02": {"label": "Spiking claims", "hit": "A UK post claiming, warning about or questioning drink or needle spiking incidents and the police response."},
-  "P03": {"label": "Fake fines and penalty scams", "hit": "A UK post about scam texts, emails or letters pretending to be police or council fines or penalty notices."},
-  "P04": {"label": "Suspect identity rumours after an attack", "hit": "A UK post naming or speculating about the identity, nationality, religion or immigration status of a suspect after a violent incident, or claiming police are hiding it."},
-  "P05": {"label": "Police cover-up claims", "hit": "A UK post claiming the police are covering up, lying about or hiding the truth of a specific incident."},
-  "P06": {"label": "Calls to gather at sites", "hit": "A UK post calling people to turn up at an asylum hotel, mosque, police station or similar site, or to take to the streets."},
-  "P07": {"label": "Old footage passed off as new", "hit": "A UK post sharing old or out-of-context footage of disorder as current, or pointing out that such footage is old."},
-  "P08": {"label": "Fake official statements", "hit": "A UK post about a fake, doctored or misattributed police or Home Office statement or screenshot."}
+  "P01": {
+   "label": "Fake police notices and curfews",
+   "hit": "A UK post sharing, warning about or debunking a fake police notice, letter, leaflet or curfew."
+  },
+  "P02": {
+   "label": "Spiking claims",
+   "hit": "A UK post claiming, warning about or questioning drink or needle spiking incidents and the police response."
+  },
+  "P03": {
+   "label": "Fake fines and penalty scams",
+   "hit": "A UK post about scam texts, emails or letters pretending to be police or council fines or penalty notices."
+  },
+  "P04": {
+   "label": "Suspect identity rumours after an attack",
+   "hit": "A UK post naming or speculating about the identity, nationality, religion or immigration status of a suspect after a violent incident, or claiming police are hiding it."
+  },
+  "P05": {
+   "label": "Police cover-up claims",
+   "hit": "A UK post claiming the police are covering up, lying about or hiding the truth of a specific incident."
+  },
+  "P06": {
+   "label": "Calls to gather at sites",
+   "hit": "A UK post calling people to turn up at an asylum hotel, mosque, police station or similar site, or to take to the streets. Also a hit (for the debunk variants P06b): a UK post or reply that debunks a false claim about policing, protests, asylum hotels or UK law, because it shows which false claim is circulating."
+  },
+  "P07": {
+   "label": "Old footage passed off as new",
+   "hit": "A UK post sharing old or out-of-context footage of disorder as current, or pointing out that such footage is old."
+  },
+  "P08": {
+   "label": "Fake official statements",
+   "hit": "A UK post about a fake, doctored or misattributed police or Home Office statement or screenshot."
+  }
  }
 }

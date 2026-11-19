@@ -1,0 +1,40 @@
+{
+ "note": "Round 3 (2026-11-19), hand-written from round 2 scoring. Kept as winners and not re-run: P03a (DVLA/speeding scam texts, about 60%) and P07a (old footage debunks, about 70%). Round 2 lesson: fact-check replies are the richest source of UK misinformation; P01a and P02a were too narrow (0 posts).",
+ "sets": [
+  {
+   "id": "P01b",
+   "label": "Fake police notices and curfews",
+   "query": "(curfew OR \"police notice\" OR \"police leaflet\" OR \"police letter\") (\"not real\" OR fake OR hoax OR \"is false\" OR scam) (UK OR England OR Scotland OR Wales OR council OR constabulary) -is:retweet lang:en"
+  },
+  {
+   "id": "P02b",
+   "label": "Spiking claims",
+   "query": "(spiked OR spiking) (pub OR club OR uni OR freshers OR \"night out\") (police OR reported) -is:retweet lang:en"
+  },
+  {
+   "id": "P04b",
+   "label": "Suspect identity rumours after an attack",
+   "query": "(\"named as\" OR \"has been named\" OR \"the attacker\" OR \"the suspect\" OR \"his name\") (stabbing OR attack OR Bradford OR Southport) (\"asylum seeker\" OR migrant OR illegal OR muslim OR \"small boat\") -is:retweet lang:en"
+  },
+  {
+   "id": "P05b",
+   "label": "Police cover-up claims",
+   "query": "(\"cover up\" OR \"covering up\" OR \"hiding the truth\" OR \"won't tell us\") (police OR \"Met Police\" OR constabulary) (stabbing OR attack OR Bradford OR \"grooming gangs\" OR riot) -is:retweet lang:en"
+  },
+  {
+   "id": "P06b",
+   "label": "Debunks of UK policing claims",
+   "query": "(\"the claim is false\" OR \"not true\" OR \"no UK law\" OR \"the video is from\" OR misleading OR \"not as framed\") (police OR \"asylum hotel\" OR protest OR riot OR Muslim) (UK OR Britain OR England OR London) -is:retweet lang:en"
+  },
+  {
+   "id": "P06c",
+   "label": "Calls to gather at sites",
+   "query": "(\"asylum hotel\" OR \"migrant hotel\") (\"this weekend\" OR saturday OR \"be there\" OR \"join us\" OR \"meet at\") -close -is:retweet lang:en"
+  },
+  {
+   "id": "P08b",
+   "label": "Fake official statements",
+   "query": "(fabricated OR \"fake graphic\" OR \"not a real article\" OR \"fake screenshot\" OR \"never said\") (police OR \"Home Office\" OR BBC OR \"GB News\" OR \"Sky News\") -is:retweet lang:en"
+  }
+ ]
+}
