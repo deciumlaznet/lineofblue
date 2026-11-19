@@ -62,8 +62,9 @@
    "kind": "rss",
    "publisher": "ITV News",
    "url": "https://www.itv.com/news/rss",
-   "status": "approved",
-   "scope": "national"
+   "status": "paused",
+   "scope": "national",
+   "why": "Timed out in the 19 Nov 2026 check; ITV may have retired this feed."
   },
   {
    "id": "NS-INDY",
@@ -109,7 +110,7 @@
    "id": "NS-FULLFACT",
    "kind": "rss",
    "publisher": "Full Fact",
-   "url": "https://fullfact.org/feeds/",
+   "url": "https://fullfact.org/feed/",
    "status": "approved",
    "allTopics": true,
    "scope": "national"
@@ -230,9 +231,9 @@
    "id": "NL-BBC-DERBY",
    "kind": "rss",
    "scope": "local",
-   "area": "Derby",
-   "publisher": "BBC News Derby",
-   "url": "https://feeds.bbci.co.uk/news/england/derby/rss.xml",
+   "area": "Derbyshire",
+   "publisher": "BBC News Derbyshire",
+   "url": "https://feeds.bbci.co.uk/news/england/derbyshire/rss.xml",
    "status": "approved"
   },
   {

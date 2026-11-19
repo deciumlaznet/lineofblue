@@ -1,7 +1,7 @@
 """Line of Blue: public news connector. Publishers' RSS feeds, Google News search (UK edition) and GDELT.
 Stores the headline, a short summary and the link, never the full article. Publishers are organisations, so
 the publisher name is kept as the account. Standard library only."""
-import hashlib, html, json, re, time, urllib.parse, urllib.request
+import gzip, hashlib, html, json, re, time, urllib.error, urllib.parse, urllib.request
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 
@@ -42,10 +42,17 @@ def url_for(s):
         {"query": s["query"], "mode": "artlist", "format": "json", "maxrecords": "50", "timespan": "2d", "sort": "datedesc"})
 
 
-def http_get(url, timeout=20):
+def http_get(url, timeout=40):
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/rss+xml, application/xml, application/json, */*"})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.read()
+    for attempt in (1, 2):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                raw = r.read()
+            return gzip.decompress(raw) if raw[:2] == b"\x1f\x8b" else raw  # some publishers gzip regardless
+        except urllib.error.HTTPError as e:
+            if e.code == 429 and attempt == 1:  # GDELT allows one request every 5 seconds
+                time.sleep(6); continue
+            raise
 
 
 def _iso(value):
