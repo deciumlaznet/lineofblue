@@ -1,0 +1,2424 @@
+{
+ "app": "lineofblue-demo",
+ "name": "Line of Blue synthetic demo (NPCC Communications)",
+ "baseUrl": "http://127.0.0.1:8765",
+ "notes": [
+  "Synthetic demo: every force, person, account, place, group and post is fictional. Safe to click and type, but only fictional values are allowed.",
+  "State lives in the browser, so each end-to-end scenario runs as one conductor persona that switches 'Acting as' between actors in order. Once Line of Blue has a shared backend, split each conductor into one browser per actor running in parallel.",
+  "Serve dist/index.html (python3 -m http.server 8765 -d dist) or set LINE_OF_BLUE_BASE_URL."
+ ],
+ "expectations": [
+  "A synthetic-data banner is on every screen.",
+  "Narrative-first: Radar shows narratives and pseudonymised accounts; any attempt to track an individual is refused and logged.",
+  "Safe to Say hard-blocks: state attribution, naming a child defendant, identifying a sexual offence complainant, confirming immigration status without the Home Office, naming an uncharged suspect while proceedings are active.",
+  "Amber items need a recorded reason; every release in a Golden Hour cell goes draft, checked, legal, SIO, Gold, published, each by the role allowed to do it.",
+  "Only the Home Office confirms immigration status; only CTP and government receive state-linked indicators; comms never attributes publicly.",
+  "Every decision appears in the decision log with a named person, time and reason.",
+  "Roles outside a step see its button disabled, with the missing permission in the tooltip."
+ ],
+ "guardrails": {
+  "readOnly": false,
+  "neverClick": [],
+  "allowRequests": [],
+  "fictionalOnly": {
+   "allowedValues": [
+    "/^UAT synthetic:/"
+   ]
+  }
+ },
+ "personas": [
+  {
+   "id": "conductor-sc01",
+   "title": "SC-01 conductor: Golden Hour, 12 actors",
+   "viewports": [
+    "desktop"
+   ],
+   "scenarios": [
+    {
+     "id": "sc01",
+     "title": "Harbourside Market stabbing end to end",
+     "steps": [
+      {
+       "do": "goto",
+       "path": "/#governance"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reset"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-gold",
+       "note": "act as nm-gold"
+      },
+      {
+       "do": "goto",
+       "path": "/#golden-hour"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "open-cell"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Open since"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-press",
+       "note": "act as nm-press"
+      },
+      {
+       "do": "click",
+       "target": {
+        "button": "/Officers were called/"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "button": "/Two people were injured/"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-sio",
+       "note": "act as nm-sio"
+      },
+      {
+       "do": "click",
+       "target": {
+        "css": "[data-testid^='verify-']"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "css": "[data-testid^='verify-']"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "2/2"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-press",
+       "note": "act as nm-press"
+      },
+      {
+       "do": "goto",
+       "path": "/#safe-to-say"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "example-0"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 600
+      },
+      {
+       "do": "expectText",
+       "text": "No legal or policy risks found"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "submit-draft"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-legal",
+       "note": "act as nm-legal"
+      },
+      {
+       "do": "goto",
+       "path": "/#golden-hour"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "legal-approve"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-sio",
+       "note": "act as nm-sio"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "sio-approve"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-gold",
+       "note": "act as nm-gold"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "gold-approve"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-press",
+       "note": "act as nm-press"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "publish"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Published"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "clock-30"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "clock-30"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-insight",
+       "note": "act as nc-insight"
+      },
+      {
+       "do": "goto",
+       "path": "/#radar"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "narr-NAR-01"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "False suspect identity"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "link-incident"
+       }
+      },
+      {
+       "do": "judge",
+       "name": "radar-nar01",
+       "prompt": "Narrative Radar at 14:50: is NAR-01 shown as a false claim with velocity, reach, platforms and places, pseudonymised accounts only, and a time to truth once linked?"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-gold",
+       "note": "act as nm-gold"
+      },
+      {
+       "do": "goto",
+       "path": "/#golden-hour"
+      },
+      {
+       "do": "expectText",
+       "text": "false identity claim is spreading"
+      },
+      {
+       "do": "fill",
+       "target": {
+        "css": "#discReason"
+       },
+       "value": "UAT synthetic: a false identity claim is driving tension; confirming nationality is necessary and proportionate."
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "decide-confirm"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "ho-request"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "ho-press",
+       "note": "act as ho-press"
+      },
+      {
+       "do": "goto",
+       "path": "/#inbox"
+      },
+      {
+       "do": "expectText",
+       "text": "confirm immigration status"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "ho-confirm"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-duty",
+       "note": "act as nc-duty"
+      },
+      {
+       "do": "goto",
+       "path": "/#lines"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "draft-line"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-head",
+       "note": "act as nc-head"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "approve-line"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "sv-comms",
+       "note": "act as sv-comms"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "ack-line"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "dg-comms",
+       "note": "act as dg-comms"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "ack-line"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "km-comms",
+       "note": "act as km-comms"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "ack-line"
+       }
+      },
+      {
+       "do": "judge",
+       "name": "cascade-receipts",
+       "prompt": "National lines: do read receipts show the three receiving forces acknowledged (the host force, Northmoor, owns the incident) and the Welsh force localised?"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "eth",
+       "note": "act as eth"
+      },
+      {
+       "do": "goto",
+       "path": "/#audit"
+      },
+      {
+       "do": "expectText",
+       "text": "Disclosure decision"
+      },
+      {
+       "do": "judge",
+       "name": "decision-log",
+       "prompt": "Decision log: does every decision show a named (synthetic) person, a time and the reason, with nothing that profiles a member of the public?"
+      },
+      {
+       "do": "goto",
+       "path": "/#scenarios"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "scenario-SC-01"
+       }
+      },
+      {
+       "do": "expectHidden",
+       "target": {
+        "css": "[data-testid^='step-SC-01-'][data-done='false']"
+       },
+       "note": "every SC-01 step is ticked"
+      },
+      {
+       "do": "judge",
+       "name": "sc01-complete",
+       "prompt": "Scenario SC-01: are all 14 steps ticked, each naming the actor and organisation?"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "conductor-sc02",
+   "title": "SC-02 conductor: spoof curfew and state indicators",
+   "viewports": [
+    "desktop"
+   ],
+   "scenarios": [
+    {
+     "id": "sc02",
+     "title": "Spoof notice, handover, no attribution",
+     "steps": [
+      {
+       "do": "goto",
+       "path": "/#governance"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reset"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "clock-30"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "clock-30"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "clock-30"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-insight",
+       "note": "act as nc-insight"
+      },
+      {
+       "do": "goto",
+       "path": "/#radar"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "narr-NAR-04"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Tier B indicators"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "handover"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "ctp",
+       "note": "act as ctp"
+      },
+      {
+       "do": "goto",
+       "path": "/#inbox"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-handover"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-press",
+       "note": "act as nm-press"
+      },
+      {
+       "do": "goto",
+       "path": "/#safe-to-say"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "example-2"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 600
+      },
+      {
+       "do": "expectText",
+       "text": "Public attribution to a state actor"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "css": "[data-testid='submit-draft'][disabled]"
+       },
+       "note": "submit-draft is disabled for this role"
+      },
+      {
+       "do": "fill",
+       "target": {
+        "testid": "draft-text"
+       },
+       "value": "UAT synthetic: There is no curfew in Port Ellery. The notice is fake. Check our official website and verified accounts before sharing."
+      },
+      {
+       "do": "waitFor",
+       "ms": 600
+      },
+      {
+       "do": "expectNotText",
+       "text": "Public attribution to a state actor"
+      },
+      {
+       "do": "fill",
+       "target": {
+        "css": "#dReason"
+       },
+       "value": "UAT synthetic: holding rebuttal ahead of SIO-verified facts; it states only that no curfew exists."
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "submit-draft"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-legal",
+       "note": "act as nm-legal"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "legal-approve"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-sio",
+       "note": "act as nm-sio"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "sio-approve"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-gold",
+       "note": "act as nm-gold"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "gold-approve"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-press",
+       "note": "act as nm-press"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "publish"
+       }
+      },
+      {
+       "do": "goto",
+       "path": "/#scenarios"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "scenario-SC-02"
+       }
+      },
+      {
+       "do": "expectHidden",
+       "target": {
+        "css": "[data-testid^='step-SC-02-'][data-done='false']"
+       },
+       "note": "every SC-02 step is ticked"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "conductor-sc03",
+   "title": "SC-03 conductor: mobilisation and referral",
+   "viewports": [
+    "desktop"
+   ],
+   "scenarios": [
+    {
+     "id": "sc03",
+     "title": "Tension, referral, response time",
+     "steps": [
+      {
+       "do": "goto",
+       "path": "/#governance"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reset"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "clock-30"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "clock-30"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "clock-30"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "clock-30"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "sib",
+       "note": "act as sib"
+      },
+      {
+       "do": "goto",
+       "path": "/#radar"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "narr-NAR-05"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "tension"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-insight",
+       "note": "act as nc-insight"
+      },
+      {
+       "do": "goto",
+       "path": "/#escalations"
+      },
+      {
+       "do": "click",
+       "target": {
+        "css": "[data-testid^='refer-']"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "awaiting platform"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "clock-30"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "css": "[data-testid^='resolve-']"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "removed after"
+      },
+      {
+       "do": "goto",
+       "path": "/#scenarios"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "scenario-SC-03"
+       }
+      },
+      {
+       "do": "expectHidden",
+       "target": {
+        "css": "[data-testid^='step-SC-03-'][data-done='false']"
+       },
+       "note": "every SC-03 step is ticked"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "conductor-sc04",
+   "title": "SC-04 conductor: lawful opinion at a protest",
+   "viewports": [
+    "desktop"
+   ],
+   "scenarios": [
+    {
+     "id": "sc04",
+     "title": "Tier D refusal and impartial explainer",
+     "steps": [
+      {
+       "do": "goto",
+       "path": "/#governance"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reset"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "clock-30"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-insight",
+       "note": "act as nc-insight"
+      },
+      {
+       "do": "goto",
+       "path": "/#radar"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "narr-NAR-07"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "css": "[data-testid='track-account']"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Line of Blue analyses narratives, not people"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "km-comms",
+       "note": "act as km-comms"
+      },
+      {
+       "do": "goto",
+       "path": "/#safe-to-say"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "example-6"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 600
+      },
+      {
+       "do": "expectText",
+       "text": "Political impartiality"
+      },
+      {
+       "do": "fill",
+       "target": {
+        "css": "#dReason"
+       },
+       "value": "UAT synthetic: we name the label only to rebut it with facts about the policing plan."
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "submit-draft"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "publish"
+       }
+      },
+      {
+       "do": "goto",
+       "path": "/#scenarios"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "scenario-SC-04"
+       }
+      },
+      {
+       "do": "expectHidden",
+       "target": {
+        "css": "[data-testid^='step-SC-04-'][data-done='false']"
+       },
+       "note": "every SC-04 step is ticked"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "conductor-sc05",
+   "title": "SC-05 conductor: bilingual flood hoax",
+   "viewports": [
+    "desktop",
+    "mobile"
+   ],
+   "scenarios": [
+    {
+     "id": "sc05",
+     "title": "Welsh and English rebuttal",
+     "steps": [
+      {
+       "do": "goto",
+       "path": "/#governance"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reset"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "clock-30"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "dg-comms",
+       "note": "act as dg-comms"
+      },
+      {
+       "do": "goto",
+       "path": "/#safe-to-say"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "example-7"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 600
+      },
+      {
+       "do": "expectText",
+       "text": "Welsh version missing"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "welsh-template"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 600
+      },
+      {
+       "do": "expectNotText",
+       "text": "Welsh version missing"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "submit-draft"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "publish"
+       }
+      },
+      {
+       "do": "goto",
+       "path": "/#scenarios"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "scenario-SC-05"
+       }
+      },
+      {
+       "do": "expectHidden",
+       "target": {
+        "css": "[data-testid^='step-SC-05-'][data-done='false']"
+       },
+       "note": "every SC-05 step is ticked"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "conductor-sc06",
+   "title": "SC-06 conductor: hard blocks",
+   "viewports": [
+    "desktop"
+   ],
+   "scenarios": [
+    {
+     "id": "sc06",
+     "title": "Child defendant and complainant anonymity",
+     "steps": [
+      {
+       "do": "goto",
+       "path": "/#governance"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reset"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "sv-comms",
+       "note": "act as sv-comms"
+      },
+      {
+       "do": "goto",
+       "path": "/#safe-to-say"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "example-4"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 600
+      },
+      {
+       "do": "expectText",
+       "text": "Identifies a child defendant"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "css": "[data-testid='submit-draft'][disabled]"
+       },
+       "note": "submit-draft is disabled for this role"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "km-comms",
+       "note": "act as km-comms"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "example-5"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 600
+      },
+      {
+       "do": "expectText",
+       "text": "Could identify a sexual offence complainant"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "css": "[data-testid='submit-draft'][disabled]"
+       },
+       "note": "submit-draft is disabled for this role"
+      },
+      {
+       "do": "goto",
+       "path": "/#scenarios"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "scenario-SC-06"
+       }
+      },
+      {
+       "do": "expectHidden",
+       "target": {
+        "css": "[data-testid^='step-SC-06-'][data-done='false']"
+       },
+       "note": "every SC-06 step is ticked"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "conductor-sc07",
+   "title": "SC-07 conductor: get ahead with the forecast and the L.O.B Agent",
+   "viewports": [
+    "desktop"
+   ],
+   "scenarios": [
+    {
+     "id": "sc07",
+     "title": "Pre-bunk the spoof notice before it appears",
+     "steps": [
+      {
+       "do": "goto",
+       "path": "/#governance"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reset"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-gold",
+       "note": "act as nm-gold"
+      },
+      {
+       "do": "goto",
+       "path": "/#golden-hour"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "open-cell"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Rumour forecast"
+      },
+      {
+       "do": "expectText",
+       "text": "Spoof official notices"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-head",
+       "note": "act as nm-head"
+      },
+      {
+       "do": "goto",
+       "path": "/#agent"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "agent-quick-plan"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 800
+      },
+      {
+       "do": "expectText",
+       "text": "Get-ahead plan"
+      },
+      {
+       "do": "expectText",
+       "text": "KB-ISD24"
+      },
+      {
+       "do": "click",
+       "target": {
+        "css": "button.cite[data-k='KB-ISD24']"
+       }
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "testid": "kb-selected"
+       }
+      },
+      {
+       "do": "judge",
+       "name": "agent-plan",
+       "prompt": "L.O.B Agent: does the answer give a timed get-ahead plan for each likely rumour, cite public sources by id, offer a pre-bunk that names no one, and say people decide?"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-press",
+       "note": "act as nm-press"
+      },
+      {
+       "do": "goto",
+       "path": "/#golden-hour"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "prebunk-NAR-04"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 600
+      },
+      {
+       "do": "expectText",
+       "text": "pre-bunk for NAR-04"
+      },
+      {
+       "do": "expectText",
+       "text": "No legal or policy risks found"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "submit-draft"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-legal",
+       "note": "act as nm-legal"
+      },
+      {
+       "do": "goto",
+       "path": "/#golden-hour"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "legal-approve"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-sio",
+       "note": "act as nm-sio"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "sio-approve"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-gold",
+       "note": "act as nm-gold"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "gold-approve"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-press",
+       "note": "act as nm-press"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "publish"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "line out first"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "clock-30"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "clock-30"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "clock-30"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-insight",
+       "note": "act as nc-insight"
+      },
+      {
+       "do": "goto",
+       "path": "/#picture"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "testid": "velocity-chart"
+       }
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "testid": "race-NAR-04"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "min ahead"
+      },
+      {
+       "do": "judge",
+       "name": "national-picture",
+       "prompt": "National picture at 15:20: do the charts show claim velocity over time, each claim's race between first post, threshold and police line (with NAR-04 ahead), and the map, readably and without overlaps?"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-gold",
+       "note": "act as nm-gold"
+      },
+      {
+       "do": "goto",
+       "path": "/#golden-hour"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "testid": "swimlane"
+       }
+      },
+      {
+       "do": "goto",
+       "path": "/#scenarios"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "scenario-SC-07"
+       }
+      },
+      {
+       "do": "expectHidden",
+       "target": {
+        "css": "[data-testid^='step-SC-07-'][data-done='false']"
+       },
+       "note": "every SC-07 step is ticked"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "conductor-sc08",
+   "title": "SC-08 conductor: strategy review, mark-up and trend-led lines",
+   "viewports": [
+    "desktop"
+   ],
+   "scenarios": [
+    {
+     "id": "sc08",
+     "title": "Mark up a weak strategy and a non-compliant line; turn a trend into a checked line",
+     "steps": [
+      {
+       "do": "goto",
+       "path": "/#governance"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reset"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-head",
+       "note": "act as nc-head"
+      },
+      {
+       "do": "goto",
+       "path": "/#review"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "draft-DR-01"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "ask-review"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Return for revision"
+      },
+      {
+       "do": "expectText",
+       "text": "victim-blaming"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-1"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-2"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-3"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-4"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-5"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-6"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-7"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-8"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reject-9"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "9/12 decided"
+      },
+      {
+       "do": "judge",
+       "name": "markup-dr01",
+       "prompt": "Review and mark-up: does the VAWG strategy show tracked changes (struck-through original, proposed text), numbered markers coloured by severity, and a comment per change explaining why with a source?"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "mode-clean"
+       }
+      },
+      {
+       "do": "expectNotText",
+       "text": "Women should avoid walking alone"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "mode-markup"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "return-draft"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Returned for revision"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "draft-DR-02"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "ask-review"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Do not publish"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "css": "[data-testid='approve-draft'][disabled]"
+       },
+       "note": "approve-draft is disabled for this role"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-all"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "4/4 decided"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "approve-draft"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Approved"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "draft-DR-07"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "ask-review"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Displaying a national flag is lawful"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "draft-DR-08"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "ask-review"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Welsh"
+      },
+      {
+       "do": "fill",
+       "target": {
+        "testid": "paste-text"
+       },
+       "value": "UAT synthetic: Northmoor Police needs more manpower. We have zero tolerance for crime and the vast majority of officers are brilliant."
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "paste-add"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "ask-review"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 600
+      },
+      {
+       "do": "expectText",
+       "text": "Gendered language"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-insight",
+       "note": "act as nc-insight"
+      },
+      {
+       "do": "goto",
+       "path": "/#trends"
+      },
+      {
+       "do": "expectText",
+       "text": "morning trend brief"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "trend-TR-01"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "broke out of its normal range"
+      },
+      {
+       "do": "expectText",
+       "text": "Emerging"
+      },
+      {
+       "do": "judge",
+       "name": "trend-chart",
+       "prompt": "Trend watch: does the chart show six weeks of daily items, a normal-range band, a dashed projection, and does the panel explain why the agent flagged the theme and propose a line with sources?"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "trend-TR-05"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Fading"
+      },
+      {
+       "do": "expectNotText",
+       "text": "Send to Safe to Say"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-duty",
+       "note": "act as nc-duty"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "trend-TR-01"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "trend-to-sts"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 600
+      },
+      {
+       "do": "expectText",
+       "text": "No legal or policy risks found"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "submit-draft"
+       }
+      },
+      {
+       "do": "goto",
+       "path": "/#strategy"
+      },
+      {
+       "do": "expectText",
+       "text": "Behaviour change toolkit"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "topic-ST-CSE"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Casey"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "topic-ST-WAR"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Impartiality"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "start-template"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Paste a draft"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-head",
+       "note": "act as nc-head"
+      },
+      {
+       "do": "goto",
+       "path": "/#workflows"
+      },
+      {
+       "do": "expectText",
+       "text": "Strategy, policy and review"
+      },
+      {
+       "do": "goto",
+       "path": "/#scenarios"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "scenario-SC-08"
+       }
+      },
+      {
+       "do": "expectHidden",
+       "target": {
+        "css": "[data-testid^='step-SC-08-'][data-done='false']"
+       },
+       "note": "every SC-08 step is ticked"
+      },
+      {
+       "do": "judge",
+       "name": "sc08-complete",
+       "prompt": "Scenario SC-08: are all six steps ticked, naming the Head of NPCC Comms, the insight analyst and the duty press officer?"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "role-agent-user",
+   "title": "Analyst and press officer using the L.O.B Agent",
+   "viewports": [
+    "desktop",
+    "mobile"
+   ],
+   "charter": [
+    "Every answer cites a public source.",
+    "The agent never names a suspect or profiles a person."
+   ],
+   "scenarios": [
+    {
+     "id": "agent",
+     "title": "Ask, cite, check a draft",
+     "steps": [
+      {
+       "do": "goto",
+       "path": "/#governance"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reset"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-insight",
+       "note": "act as nc-insight"
+      },
+      {
+       "do": "goto",
+       "path": "/#agent"
+      },
+      {
+       "do": "fill",
+       "target": {
+        "css": "#agentQ"
+       },
+       "value": "UAT synthetic: which guidance covers Welsh language duties for a bilingual rebuttal?"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "agent-ask"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 800
+      },
+      {
+       "do": "expectText",
+       "text": "KB-WELSH"
+      },
+      {
+       "do": "expectText",
+       "text": "Offline playbook answer"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nm-press",
+       "note": "act as nm-press"
+      },
+      {
+       "do": "goto",
+       "path": "/#safe-to-say"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "example-1"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 600
+      },
+      {
+       "do": "goto",
+       "path": "/#agent"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "agent-quick-check"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 800
+      },
+      {
+       "do": "expectText",
+       "text": "Not yet"
+      },
+      {
+       "do": "expectText",
+       "text": "KB-CCA81"
+      },
+      {
+       "do": "judge",
+       "name": "agent-check",
+       "prompt": "L.O.B Agent: when asked about a risky draft, does it say what must be fixed, why, and cite the relevant law or guidance?"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "role-comms-leader",
+   "title": "National comms leader: map and workflows",
+   "viewports": [
+    "desktop",
+    "mobile"
+   ],
+   "charter": [
+    "Map separates real geography from synthetic messages.",
+    "Only the governance role can change an autonomy level, and every change is logged."
+   ],
+   "scenarios": [
+    {
+     "id": "lead",
+     "title": "Map overlays, autonomy levels, sign-off queue",
+     "steps": [
+      {
+       "do": "goto",
+       "path": "/#governance"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reset"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-head",
+       "note": "act as nc-head"
+      },
+      {
+       "do": "goto",
+       "path": "/#nmap"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "testid": "uk-map"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Real geography, synthetic messages"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "layer-cnc"
+       }
+      },
+      {
+       "do": "expectHidden",
+       "target": {
+        "css": ".ukmap .lyr.cnc"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "layer-cnc"
+       }
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "css": ".ukmap .lyr.cnc"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "css": "tr[data-f='Cumbria']"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Who else may need to act nearby"
+      },
+      {
+       "do": "expectText",
+       "text": "Sellafield"
+      },
+      {
+       "do": "judge",
+       "name": "national-map",
+       "prompt": "National map: is it a recognisable map of the UK with force HQs, British Transport Police rail hubs, civil nuclear, defence, service police and port sites as distinct marks, synthetic message bubbles, and a clear note on what is real and what is synthetic?"
+      },
+      {
+       "do": "goto",
+       "path": "/#workflows"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "testid": "wf-lanes"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Autonomy mix"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "testid": "signoff-queue"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "css": "select[data-s='W1.3']"
+       },
+       "value": "1"
+      },
+      {
+       "do": "goto",
+       "path": "/#audit"
+      },
+      {
+       "do": "expectText",
+       "text": "Autonomy level changed"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "pcc",
+       "note": "act as pcc"
+      },
+      {
+       "do": "goto",
+       "path": "/#workflows"
+      },
+      {
+       "do": "expectText",
+       "text": "Only the Head of NPCC Communications"
+      },
+      {
+       "do": "judge",
+       "name": "workflows",
+       "prompt": "Workflows and autonomy: are the seven workflows shown as lanes, each step coloured by autonomy level with a live status, an autonomy mix bar, clocks against standards, and a queue of what waits on a person?"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "role-home-office",
+   "title": "Home Office public safety official (read-only brief)",
+   "viewports": [
+    "desktop"
+   ],
+   "charter": [
+    "Confirm nothing in the brief identifies a member of the public.",
+    "Confirm the official cannot change any force release."
+   ],
+   "scenarios": [
+    {
+     "id": "limits",
+     "title": "Sees the brief, cannot act on force work",
+     "steps": [
+      {
+       "do": "goto",
+       "path": "/#governance"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reset"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "ho-psg",
+       "note": "act as ho-psg"
+      },
+      {
+       "do": "goto",
+       "path": "/#inbox"
+      },
+      {
+       "do": "expectText",
+       "text": "National situation summary"
+      },
+      {
+       "do": "goto",
+       "path": "/#golden-hour"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "css": "[data-testid='open-cell'][disabled]"
+       },
+       "note": "open-cell is disabled for this role"
+      },
+      {
+       "do": "goto",
+       "path": "/#safe-to-say"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "example-0"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 600
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "css": "[data-testid='submit-draft'][disabled]"
+       },
+       "note": "submit-draft is disabled for this role"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "role-pcc",
+   "title": "PCC office (governance observer)",
+   "viewports": [
+    "desktop",
+    "mobile"
+   ],
+   "scenarios": [
+    {
+     "id": "limits",
+     "title": "Read-only governance view",
+     "steps": [
+      {
+       "do": "goto",
+       "path": "/#governance"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reset"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "pcc",
+       "note": "act as pcc"
+      },
+      {
+       "do": "goto",
+       "path": "/#inbox"
+      },
+      {
+       "do": "expectText",
+       "text": "National situation summary"
+      },
+      {
+       "do": "goto",
+       "path": "/#lines"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "css": "[data-testid='draft-line'][disabled]"
+       },
+       "note": "draft-line is disabled for this role"
+      },
+      {
+       "do": "judge",
+       "name": "pcc-inbox",
+       "prompt": "PCC office: is the view read-only and free of operational detail they should not change?"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "role-force-officer",
+   "title": "Force comms officer from another force",
+   "viewports": [
+    "desktop"
+   ],
+   "scenarios": [
+    {
+     "id": "limits",
+     "title": "Cannot sign off another force's incident",
+     "steps": [
+      {
+       "do": "goto",
+       "path": "/#governance"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reset"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "sv-comms",
+       "note": "act as sv-comms"
+      },
+      {
+       "do": "goto",
+       "path": "/#golden-hour"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "css": "[data-testid='open-cell'][disabled]"
+       },
+       "note": "open-cell is disabled for this role"
+      },
+      {
+       "do": "goto",
+       "path": "/#lines"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "css": "[data-testid='draft-line'][disabled]"
+       },
+       "note": "draft-line is disabled for this role"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "tour-mobile",
+   "title": "Smoke tour of every screen",
+   "viewports": [
+    "desktop",
+    "mobile"
+   ],
+   "scenarios": [
+    {
+     "id": "tour",
+     "title": "Every workspace renders",
+     "steps": [
+      {
+       "do": "goto",
+       "path": "/#inbox"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#picture"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#nmap"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#radar"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#trends"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#agent"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#review"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#strategy"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#workflows"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#golden-hour"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#safe-to-say"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#lines"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#escalations"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#horizon"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#scenarios"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#audit"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#governance"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "judge",
+       "name": "tour-end",
+       "prompt": "Does the Data and safeguards screen read cleanly at this width with no clipped text?"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

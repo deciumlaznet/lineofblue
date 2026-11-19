@@ -1,0 +1,71 @@
+<title>Line of Blue type options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Josefin+Sans:wght@200&family=Jost:wght@200&family=IBM+Plex+Mono:wght@200&family=Space+Grotesk:wght@300&family=Exo+2:wght@200&family=Comfortaa:wght@300&family=Sacramento&family=Dancing+Script:wght@400&family=Pinyon+Script&display=swap">
+<style>
+/* Ten type options for the splash, each on the same continuous line: the pen comes in from the left edge,
+   the word sits on the line, and the line carries on to the right edge. Ordered from structural to flowing.
+   Deliberately single-theme (black). */
+:root { --ground: #000; --ink: #3d9bff; --label: #7a879a; color-scheme: dark; }
+html, body { margin: 0; background: var(--ground); }
+body { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+header { padding: 28px 16px 8px; color: var(--label); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.band { position: relative; height: 150px; border-top: 1px solid #0d1117; }
+.band svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.band line { stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; }
+.band path { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.band text.word { fill: var(--ink); }
+.tag { position: absolute; left: 16px; top: 12px; color: var(--label); font-size: 11px; letter-spacing: .06em; }
+.tag b { color: #8fa3bf; font-weight: 400; }
+.group { padding: 22px 16px 6px; color: #8fa3bf; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+.reveal { animation: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .reveal { animation: wipe 2.6s cubic-bezier(.5,0,.5,1) both; }
+}
+@keyframes wipe { from { width: 0; } to { width: 100%; } }
+</style>
+
+<header>Line of Blue · ten type options on one continuous line · structural to flowing</header>
+<main id="m"></main>
+
+<script>
+(function () {
+  // [group, number, font family, weight, size px, note]
+  var OPTIONS = [
+    ["Structural and formal", 1, "Cormorant Garamond", 300, 40, "classic serif, light: formal, institutional"],
+    ["Structural and formal", 2, "Josefin Sans", 200, 36, "geometric, thin: plain and orderly"],
+    ["Structural and formal", 3, "Jost", 200, 38, "Futura-like: public-service clarity"],
+    ["Technology led", 4, "IBM Plex Mono", 200, 30, "monospaced: systems and data"],
+    ["Technology led", 5, "Space Grotesk", 300, 36, "contemporary grotesque: digital product"],
+    ["Technology led", 6, "Exo 2", 200, 38, "squared curves: engineered, forward-looking"],
+    ["Technology led", 7, "Comfortaa", 300, 34, "rounded monoline: approachable tech, closest to a pen line"],
+    ["Flowing", 8, "Sacramento", 400, 52, "monoline script: letters join, one pen weight"],
+    ["Flowing", 9, "Dancing Script", 400, 40, "upright-ish script: warmer, still legible"],
+    ["Flowing", 10, "Pinyon Script", 400, 42, "formal copperplate: most flowing, most ceremonial"],
+  ];
+  var NS = "http://www.w3.org/2000/svg", m = document.getElementById("m"), last = "";
+  OPTIONS.forEach(function (o, i) {
+    if (o[0] !== last) { var g = document.createElement("div"); g.className = "group"; g.textContent = o[0]; m.appendChild(g); last = o[0]; }
+    var band = document.createElement("section"); band.className = "band";
+    band.innerHTML = '<span class="tag"><b>' + String(o[1]).padStart(2, "0") + '</b> · ' + o[2] + ' · ' + o[5] + '</span>' +
+      '<svg aria-label="line of blue, set in ' + o[2] + '" role="img"><defs><clipPath id="c' + i + '"><rect class="reveal" x="0" y="0" height="100%" width="100%" style="animation-delay:' + (0.2 + i * 0.25) + 's"/></clipPath></defs>' +
+      '<g clip-path="url(#c' + i + ')"><line class="l1"/><text class="word" text-anchor="middle">line of blue</text><line class="l2"/></g></svg>';
+    m.appendChild(band);
+    var t = band.querySelector("text");
+    t.style.fontFamily = '"' + o[2] + '"'; t.style.fontWeight = o[3]; t.style.fontSize = o[4] + "px";
+  });
+  function layout() {
+    document.querySelectorAll(".band").forEach(function (band) {
+      var svg = band.querySelector("svg"), t = band.querySelector("text"), w = svg.clientWidth, h = svg.clientHeight, y = Math.round(h * 0.66) + 0.5;
+      svg.setAttribute("viewBox", "0 0 " + w + " " + h);
+      t.setAttribute("x", w / 2); t.setAttribute("y", y);
+      var n = t.getNumberOfChars(), a = t.getStartPositionOfChar(0).x, b = t.getEndPositionOfChar(n - 1).x;
+      // one unbroken line from edge to edge; the word stands on it and the word gaps run along it, as in the hand-drawn version
+      var l1 = band.querySelector(".l1"), l2 = band.querySelector(".l2");
+      l1.setAttribute("x1", 0); l1.setAttribute("x2", w); l1.setAttribute("y1", y); l1.setAttribute("y2", y);
+      l2.setAttribute("x1", b); l2.setAttribute("x2", b); l2.setAttribute("y1", y); l2.setAttribute("y2", y);
+    });
+  }
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(layout);
+  layout(); addEventListener("resize", layout);
+})();
+</script>
