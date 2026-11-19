@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Usage: node ingest/x/run.mjs [--set XS-01] [--dry-run] [--status]
 // Live runs need the Replit secrets X_BEARER_TOKEN and X_PSEUDONYM_SALT.
-// Caps (env, optional): X_DAILY_POST_CAP (default 100), X_MONTHLY_POST_CAP (default 3000),
+// Caps (env, optional): X_DAILY_POST_CAP (default 200), X_MONTHLY_POST_CAP (default 3000),
 // X_PRICE_PER_POST_USD (default 0.005, used only for the spend estimate).
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -12,7 +12,7 @@ const here = dirname(fileURLToPath(import.meta.url)), root = join(here, '..', '.
 const args = process.argv.slice(2), flag = (f) => args.includes(f), val = (f) => (args.includes(f) ? args[args.indexOf(f) + 1] : null);
 const env = process.env, dry = flag('--dry-run');
 const outDir = env.LOB_INGEST_DIR || join(root, 'data', 'ingest');
-const budget = new Budget({ file: join(outDir, dry ? 'x-ledger-dryrun.json' : 'x-ledger.json'), dailyCap: +(env.X_DAILY_POST_CAP || 100), monthlyCap: +(env.X_MONTHLY_POST_CAP || 3000), pricePerPost: +(env.X_PRICE_PER_POST_USD || 0.005) });
+const budget = new Budget({ file: join(outDir, dry ? 'x-ledger-dryrun.json' : 'x-ledger.json'), dailyCap: +(env.X_DAILY_POST_CAP || 200), monthlyCap: +(env.X_MONTHLY_POST_CAP || 3000), pricePerPost: +(env.X_PRICE_PER_POST_USD || 0.005) });
 if (flag('--status')) { console.log(JSON.stringify(budget.summary(), null, 1)); process.exit(0); }
 
 let sets = loadSets(join(here, 'queries.json'));

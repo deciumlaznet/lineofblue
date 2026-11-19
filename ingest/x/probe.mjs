@@ -11,7 +11,7 @@ const here = dirname(fileURLToPath(import.meta.url)), root = join(here, '..', '.
 const args = process.argv.slice(2), dry = args.includes('--dry-run'), file = args.find((a) => !a.startsWith('--'));
 if (!file) { console.error('Usage: node ingest/x/probe.mjs <probe file> [--dry-run]'); process.exit(2); }
 const env = process.env, outDir = env.LOB_INGEST_DIR || join(root, 'data', 'ingest');
-const budget = new Budget({ file: join(outDir, dry ? 'x-ledger-dryrun.json' : 'x-ledger.json'), dailyCap: +(env.X_DAILY_POST_CAP || 100), monthlyCap: +(env.X_MONTHLY_POST_CAP || 3000), pricePerPost: +(env.X_PRICE_PER_POST_USD || 0.005) });
+const budget = new Budget({ file: join(outDir, dry ? 'x-ledger-dryrun.json' : 'x-ledger.json'), dailyCap: +(env.X_DAILY_POST_CAP || 200), monthlyCap: +(env.X_MONTHLY_POST_CAP || 3000), pricePerPost: +(env.X_PRICE_PER_POST_USD || 0.005) });
 const variants = loadSets(resolve(file)).map((v) => ({ ...v, status: 'approved', maxPerRun: 10 }));
 const token = dry ? 'dry-run' : env.X_BEARER_TOKEN, salt = dry ? 'dry-run-salt-0000' : env.X_PSEUDONYM_SALT;
 const fixture = JSON.parse(readFileSync(join(here, 'fixture.json'), 'utf8'));
