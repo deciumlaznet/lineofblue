@@ -1,0 +1,815 @@
+{
+ "note": "Public UK national and local news sources (scope national, local or search; local ones carry an area). Publishers' own RSS feeds, Google News search (UK edition) and GDELT (global news index, UK outlets). We keep the headline, a short summary and the link, never the full article. General feeds are filtered to policing stories; search sources are already targeted. 'checked' is set after a live check confirms the feed works.",
+ "sources": [
+  {
+   "id": "NS-BBC-UK",
+   "kind": "rss",
+   "publisher": "BBC News",
+   "url": "https://feeds.bbci.co.uk/news/uk/rss.xml",
+   "status": "approved",
+   "scope": "national"
+  },
+  {
+   "id": "NS-BBC-ENG",
+   "kind": "rss",
+   "publisher": "BBC News England",
+   "url": "https://feeds.bbci.co.uk/news/england/rss.xml",
+   "status": "approved",
+   "scope": "national"
+  },
+  {
+   "id": "NS-BBC-SCO",
+   "kind": "rss",
+   "publisher": "BBC News Scotland",
+   "url": "https://feeds.bbci.co.uk/news/scotland/rss.xml",
+   "status": "approved",
+   "scope": "national"
+  },
+  {
+   "id": "NS-BBC-WAL",
+   "kind": "rss",
+   "publisher": "BBC News Wales",
+   "url": "https://feeds.bbci.co.uk/news/wales/rss.xml",
+   "status": "approved",
+   "scope": "national"
+  },
+  {
+   "id": "NS-BBC-NI",
+   "kind": "rss",
+   "publisher": "BBC News NI",
+   "url": "https://feeds.bbci.co.uk/news/northern_ireland/rss.xml",
+   "status": "approved",
+   "scope": "national"
+  },
+  {
+   "id": "NS-GUARDIAN",
+   "kind": "rss",
+   "publisher": "The Guardian",
+   "url": "https://www.theguardian.com/uk-news/rss",
+   "status": "approved",
+   "scope": "national"
+  },
+  {
+   "id": "NS-SKY",
+   "kind": "rss",
+   "publisher": "Sky News",
+   "url": "https://feeds.skynews.com/feeds/rss/uk.xml",
+   "status": "approved",
+   "scope": "national"
+  },
+  {
+   "id": "NS-ITV",
+   "kind": "rss",
+   "publisher": "ITV News",
+   "url": "https://www.itv.com/news/rss",
+   "status": "approved",
+   "scope": "national"
+  },
+  {
+   "id": "NS-INDY",
+   "kind": "rss",
+   "publisher": "The Independent",
+   "url": "https://www.independent.co.uk/news/uk/rss",
+   "status": "approved",
+   "scope": "national"
+  },
+  {
+   "id": "NS-TELEGRAPH",
+   "kind": "rss",
+   "publisher": "The Telegraph",
+   "url": "https://www.telegraph.co.uk/news/rss.xml",
+   "status": "approved",
+   "scope": "national"
+  },
+  {
+   "id": "NS-MAIL",
+   "kind": "rss",
+   "publisher": "Daily Mail",
+   "url": "https://www.dailymail.co.uk/news/index.rss",
+   "status": "approved",
+   "scope": "national"
+  },
+  {
+   "id": "NS-MIRROR",
+   "kind": "rss",
+   "publisher": "Daily Mirror",
+   "url": "https://www.mirror.co.uk/news/uk-news/?service=rss",
+   "status": "approved",
+   "scope": "national"
+  },
+  {
+   "id": "NS-GBNEWS",
+   "kind": "rss",
+   "publisher": "GB News",
+   "url": "https://www.gbnews.com/feeds/news.rss",
+   "status": "approved",
+   "scope": "national"
+  },
+  {
+   "id": "NS-FULLFACT",
+   "kind": "rss",
+   "publisher": "Full Fact",
+   "url": "https://fullfact.org/feeds/",
+   "status": "approved",
+   "allTopics": true,
+   "scope": "national"
+  },
+  {
+   "id": "NS-GN-DISORDER",
+   "kind": "google_news",
+   "publisher": "Google News",
+   "query": "police (riot OR disorder OR protest) UK when:2d",
+   "status": "approved",
+   "scope": "search"
+  },
+  {
+   "id": "NS-GN-MISINFO",
+   "kind": "google_news",
+   "publisher": "Google News",
+   "query": "police (misinformation OR \"fake news\" OR \"false claims\" OR rumours) UK when:2d",
+   "status": "approved",
+   "scope": "search"
+  },
+  {
+   "id": "NS-GN-INCIDENT",
+   "kind": "google_news",
+   "publisher": "Google News",
+   "query": "police (stabbing OR attack OR \"major incident\") statement UK when:2d",
+   "status": "approved",
+   "scope": "search"
+  },
+  {
+   "id": "NS-GN-SCAMS",
+   "kind": "google_news",
+   "publisher": "Google News",
+   "query": "police warning (scam OR \"fake police\" OR spiking) UK when:2d",
+   "status": "approved",
+   "scope": "search"
+  },
+  {
+   "id": "NS-GDELT-POLICE",
+   "kind": "gdelt",
+   "publisher": "GDELT",
+   "query": "(police OR policing) (misinformation OR disinformation OR riot OR disorder) sourcecountry:UK",
+   "status": "approved",
+   "scope": "search"
+  },
+  {
+   "id": "NL-BBC-BEDS-BUCKS-AND-HERTS",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Beds Bucks & Herts",
+   "publisher": "BBC News Beds Bucks & Herts",
+   "url": "https://feeds.bbci.co.uk/news/england/beds_bucks_and_herts/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-BERKSHIRE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Berkshire",
+   "publisher": "BBC News Berkshire",
+   "url": "https://feeds.bbci.co.uk/news/england/berkshire/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-BIRMINGHAM-AND-BLACK-COU",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Birmingham & Black Country",
+   "publisher": "BBC News Birmingham & Black Country",
+   "url": "https://feeds.bbci.co.uk/news/england/birmingham_and_black_country/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-BRISTOL",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Bristol",
+   "publisher": "BBC News Bristol",
+   "url": "https://feeds.bbci.co.uk/news/england/bristol/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-CAMBRIDGESHIRE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Cambridgeshire",
+   "publisher": "BBC News Cambridgeshire",
+   "url": "https://feeds.bbci.co.uk/news/england/cambridgeshire/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-CORNWALL",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Cornwall",
+   "publisher": "BBC News Cornwall",
+   "url": "https://feeds.bbci.co.uk/news/england/cornwall/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-COVENTRY-AND-WARWICKSHIR",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Coventry & Warwickshire",
+   "publisher": "BBC News Coventry & Warwickshire",
+   "url": "https://feeds.bbci.co.uk/news/england/coventry_and_warwickshire/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-CUMBRIA",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Cumbria",
+   "publisher": "BBC News Cumbria",
+   "url": "https://feeds.bbci.co.uk/news/england/cumbria/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-DERBY",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Derby",
+   "publisher": "BBC News Derby",
+   "url": "https://feeds.bbci.co.uk/news/england/derby/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-DEVON",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Devon",
+   "publisher": "BBC News Devon",
+   "url": "https://feeds.bbci.co.uk/news/england/devon/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-ESSEX",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Essex",
+   "publisher": "BBC News Essex",
+   "url": "https://feeds.bbci.co.uk/news/england/essex/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-GLOUCESTERSHIRE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Gloucestershire",
+   "publisher": "BBC News Gloucestershire",
+   "url": "https://feeds.bbci.co.uk/news/england/gloucestershire/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-HAMPSHIRE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Hampshire",
+   "publisher": "BBC News Hampshire",
+   "url": "https://feeds.bbci.co.uk/news/england/hampshire/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-HEREFORD-AND-WORCESTER",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Hereford & Worcester",
+   "publisher": "BBC News Hereford & Worcester",
+   "url": "https://feeds.bbci.co.uk/news/england/hereford_and_worcester/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-HUMBERSIDE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Humberside",
+   "publisher": "BBC News Humberside",
+   "url": "https://feeds.bbci.co.uk/news/england/humberside/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-KENT",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Kent",
+   "publisher": "BBC News Kent",
+   "url": "https://feeds.bbci.co.uk/news/england/kent/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-LANCASHIRE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Lancashire",
+   "publisher": "BBC News Lancashire",
+   "url": "https://feeds.bbci.co.uk/news/england/lancashire/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-LEEDS-AND-WEST-YORKSHIRE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Leeds & West Yorkshire",
+   "publisher": "BBC News Leeds & West Yorkshire",
+   "url": "https://feeds.bbci.co.uk/news/england/leeds_and_west_yorkshire/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-LEICESTER",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Leicester",
+   "publisher": "BBC News Leicester",
+   "url": "https://feeds.bbci.co.uk/news/england/leicester/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-LINCOLNSHIRE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Lincolnshire",
+   "publisher": "BBC News Lincolnshire",
+   "url": "https://feeds.bbci.co.uk/news/england/lincolnshire/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-LONDON",
+   "kind": "rss",
+   "scope": "local",
+   "area": "London",
+   "publisher": "BBC News London",
+   "url": "https://feeds.bbci.co.uk/news/england/london/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-MANCHESTER",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Manchester",
+   "publisher": "BBC News Manchester",
+   "url": "https://feeds.bbci.co.uk/news/england/manchester/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-MERSEYSIDE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Merseyside",
+   "publisher": "BBC News Merseyside",
+   "url": "https://feeds.bbci.co.uk/news/england/merseyside/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-NORFOLK",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Norfolk",
+   "publisher": "BBC News Norfolk",
+   "url": "https://feeds.bbci.co.uk/news/england/norfolk/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-NORTHAMPTONSHIRE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Northamptonshire",
+   "publisher": "BBC News Northamptonshire",
+   "url": "https://feeds.bbci.co.uk/news/england/northamptonshire/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-NOTTINGHAM",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Nottingham",
+   "publisher": "BBC News Nottingham",
+   "url": "https://feeds.bbci.co.uk/news/england/nottingham/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-OXFORD",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Oxford",
+   "publisher": "BBC News Oxford",
+   "url": "https://feeds.bbci.co.uk/news/england/oxford/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-SHROPSHIRE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Shropshire",
+   "publisher": "BBC News Shropshire",
+   "url": "https://feeds.bbci.co.uk/news/england/shropshire/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-SOMERSET",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Somerset",
+   "publisher": "BBC News Somerset",
+   "url": "https://feeds.bbci.co.uk/news/england/somerset/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-SOUTH-YORKSHIRE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "South Yorkshire",
+   "publisher": "BBC News South Yorkshire",
+   "url": "https://feeds.bbci.co.uk/news/england/south_yorkshire/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-STOKE-AND-STAFFORDSHIRE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Stoke & Staffordshire",
+   "publisher": "BBC News Stoke & Staffordshire",
+   "url": "https://feeds.bbci.co.uk/news/england/stoke_and_staffordshire/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-SUFFOLK",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Suffolk",
+   "publisher": "BBC News Suffolk",
+   "url": "https://feeds.bbci.co.uk/news/england/suffolk/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-SURREY",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Surrey",
+   "publisher": "BBC News Surrey",
+   "url": "https://feeds.bbci.co.uk/news/england/surrey/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-SUSSEX",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Sussex",
+   "publisher": "BBC News Sussex",
+   "url": "https://feeds.bbci.co.uk/news/england/sussex/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-TEES",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Tees",
+   "publisher": "BBC News Tees",
+   "url": "https://feeds.bbci.co.uk/news/england/tees/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-TYNE-AND-WEAR",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Tyne & Wear",
+   "publisher": "BBC News Tyne & Wear",
+   "url": "https://feeds.bbci.co.uk/news/england/tyne_and_wear/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-WILTSHIRE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Wiltshire",
+   "publisher": "BBC News Wiltshire",
+   "url": "https://feeds.bbci.co.uk/news/england/wiltshire/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-YORK-AND-NORTH-YORKSHIRE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "York & North Yorkshire",
+   "publisher": "BBC News York & North Yorkshire",
+   "url": "https://feeds.bbci.co.uk/news/england/york_and_north_yorkshire/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-HIGHLANDS-AND-ISLANDS",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Highlands & Islands",
+   "publisher": "BBC News Highlands & Islands",
+   "url": "https://feeds.bbci.co.uk/news/scotland/highlands_and_islands/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-NORTH-EAST-ORKNEY-AND-SH",
+   "kind": "rss",
+   "scope": "local",
+   "area": "North East Orkney & Shetland",
+   "publisher": "BBC News North East Orkney & Shetland",
+   "url": "https://feeds.bbci.co.uk/news/scotland/north_east_orkney_and_shetland/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-GLASGOW-AND-WEST",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Glasgow & West",
+   "publisher": "BBC News Glasgow & West",
+   "url": "https://feeds.bbci.co.uk/news/scotland/glasgow_and_west/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-EDINBURGH-EAST-AND-FIFE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Edinburgh East & Fife",
+   "publisher": "BBC News Edinburgh East & Fife",
+   "url": "https://feeds.bbci.co.uk/news/scotland/edinburgh_east_and_fife/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-SOUTH-SCOTLAND",
+   "kind": "rss",
+   "scope": "local",
+   "area": "South Scotland",
+   "publisher": "BBC News South Scotland",
+   "url": "https://feeds.bbci.co.uk/news/scotland/south_scotland/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-TAYSIDE-AND-CENTRAL",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Tayside & Central",
+   "publisher": "BBC News Tayside & Central",
+   "url": "https://feeds.bbci.co.uk/news/scotland/tayside_and_central/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-NORTH-WEST-WALES",
+   "kind": "rss",
+   "scope": "local",
+   "area": "North West Wales",
+   "publisher": "BBC News North West Wales",
+   "url": "https://feeds.bbci.co.uk/news/wales/north_west_wales/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-NORTH-EAST-WALES",
+   "kind": "rss",
+   "scope": "local",
+   "area": "North East Wales",
+   "publisher": "BBC News North East Wales",
+   "url": "https://feeds.bbci.co.uk/news/wales/north_east_wales/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-MID-WALES",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Mid Wales",
+   "publisher": "BBC News Mid Wales",
+   "url": "https://feeds.bbci.co.uk/news/wales/mid_wales/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-SOUTH-WEST-WALES",
+   "kind": "rss",
+   "scope": "local",
+   "area": "South West Wales",
+   "publisher": "BBC News South West Wales",
+   "url": "https://feeds.bbci.co.uk/news/wales/south_west_wales/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BBC-SOUTH-EAST-WALES",
+   "kind": "rss",
+   "scope": "local",
+   "area": "South East Wales",
+   "publisher": "BBC News South East Wales",
+   "url": "https://feeds.bbci.co.uk/news/wales/south_east_wales/rss.xml",
+   "status": "approved"
+  },
+  {
+   "id": "NL-MEN",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Greater Manchester",
+   "publisher": "Manchester Evening News",
+   "url": "https://www.manchestereveningnews.co.uk/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-ECHO",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Merseyside",
+   "publisher": "Liverpool Echo",
+   "url": "https://www.liverpoolecho.co.uk/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BHAMLIVE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "West Midlands",
+   "publisher": "Birmingham Live",
+   "url": "https://www.birminghammail.co.uk/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-CHRON",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Tyne and Wear",
+   "publisher": "Chronicle Live",
+   "url": "https://www.chroniclelive.co.uk/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-YEP",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Leeds",
+   "publisher": "Yorkshire Evening Post",
+   "url": "https://www.yorkshireeveningpost.co.uk/rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-T&A",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Bradford",
+   "publisher": "Telegraph & Argus",
+   "url": "https://www.thetelegraphandargus.co.uk/news/rss/",
+   "status": "approved"
+  },
+  {
+   "id": "NL-EXAMINER",
+   "kind": "rss",
+   "scope": "local",
+   "area": "West Yorkshire",
+   "publisher": "Yorkshire Live",
+   "url": "https://www.examinerlive.co.uk/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-STAR",
+   "kind": "rss",
+   "scope": "local",
+   "area": "South Yorkshire",
+   "publisher": "Sheffield Star",
+   "url": "https://www.thestar.co.uk/rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-HULL",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Humberside",
+   "publisher": "Hull Daily Mail",
+   "url": "https://www.hulldailymail.co.uk/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-NOTTS",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Nottinghamshire",
+   "publisher": "Nottingham Post",
+   "url": "https://www.nottinghampost.com/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-LEICS",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Leicestershire",
+   "publisher": "Leicester Mercury",
+   "url": "https://www.leicestermercury.co.uk/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BRISTOL",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Bristol",
+   "publisher": "Bristol Post",
+   "url": "https://www.bristolpost.co.uk/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-STANDARD",
+   "kind": "rss",
+   "scope": "local",
+   "area": "London",
+   "publisher": "Evening Standard",
+   "url": "https://www.standard.co.uk/news/rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-MYLONDON",
+   "kind": "rss",
+   "scope": "local",
+   "area": "London",
+   "publisher": "MyLondon",
+   "url": "https://www.mylondon.news/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-KENT",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Kent",
+   "publisher": "Kent Live",
+   "url": "https://www.kentlive.news/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-LANCS",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Lancashire",
+   "publisher": "Lancs Live",
+   "url": "https://www.lancs.live/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-NECHO",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Durham and Teesside",
+   "publisher": "The Northern Echo",
+   "url": "https://www.thenorthernecho.co.uk/news/rss/",
+   "status": "approved"
+  },
+  {
+   "id": "NL-PLYMOUTH",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Devon",
+   "publisher": "Plymouth Live",
+   "url": "https://www.plymouthherald.co.uk/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-WALESONLINE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Wales",
+   "publisher": "WalesOnline",
+   "url": "https://www.walesonline.co.uk/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-RECORD",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Scotland",
+   "publisher": "Daily Record",
+   "url": "https://www.dailyrecord.co.uk/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-GLASGOWLIVE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Glasgow",
+   "publisher": "Glasgow Live",
+   "url": "https://www.glasgowlive.co.uk/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-EDINLIVE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Edinburgh",
+   "publisher": "Edinburgh Live",
+   "url": "https://www.edinburghlive.co.uk/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BELFASTLIVE",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Northern Ireland",
+   "publisher": "Belfast Live",
+   "url": "https://www.belfastlive.co.uk/news/?service=rss",
+   "status": "approved"
+  },
+  {
+   "id": "NL-BELTEL",
+   "kind": "rss",
+   "scope": "local",
+   "area": "Northern Ireland",
+   "publisher": "Belfast Telegraph",
+   "url": "https://www.belfasttelegraph.co.uk/news/rss/",
+   "status": "approved"
+  }
+ ]
+}
