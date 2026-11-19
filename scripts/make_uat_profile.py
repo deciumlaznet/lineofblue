@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Write uat/profiles/lineofblue-demo.json for Michael's shared UAT operator (runner/uat.mjs).
+"""Write uat/profiles/lineofblue-demo.json for the shared UAT operator (runner/uat.mjs).
 
 The demo keeps state in the browser, so each end-to-end scenario is run by one
 "conductor" persona that switches 'Acting as' between the real actors in order.
