@@ -1,0 +1,13 @@
+{
+ "note": "Telegram sources. Public broadcast channels only; groups, private chats and users are never read. 'search' runs a keyword search across public channels (the same eight topics as X). 'channel' reads one public channel by username, keeping only messages that match its keywords; add a channel only for an organisation's public broadcast, never a private person's. A source runs only when its status is 'approved' by the NPCC Comms lead.",
+ "sources": [
+  {"id": "TS-01", "mode": "search", "label": "Fake police notices and curfews", "query": "fake police curfew", "status": "approved", "maxPerRun": 50},
+  {"id": "TS-02", "mode": "search", "label": "Spiking claims", "query": "spiking club", "status": "approved", "maxPerRun": 50},
+  {"id": "TS-03", "mode": "search", "label": "Fake police fine texts", "query": "police fine text scam", "status": "approved", "maxPerRun": 50},
+  {"id": "TS-04", "mode": "search", "label": "False suspect identity after an incident", "query": "stabbing suspect asylum", "status": "approved", "maxPerRun": 50},
+  {"id": "TS-05", "mode": "search", "label": "Police cover-up claims", "query": "police cover up", "status": "approved", "maxPerRun": 50},
+  {"id": "TS-06", "mode": "search", "label": "Calls to gather or take to the streets", "query": "take to the streets hotel", "status": "approved", "maxPerRun": 50},
+  {"id": "TS-07", "mode": "search", "label": "Old or recycled riot footage", "query": "riot footage happening now", "status": "approved", "maxPerRun": 50},
+  {"id": "TS-08", "mode": "search", "label": "Fake police or government statements", "query": "fake police statement", "status": "approved", "maxPerRun": 50}
+ ]
+}
