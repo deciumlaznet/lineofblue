@@ -5,56 +5,56 @@
    "id": "XS-01",
    "label": "Fake police notices and curfews",
    "status": "approved",
-   "maxPerRun": 50,
+   "maxPerRun": 12,
    "query": "(police OR constabulary) (curfew OR \"fake notice\" OR \"fake letter\" OR \"not from us\") lang:en -is:retweet"
   },
   {
    "id": "XS-02",
    "label": "Spiking claims",
    "status": "approved",
-   "maxPerRun": 50,
+   "maxPerRun": 12,
    "query": "(spiked OR spiking OR \"injection spiking\") (club OR bar OR freshers OR uni) lang:en -is:retweet"
   },
   {
    "id": "XS-03",
    "label": "Fake police fine texts",
    "status": "approved",
-   "maxPerRun": 50,
+   "maxPerRun": 12,
    "query": "(\"police fine\" OR \"speeding fine\" OR \"penalty notice\") (text OR sms OR scam) lang:en -is:retweet"
   },
   {
    "id": "XS-04",
    "label": "False suspect identity after an incident",
-   "status": "proposed",
-   "maxPerRun": 50,
+   "status": "approved",
+   "maxPerRun": 12,
    "query": "(suspect OR attacker OR \"arrested man\" OR stabbing) (\"real name\" OR \"his name is\" OR asylum OR migrant OR \"small boat\" OR illegal) (police OR attack) lang:en -is:retweet"
   },
   {
    "id": "XS-05",
    "label": "Police cover-up claims",
-   "status": "proposed",
-   "maxPerRun": 50,
+   "status": "approved",
+   "maxPerRun": 12,
    "query": "(police OR cops) (\"cover up\" OR \"covering up\" OR coverup OR \"hiding the truth\" OR \"won't tell us\") lang:en -is:retweet"
   },
   {
    "id": "XS-06",
    "label": "Calls to gather or take to the streets",
-   "status": "proposed",
-   "maxPerRun": 50,
+   "status": "approved",
+   "maxPerRun": 12,
    "query": "(\"get down there\" OR \"everyone meet\" OR \"be there at\" OR \"take it to the streets\" OR \"time to act\") (hotel OR mosque OR \"police station\" OR protest) lang:en -is:retweet"
   },
   {
    "id": "XS-07",
    "label": "Old or recycled riot footage",
-   "status": "proposed",
-   "maxPerRun": 50,
+   "status": "approved",
+   "maxPerRun": 12,
    "query": "(\"old footage\" OR \"old video\" OR \"not from today\" OR \"happening now\" OR \"right now\") (riot OR riots OR disorder OR \"petrol bomb\" OR \"police attacked\") lang:en -is:retweet"
   },
   {
    "id": "XS-08",
    "label": "Fake police or government statements",
-   "status": "proposed",
-   "maxPerRun": 50,
+   "status": "approved",
+   "maxPerRun": 12,
    "query": "(\"police statement\" OR \"police have confirmed\" OR \"home office confirmed\" OR \"official notice\") (fake OR hoax OR \"not real\" OR doctored OR photoshopped) lang:en -is:retweet"
   }
  ]
