@@ -12,3 +12,8 @@ open(os.path.join(R, "dist/artifact.html"), "w", encoding="utf-8").write(body)
 full = '<!doctype html>\n<html lang="en-GB">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n' + body.replace('<div class="banner"', '</head>\n<body>\n<div class="banner"', 1) + '\n</body>\n</html>\n'
 open(os.path.join(R, "dist/index.html"), "w", encoding="utf-8").write(full)
 print("built", len(body), "bytes")
+
+# Research and design page: inline the world map
+_rd = open(os.path.join(R, "app", "research.html")).read().replace("__WORLD__", open(os.path.join(R, "data", "world_map.json")).read())
+open(os.path.join(R, "dist", "research.html"), "w").write(_rd)
+print("dist/research.html", len(_rd) // 1024, "KB")
