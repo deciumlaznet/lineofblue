@@ -1,0 +1,5 @@
+{
+ "note": "Offline fixture for --dry-run and tests. Fictional.",
+ "rss": "<?xml version=\"1.0\"?><rss version=\"2.0\"><channel><title>Fixture</title>\n<item><title>Police appeal after disorder outside hotel in Northmoor</title><description><![CDATA[<p>Officers were called to reports of disorder on Saturday evening.</p>]]></description><link>https://example.org/news/1</link><pubDate>Thu, 19 Nov 2026 09:00:00 GMT</pubDate></item>\n<item><title>Bake-off winner crowned</title><description>A cake story.</description><link>https://example.org/news/2</link><pubDate>Thu, 19 Nov 2026 10:00:00 GMT</pubDate></item>\n<item><title>Force warns of fake police letters</title><description>Residents told the curfew notice is a hoax &amp; should be ignored.</description><link>https://example.org/news/3</link><pubDate>Thu, 19 Nov 2026 11:00:00 GMT</pubDate><source url=\"https://example.org\">Example Gazette</source></item>\n</channel></rss>",
+ "gdelt": "{\"articles\": [{\"url\": \"https://example.org/g/1\", \"title\": \"Police say riot video is old footage\", \"seendate\": \"20261119T120000Z\", \"domain\": \"example.co.uk\"}]}"
+}
