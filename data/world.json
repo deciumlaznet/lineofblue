@@ -1,0 +1,3763 @@
+{
+ "meta": {
+  "name": "Line of Blue synthetic demo world",
+  "version": "1.0.0",
+  "scenarioDate": "Saturday 21 November 2026 (synthetic)",
+  "clockStart": "13:50",
+  "notice": "Entirely fictional. No real people, accounts, forces, places or groups. For demonstration and testing only.",
+  "generatedBy": "scripts/generate_world.py (seed 20261121)"
+ },
+ "orgs": [
+  {
+   "id": "npcc",
+   "name": "NPCC Communications",
+   "kind": "national",
+   "short": "NPCC"
+  },
+  {
+   "id": "npocc",
+   "name": "NPoCC Strategic Intelligence and Briefing",
+   "kind": "national",
+   "short": "NPoCC"
+  },
+  {
+   "id": "nmp",
+   "name": "Northmoor Police",
+   "kind": "force",
+   "short": "Northmoor",
+   "region": "North West (fictional)",
+   "welsh": false
+  },
+  {
+   "id": "svc",
+   "name": "Severnvale Constabulary",
+   "kind": "force",
+   "short": "Severnvale",
+   "region": "West Midlands (fictional)",
+   "welsh": false
+  },
+  {
+   "id": "dgp",
+   "name": "Dyfed-Glas Police / Heddlu Dyfed-Glas",
+   "kind": "force",
+   "short": "Dyfed-Glas",
+   "region": "Wales (fictional)",
+   "welsh": true
+  },
+  {
+   "id": "kmp",
+   "name": "Kingsbridge Metropolitan Police",
+   "kind": "force",
+   "short": "Kingsbridge",
+   "region": "London and South East (fictional)",
+   "welsh": false
+  },
+  {
+   "id": "ho",
+   "name": "Home Office",
+   "kind": "government",
+   "short": "Home Office"
+  },
+  {
+   "id": "gov",
+   "name": "Government online information team",
+   "kind": "government",
+   "short": "Gov info team"
+  },
+  {
+   "id": "ctp",
+   "name": "Counter Terrorism Policing (liaison)",
+   "kind": "partner",
+   "short": "CTP"
+  },
+  {
+   "id": "cps",
+   "name": "CPS Area Communications",
+   "kind": "partner",
+   "short": "CPS"
+  },
+  {
+   "id": "col",
+   "name": "College of Policing",
+   "kind": "national",
+   "short": "College"
+  },
+  {
+   "id": "pcc",
+   "name": "Office of the Northmoor PCC",
+   "kind": "governance",
+   "short": "PCC office"
+  },
+  {
+   "id": "eth",
+   "name": "Line of Blue Independent Ethics Panel",
+   "kind": "governance",
+   "short": "Ethics panel"
+  }
+ ],
+ "personas": [
+  {
+   "id": "nc-head",
+   "name": "Priya Hallam",
+   "role": "Head of NPCC Communications",
+   "org": "npcc",
+   "caps": [
+    "line:approve",
+    "radar:triage",
+    "cell:join",
+    "audit:view"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "nc-duty",
+   "name": "Tom Ashdown",
+   "role": "NPCC duty press officer",
+   "org": "npcc",
+   "caps": [
+    "line:draft",
+    "line:cascade",
+    "statement:draft",
+    "cell:join",
+    "radar:triage"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "nc-insight",
+   "name": "Leah Marwood",
+   "role": "NPCC insight and narrative analyst",
+   "org": "npcc",
+   "caps": [
+    "radar:triage",
+    "radar:alert",
+    "referral:log",
+    "referral:update",
+    "state:handover",
+    "cell:join"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "sib",
+   "name": "Dev Raman",
+   "role": "NPoCC SIB analyst",
+   "org": "npocc",
+   "caps": [
+    "radar:triage",
+    "tension:assess",
+    "cell:join"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "nm-head",
+   "name": "Claire Fenwick",
+   "role": "Head of Corporate Communications, Northmoor",
+   "org": "nmp",
+   "caps": [
+    "statement:draft",
+    "line:ack",
+    "cell:open",
+    "cell:join",
+    "radar:triage",
+    "referral:log"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "nm-press",
+   "name": "Jordan Pike",
+   "role": "Duty press officer, Northmoor",
+   "org": "nmp",
+   "caps": [
+    "statement:draft",
+    "statement:publish",
+    "fact:add",
+    "line:ack",
+    "cell:join",
+    "referral:log"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "nm-sio",
+   "name": "DCI Sam Oduya",
+   "role": "Senior Investigating Officer, Northmoor",
+   "org": "nmp",
+   "caps": [
+    "fact:verify",
+    "fact:add",
+    "statement:approve-sio",
+    "disclosure:recommend",
+    "cell:join"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "nm-gold",
+   "name": "ACC Rachel Thorne",
+   "role": "Gold commander, Northmoor",
+   "org": "nmp",
+   "caps": [
+    "cell:open",
+    "statement:approve-gold",
+    "disclosure:decide",
+    "cell:join"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "nm-legal",
+   "name": "Martin Leigh",
+   "role": "Force legal adviser, Northmoor",
+   "org": "nmp",
+   "caps": [
+    "statement:legal",
+    "cell:join"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "sv-comms",
+   "name": "Aisha Bell",
+   "role": "Communications manager, Severnvale",
+   "org": "svc",
+   "caps": [
+    "statement:draft",
+    "statement:publish",
+    "line:ack",
+    "radar:triage",
+    "referral:log",
+    "cell:join"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "dg-comms",
+   "name": "Rhys Pritchard",
+   "role": "Bilingual communications officer, Dyfed-Glas",
+   "org": "dgp",
+   "caps": [
+    "statement:draft",
+    "statement:publish",
+    "line:ack",
+    "line:localise",
+    "radar:triage",
+    "cell:join"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "km-comms",
+   "name": "Nadia Cole",
+   "role": "Head of Media, Kingsbridge",
+   "org": "kmp",
+   "caps": [
+    "statement:draft",
+    "statement:publish",
+    "line:ack",
+    "radar:triage",
+    "referral:log",
+    "cell:join"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "ho-press",
+   "name": "Oliver Grange",
+   "role": "Home Office press officer",
+   "org": "ho",
+   "caps": [
+    "immigration:confirm",
+    "brief:read"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "ho-psg",
+   "name": "Helen Marsh",
+   "role": "Home Office public safety official",
+   "org": "ho",
+   "caps": [
+    "brief:read"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "gov-info",
+   "name": "Ben Carver",
+   "role": "Government online information team liaison",
+   "org": "gov",
+   "caps": [
+    "state:receive",
+    "brief:read"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "ctp",
+   "name": "DS Imran Kade",
+   "role": "Counter Terrorism Policing liaison",
+   "org": "ctp",
+   "caps": [
+    "state:receive",
+    "referral:update",
+    "brief:read"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "cps",
+   "name": "Joanna Price",
+   "role": "CPS area communications manager",
+   "org": "cps",
+   "caps": [
+    "statement:cps",
+    "brief:read"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "col",
+   "name": "Dr Fiona Hale",
+   "role": "College of Policing learning lead",
+   "org": "col",
+   "caps": [
+    "audit:view",
+    "debrief:write"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "pcc",
+   "name": "Gareth Moss",
+   "role": "Communications lead, Northmoor PCC office",
+   "org": "pcc",
+   "caps": [
+    "brief:read"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "eth",
+   "name": "Prof. Anne Lowry",
+   "role": "Chair, Independent Ethics Panel",
+   "org": "eth",
+   "caps": [
+    "audit:view"
+   ],
+   "synthetic": true
+  }
+ ],
+ "places": [
+  {
+   "id": "port-ellery",
+   "name": "Port Ellery",
+   "force": "nmp",
+   "x": 0.22,
+   "y": 0.3
+  },
+  {
+   "id": "harrowgate-vale",
+   "name": "Harrowgate Vale",
+   "force": "nmp",
+   "x": 0.4,
+   "y": 0.15
+  },
+  {
+   "id": "castlewick",
+   "name": "Castlewick",
+   "force": "nmp",
+   "x": 0.44,
+   "y": 0.4
+  },
+  {
+   "id": "brennford",
+   "name": "Brennford",
+   "force": "svc",
+   "x": 0.55,
+   "y": 0.58
+  },
+  {
+   "id": "aberteg",
+   "name": "Aberteg",
+   "force": "dgp",
+   "x": 0.16,
+   "y": 0.6
+  },
+  {
+   "id": "llanfair-is-coed",
+   "name": "Llanfair-is-Coed",
+   "force": "dgp",
+   "x": 0.26,
+   "y": 0.75
+  },
+  {
+   "id": "kingsbridge-centre",
+   "name": "Kingsbridge city centre",
+   "force": "kmp",
+   "x": 0.76,
+   "y": 0.82
+  }
+ ],
+ "platforms": [
+  {
+   "id": "chirp",
+   "name": "Chirp",
+   "type": "Short-post social network (fictional)"
+  },
+  {
+   "id": "vidstream",
+   "name": "VidStream",
+   "type": "Short video platform (fictional)"
+  },
+  {
+   "id": "facespace",
+   "name": "FaceSpace",
+   "type": "Community groups platform (fictional)"
+  },
+  {
+   "id": "groupcast",
+   "name": "Groupcast",
+   "type": "Public broadcast channels (fictional)"
+  },
+  {
+   "id": "forumly",
+   "name": "Forumly",
+   "type": "Open discussion forum (fictional)"
+  }
+ ],
+ "outlets": [
+  {
+   "id": "echo",
+   "name": "Port Ellery Echo",
+   "type": "Local newspaper (fictional)",
+   "reliability": "established"
+  },
+  {
+   "id": "nep",
+   "name": "Northmoor Evening Post",
+   "type": "Regional newspaper (fictional)",
+   "reliability": "established"
+  },
+  {
+   "id": "ledger",
+   "name": "The National Ledger",
+   "type": "National newspaper (fictional)",
+   "reliability": "established"
+  },
+  {
+   "id": "nbc1",
+   "name": "Northern Broadcast One",
+   "type": "Regional broadcaster (fictional)",
+   "reliability": "established"
+  },
+  {
+   "id": "brightline",
+   "name": "Brightline News24",
+   "type": "Unverified aggregator site (fictional)",
+   "reliability": "low"
+  },
+  {
+   "id": "spoof",
+   "name": "northmoor-police-news.info",
+   "type": "Spoof site imitating a force (fictional)",
+   "reliability": "spoof"
+  }
+ ],
+ "actors": [
+  {
+   "id": "act-irondawn",
+   "tier": "A",
+   "name": "Iron Dawn Network",
+   "fictional": true,
+   "basis": "Fictional proscribed organisation (stands in for an entry on the Home Office proscribed list)",
+   "allowed": "Track content and narratives; refer illegal content to CTIRU; flag symbols and slogans",
+   "indicators": [
+    "Black sun-and-anchor emblem (fictional)",
+    "Slogan 'Dawn is coming' (fictional)"
+   ]
+  },
+  {
+   "id": "act-lantern",
+   "tier": "B",
+   "name": "Lantern Bureau",
+   "fictional": true,
+   "basis": "Fictional state-linked influence operation named in a fictional government sanctions notice",
+   "allowed": "Track narratives; pass indicators to CTP and government; never attribute publicly through police comms",
+   "indicators": [
+    "Spoof domains imitating forces (e.g. northmoor-police-news.info)",
+    "Recycled templates across European cities"
+   ]
+  },
+  {
+   "id": "act-harbourwatch",
+   "tier": "C",
+   "name": "Harbour Watch Patriots",
+   "fictional": true,
+   "basis": "Fictional street network whose organiser has a (fictional) public order conviction",
+   "allowed": "Monitor public narratives and planned events only; monitoring of individuals needs a recorded RIPA authorisation",
+   "indicators": [
+    "Event pages for gatherings near asylum accommodation"
+   ]
+  }
+ ],
+ "tierDRule": "Politicians, parties, campaigners, journalists and commentators are never entities in Line of Blue. Narrative and topic analysis only.",
+ "incidents": [
+  {
+   "id": "INC-NMP-0412",
+   "force": "nmp",
+   "place": "port-ellery",
+   "title": "Harbourside Market stabbing, Port Ellery",
+   "type": "Critical incident",
+   "declaredAt": 0,
+   "status": "pending",
+   "summary": "Two people injured, one seriously, at Harbourside Market at about 13:50. A man was arrested at the scene.",
+   "case": {
+    "id": "CASE-NMP-7781",
+    "status": "arrested",
+    "suspectAge": 34,
+    "suspectName": "Callum Breward (fictional)",
+    "suspectNationality": "British (fictional, verified by SIO at 15:10)",
+    "sexualOffence": false,
+    "childInvolved": false,
+    "immigrationClaim": true
+   },
+   "gold": "nm-gold",
+   "sio": "nm-sio"
+  },
+  {
+   "id": "INC-SVC-0090",
+   "force": "svc",
+   "place": "brennford",
+   "title": "Missing child found safe, Brennford",
+   "type": "Missing person (resolved)",
+   "declaredAt": null,
+   "status": "pending",
+   "summary": "A 9-year-old reported missing at 12:10 was found safe and well at a relative's home at 13:05.",
+   "case": null,
+   "gold": null,
+   "sio": null
+  },
+  {
+   "id": "INC-KMP-2211",
+   "force": "kmp",
+   "place": "kingsbridge-centre",
+   "title": "March and counter-protest, Kingsbridge",
+   "type": "Planned public order operation",
+   "declaredAt": null,
+   "status": "planned",
+   "summary": "A march of about 6,000 and a counter-protest of about 800 are planned for Saturday afternoon.",
+   "case": null,
+   "gold": null,
+   "sio": null
+  },
+  {
+   "id": "INC-DGP-0031",
+   "force": "dgp",
+   "place": "aberteg",
+   "title": "River Teg flood warning, Aberteg",
+   "type": "Civil emergency (multi-agency)",
+   "declaredAt": null,
+   "status": "pending",
+   "summary": "Severe flood warning for the lower Teg valley. Rest centre open at Ysgol Aberteg (fictional).",
+   "case": null,
+   "gold": null,
+   "sio": null
+  }
+ ],
+ "cases": [
+  {
+   "id": "CASE-SVC-3120",
+   "force": "svc",
+   "label": "Halden Street trial (Brennford Crown Court)",
+   "status": "charged",
+   "defendantAge": 16,
+   "defendantName": "Kieran Doyle (fictional)",
+   "sexualOffence": false,
+   "childInvolved": true,
+   "note": "Defendant is 16: reporting restrictions apply (YJCEA 1999 s.45)."
+  },
+  {
+   "id": "CASE-KMP-0457",
+   "force": "kmp",
+   "label": "Rivermead sexual assault investigation",
+   "status": "charged",
+   "defendantAge": 41,
+   "defendantName": "Mark Ellison (fictional)",
+   "sexualOffence": true,
+   "childInvolved": false,
+   "complainantDetails": [
+    "Rivermead Close",
+    "aged 23",
+    "café on Lower Quay"
+   ],
+   "note": "Complainant has lifelong anonymity (Sexual Offences (Amendment) Act 1992)."
+  }
+ ],
+ "narratives": [
+  {
+   "id": "NAR-01",
+   "title": "False suspect identity: 'man from the Harbourside hotel'",
+   "verdict": "false",
+   "incident": "INC-NMP-0412",
+   "places": [
+    "port-ellery",
+    "harrowgate-vale",
+    "castlewick"
+   ],
+   "risk": "critical",
+   "claim": "The attacker is an asylum seeker living at the Harbourside hotel.",
+   "truth": "The arrested man is a 34-year-old British man from Port Ellery (verified by the SIO).",
+   "tags": [
+    "suspect identity",
+    "asylum",
+    "disorder risk"
+   ],
+   "actor": null
+  },
+  {
+   "id": "NAR-02",
+   "title": "Cover-up: 'police are hiding who did it'",
+   "verdict": "misleading",
+   "incident": "INC-NMP-0412",
+   "places": [
+    "port-ellery"
+   ],
+   "risk": "high",
+   "claim": "Police silence proves they are covering up the attacker's identity.",
+   "truth": "Proceedings are active; police publish verified facts as they are confirmed.",
+   "tags": [
+    "cover-up",
+    "trust"
+   ],
+   "actor": null
+  },
+  {
+   "id": "NAR-03",
+   "title": "Recycled footage: 2019 disorder video posted as 'Port Ellery tonight'",
+   "verdict": "false",
+   "incident": "INC-NMP-0412",
+   "places": [
+    "port-ellery"
+   ],
+   "risk": "high",
+   "claim": "Video shows rioting in Port Ellery this afternoon.",
+   "truth": "The clip is from an unrelated 2019 event in another country (fictional reverse-search match).",
+   "tags": [
+    "recycled media",
+    "disorder"
+   ],
+   "actor": null,
+   "media": "recycled"
+  },
+  {
+   "id": "NAR-04",
+   "title": "Fake 'police curfew notice' on a spoof force website",
+   "verdict": "false",
+   "incident": "INC-NMP-0412",
+   "places": [
+    "port-ellery",
+    "castlewick"
+   ],
+   "risk": "high",
+   "claim": "Northmoor Police has imposed a 6pm curfew on all residents.",
+   "truth": "No curfew exists. The notice is on a spoof domain with indicators matching a state-linked network.",
+   "tags": [
+    "spoof",
+    "state-linked indicators"
+   ],
+   "actor": "act-lantern"
+  },
+  {
+   "id": "NAR-05",
+   "title": "Call to gather at the Harbourside hotel on Saturday night",
+   "verdict": "mobilisation",
+   "incident": "INC-NMP-0412",
+   "places": [
+    "port-ellery"
+   ],
+   "risk": "critical",
+   "claim": "Posts urge people to 'take back the harbour' at the hotel at 19:00, some with threats.",
+   "truth": "A small share of posts contain threats and may be illegal content for referral.",
+   "tags": [
+    "mobilisation",
+    "threats"
+   ],
+   "actor": "act-harbourwatch"
+  },
+  {
+   "id": "NAR-06",
+   "title": "AI-generated image of an officer kneeling on a child",
+   "verdict": "false",
+   "incident": null,
+   "places": [
+    "kingsbridge-centre"
+   ],
+   "risk": "medium",
+   "claim": "Photo shows a Kingsbridge officer kneeling on a child at the march.",
+   "truth": "The image carries generation artefacts and matches no event (fictional forensic check).",
+   "tags": [
+    "synthetic media",
+    "protest"
+   ],
+   "actor": null,
+   "media": "ai-generated"
+  },
+  {
+   "id": "NAR-07",
+   "title": "'Two-tier policing' at the Kingsbridge march",
+   "verdict": "opinion",
+   "incident": "INC-KMP-2211",
+   "places": [
+    "kingsbridge-centre"
+   ],
+   "risk": "medium",
+   "claim": "Police treat one side of the march more leniently than the other.",
+   "truth": "Contested opinion. Lawful speech: monitor the narrative only; respond with facts about the policing plan.",
+   "tags": [
+    "impartiality",
+    "protest",
+    "lawful opinion"
+   ],
+   "actor": null
+  },
+  {
+   "id": "NAR-08",
+   "title": "'Second child taken' rumour in Brennford",
+   "verdict": "false",
+   "incident": "INC-SVC-0090",
+   "places": [
+    "brennford"
+   ],
+   "risk": "medium",
+   "claim": "A second child has been abducted from the same park.",
+   "truth": "No second child is missing. The first child was found safe at 13:05.",
+   "tags": [
+    "child safety",
+    "rumour"
+   ],
+   "actor": null
+  },
+  {
+   "id": "NAR-09",
+   "title": "Flood hoax: 'dam about to fail, evacuate now' (Welsh and English)",
+   "verdict": "false",
+   "incident": "INC-DGP-0031",
+   "places": [
+    "aberteg",
+    "llanfair-is-coed"
+   ],
+   "risk": "high",
+   "claim": "Llyn Teg dam is failing and everyone must leave immediately.",
+   "truth": "The dam is sound (fictional reservoir operator). Follow the official flood warning only.",
+   "tags": [
+    "civil emergency",
+    "Welsh language"
+   ],
+   "actor": null
+  },
+  {
+   "id": "NAR-10",
+   "title": "Jury speculation in the Halden Street trial",
+   "verdict": "contempt risk",
+   "incident": null,
+   "places": [
+    "brennford"
+   ],
+   "risk": "medium",
+   "claim": "Posts name the 16-year-old defendant and claim he has previous convictions.",
+   "truth": "Reporting restrictions apply. Refer contempt breaches; police comms must not repeat details.",
+   "tags": [
+    "contempt",
+    "youth",
+    "trial"
+   ],
+   "actor": null
+  }
+ ],
+ "posts": [
+  {
+   "id": "P0143",
+   "narrative": "NAR-10",
+   "t": -296,
+   "platform": "facespace",
+   "account": "acct_0553bb",
+   "place": "brennford",
+   "text": "The Halden Street lad has form, everyone in Brennford knows it.",
+   "lang": "en",
+   "reach": 558,
+   "shares": 43,
+   "flags": [
+    "possible contempt breach"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0144",
+   "narrative": "NAR-10",
+   "t": -251,
+   "platform": "forumly",
+   "account": "acct_fdc949",
+   "place": "brennford",
+   "text": "Why is nobody naming him? He's 16 not 6.",
+   "lang": "en",
+   "reach": 1096,
+   "shares": 431,
+   "flags": [
+    "possible contempt breach"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0145",
+   "narrative": "NAR-10",
+   "t": -164,
+   "platform": "facespace",
+   "account": "acct_d73b7b",
+   "place": "brennford",
+   "text": "The Halden Street lad has form, everyone in Brennford knows it.",
+   "lang": "en",
+   "reach": 319,
+   "shares": 350,
+   "flags": [
+    "possible contempt breach"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0146",
+   "narrative": "NAR-10",
+   "t": -65,
+   "platform": "facespace",
+   "account": "acct_0553bb",
+   "place": "brennford",
+   "text": "Why is nobody naming him? He's 16 not 6.",
+   "lang": "en",
+   "reach": 2013,
+   "shares": 164,
+   "flags": [
+    "possible contempt breach"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0121",
+   "narrative": "NAR-08",
+   "t": -40,
+   "platform": "forumly",
+   "account": "acct_5c9326",
+   "place": "brennford",
+   "text": "Another child taken from the same park in Brennford?? Keep your kids in.",
+   "lang": "en",
+   "reach": 4522,
+   "shares": 273,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0122",
+   "narrative": "NAR-08",
+   "t": -37,
+   "platform": "vidstream",
+   "account": "acct_3a2eea",
+   "place": "brennford",
+   "text": "Second kid missing in Brennford, police saying nothing",
+   "lang": "en",
+   "reach": 6530,
+   "shares": 169,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0123",
+   "narrative": "NAR-08",
+   "t": -35,
+   "platform": "vidstream",
+   "account": "acct_07aa6b",
+   "place": "brennford",
+   "text": "Another child taken from the same park in Brennford?? Keep your kids in.",
+   "lang": "en",
+   "reach": 3897,
+   "shares": 240,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0124",
+   "narrative": "NAR-08",
+   "t": -22,
+   "platform": "vidstream",
+   "account": "acct_541013",
+   "place": "brennford",
+   "text": "Second kid missing in Brennford, police saying nothing",
+   "lang": "en",
+   "reach": 8112,
+   "shares": 345,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0125",
+   "narrative": "NAR-08",
+   "t": -18,
+   "platform": "chirp",
+   "account": "acct_eb9528",
+   "place": "brennford",
+   "text": "Another child taken from the same park in Brennford?? Keep your kids in.",
+   "lang": "en",
+   "reach": 7911,
+   "shares": 223,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0126",
+   "narrative": "NAR-08",
+   "t": -15,
+   "platform": "vidstream",
+   "account": "acct_5c9326",
+   "place": "brennford",
+   "text": "Second kid missing in Brennford, police saying nothing",
+   "lang": "en",
+   "reach": 10004,
+   "shares": 484,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0127",
+   "narrative": "NAR-08",
+   "t": -6,
+   "platform": "vidstream",
+   "account": "acct_3a2eea",
+   "place": "brennford",
+   "text": "Another child taken from the same park in Brennford?? Keep your kids in.",
+   "lang": "en",
+   "reach": 3973,
+   "shares": 313,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0128",
+   "narrative": "NAR-08",
+   "t": 4,
+   "platform": "chirp",
+   "account": "acct_07aa6b",
+   "place": "brennford",
+   "text": "Second kid missing in Brennford, police saying nothing",
+   "lang": "en",
+   "reach": 3002,
+   "shares": 610,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0002",
+   "narrative": "NAR-01",
+   "t": 13,
+   "platform": "chirp",
+   "account": "acct_956b82",
+   "place": "port-ellery",
+   "text": "My cousin works near the market. Says the guy came out of the hotel this morning.",
+   "lang": "en",
+   "reach": 15740,
+   "shares": 68,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0003",
+   "narrative": "NAR-01",
+   "t": 15,
+   "platform": "facespace",
+   "account": "acct_299074",
+   "place": "port-ellery",
+   "text": "So it's the hotel lot again. How many more times?",
+   "lang": "en",
+   "reach": 10559,
+   "shares": 163,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0005",
+   "narrative": "NAR-01",
+   "t": 15,
+   "platform": "forumly",
+   "account": "acct_1d82bc",
+   "place": "port-ellery",
+   "text": "Everyone knows where he's from. They just won't say it.",
+   "lang": "en",
+   "reach": 3273,
+   "shares": 286,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0129",
+   "narrative": "NAR-08",
+   "t": 15,
+   "platform": "vidstream",
+   "account": "acct_541013",
+   "place": "brennford",
+   "text": "Another child taken from the same park in Brennford?? Keep your kids in.",
+   "lang": "en",
+   "reach": 8753,
+   "shares": 554,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0001",
+   "narrative": "NAR-01",
+   "t": 16,
+   "platform": "facespace",
+   "account": "acct_83184d",
+   "place": "harrowgate-vale",
+   "text": "Hearing it was a bloke from the Harbourside hotel. Police won't say. Why not?",
+   "lang": "en",
+   "reach": 6818,
+   "shares": 245,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0004",
+   "narrative": "NAR-01",
+   "t": 17,
+   "platform": "chirp",
+   "account": "acct_9fc319",
+   "place": "port-ellery",
+   "text": "Name going round is foreign. Police confirming nothing. Make of that what you will.",
+   "lang": "en",
+   "reach": 7936,
+   "shares": 36,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0103",
+   "narrative": "NAR-07",
+   "t": 17,
+   "platform": "forumly",
+   "account": "acct_c09dac",
+   "place": "kingsbridge-centre",
+   "text": "Watch how gently they treat the other lot. Two-tier policing.",
+   "lang": "en",
+   "reach": 3412,
+   "shares": 359,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0104",
+   "narrative": "NAR-07",
+   "t": 21,
+   "platform": "forumly",
+   "account": "acct_6a70bb",
+   "place": "kingsbridge-centre",
+   "text": "Different rules for different marches. Every time.",
+   "lang": "en",
+   "reach": 5245,
+   "shares": 242,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0006",
+   "narrative": "NAR-01",
+   "t": 22,
+   "platform": "chirp",
+   "account": "acct_112524",
+   "place": "harrowgate-vale",
+   "text": "Shared from Brightline: 'Harbourside suspect is recent arrival, sources say'",
+   "lang": "en",
+   "reach": 9911,
+   "shares": 368,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0105",
+   "narrative": "NAR-07",
+   "t": 23,
+   "platform": "facespace",
+   "account": "acct_07cfa7",
+   "place": "kingsbridge-centre",
+   "text": "Kingsbridge police escorting one side, kettling the other. Two-tier.",
+   "lang": "en",
+   "reach": 1734,
+   "shares": 58,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0008",
+   "narrative": "NAR-01",
+   "t": 24,
+   "platform": "forumly",
+   "account": "acct_c5b0b8",
+   "place": "castlewick",
+   "text": "My cousin works near the market. Says the guy came out of the hotel this morning.",
+   "lang": "en",
+   "reach": 13302,
+   "shares": 276,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0007",
+   "narrative": "NAR-01",
+   "t": 25,
+   "platform": "chirp",
+   "account": "acct_7bc501",
+   "place": "port-ellery",
+   "text": "Hearing it was a bloke from the Harbourside hotel. Police won't say. Why not?",
+   "lang": "en",
+   "reach": 5005,
+   "shares": 269,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0131",
+   "narrative": "NAR-09",
+   "t": 27,
+   "platform": "facespace",
+   "account": "acct_ef7f61",
+   "place": "llanfair-is-coed",
+   "text": "DAM IS FAILING. Leave Aberteg NOW.",
+   "lang": "en",
+   "reach": 3524,
+   "shares": 396,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0130",
+   "narrative": "NAR-08",
+   "t": 28,
+   "platform": "vidstream",
+   "account": "acct_eb9528",
+   "place": "brennford",
+   "text": "Second kid missing in Brennford, police saying nothing",
+   "lang": "en",
+   "reach": 4955,
+   "shares": 499,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0009",
+   "narrative": "NAR-01",
+   "t": 30,
+   "platform": "vidstream",
+   "account": "acct_494ca9",
+   "place": "harrowgate-vale",
+   "text": "So it's the hotel lot again. How many more times?",
+   "lang": "en",
+   "reach": 17144,
+   "shares": 299,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0011",
+   "narrative": "NAR-01",
+   "t": 34,
+   "platform": "vidstream",
+   "account": "acct_60d799",
+   "place": "castlewick",
+   "text": "Everyone knows where he's from. They just won't say it.",
+   "lang": "en",
+   "reach": 11014,
+   "shares": 189,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0010",
+   "narrative": "NAR-01",
+   "t": 35,
+   "platform": "vidstream",
+   "account": "acct_130895",
+   "place": "harrowgate-vale",
+   "text": "Name going round is foreign. Police confirming nothing. Make of that what you will.",
+   "lang": "en",
+   "reach": 10659,
+   "shares": 105,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0106",
+   "narrative": "NAR-07",
+   "t": 37,
+   "platform": "forumly",
+   "account": "acct_2bb1b2",
+   "place": "kingsbridge-centre",
+   "text": "Watch how gently they treat the other lot. Two-tier policing.",
+   "lang": "en",
+   "reach": 2045,
+   "shares": 252,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0132",
+   "narrative": "NAR-09",
+   "t": 37,
+   "platform": "chirp",
+   "account": "acct_24af5f",
+   "place": "llanfair-is-coed",
+   "text": "ARGAE YN TORRI. Gadewch Aberteg NAWR.",
+   "lang": "cy",
+   "reach": 9154,
+   "shares": 383,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0013",
+   "narrative": "NAR-01",
+   "t": 39,
+   "platform": "vidstream",
+   "account": "acct_57e1d0",
+   "place": "port-ellery",
+   "text": "Hearing it was a bloke from the Harbourside hotel. Police won't say. Why not?",
+   "lang": "en",
+   "reach": 10329,
+   "shares": 485,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0133",
+   "narrative": "NAR-09",
+   "t": 41,
+   "platform": "facespace",
+   "account": "acct_2bdd36",
+   "place": "aberteg",
+   "text": "Neighbour says the dam is going. Get to high ground.",
+   "lang": "en",
+   "reach": 1858,
+   "shares": 34,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0012",
+   "narrative": "NAR-01",
+   "t": 42,
+   "platform": "chirp",
+   "account": "acct_ef05cd",
+   "place": "castlewick",
+   "text": "Shared from Brightline: 'Harbourside suspect is recent arrival, sources say'",
+   "lang": "en",
+   "reach": 10775,
+   "shares": 356,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0037",
+   "narrative": "NAR-02",
+   "t": 42,
+   "platform": "vidstream",
+   "account": "acct_22fdeb",
+   "place": "port-ellery",
+   "text": "Three hours and not a word on who did it. Cover-up as usual.",
+   "lang": "en",
+   "reach": 3155,
+   "shares": 371,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0107",
+   "narrative": "NAR-07",
+   "t": 42,
+   "platform": "chirp",
+   "account": "acct_e47c03",
+   "place": "kingsbridge-centre",
+   "text": "Different rules for different marches. Every time.",
+   "lang": "en",
+   "reach": 738,
+   "shares": 220,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0014",
+   "narrative": "NAR-01",
+   "t": 43,
+   "platform": "facespace",
+   "account": "acct_b4751a",
+   "place": "harrowgate-vale",
+   "text": "My cousin works near the market. Says the guy came out of the hotel this morning.",
+   "lang": "en",
+   "reach": 18885,
+   "shares": 136,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0038",
+   "narrative": "NAR-02",
+   "t": 43,
+   "platform": "vidstream",
+   "account": "acct_d44eee",
+   "place": "port-ellery",
+   "text": "If it was one of us they'd have his face everywhere by now.",
+   "lang": "en",
+   "reach": 1623,
+   "shares": 75,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0108",
+   "narrative": "NAR-07",
+   "t": 46,
+   "platform": "vidstream",
+   "account": "acct_2e74bf",
+   "place": "kingsbridge-centre",
+   "text": "Kingsbridge police escorting one side, kettling the other. Two-tier.",
+   "lang": "en",
+   "reach": 3609,
+   "shares": 237,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0134",
+   "narrative": "NAR-09",
+   "t": 48,
+   "platform": "chirp",
+   "account": "acct_38b614",
+   "place": "llanfair-is-coed",
+   "text": "DAM IS FAILING. Leave Aberteg NOW.",
+   "lang": "en",
+   "reach": 5725,
+   "shares": 255,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0039",
+   "narrative": "NAR-02",
+   "t": 49,
+   "platform": "vidstream",
+   "account": "acct_57a005",
+   "place": "port-ellery",
+   "text": "Police statement says nothing. What are they hiding?",
+   "lang": "en",
+   "reach": 7859,
+   "shares": 371,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0016",
+   "narrative": "NAR-01",
+   "t": 50,
+   "platform": "vidstream",
+   "account": "acct_8b0f2f",
+   "place": "castlewick",
+   "text": "Name going round is foreign. Police confirming nothing. Make of that what you will.",
+   "lang": "en",
+   "reach": 19343,
+   "shares": 76,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0057",
+   "narrative": "NAR-03",
+   "t": 51,
+   "platform": "chirp",
+   "account": "acct_a54bae",
+   "place": "port-ellery",
+   "text": "Port Ellery right now. It's kicking off.",
+   "lang": "en",
+   "reach": 8588,
+   "shares": 182,
+   "flags": [
+    "recycled media"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0015",
+   "narrative": "NAR-01",
+   "t": 52,
+   "platform": "forumly",
+   "account": "acct_8d4299",
+   "place": "harrowgate-vale",
+   "text": "So it's the hotel lot again. How many more times?",
+   "lang": "en",
+   "reach": 17171,
+   "shares": 161,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0040",
+   "narrative": "NAR-02",
+   "t": 52,
+   "platform": "forumly",
+   "account": "acct_24675d",
+   "place": "port-ellery",
+   "text": "Silence from Northmoor Police. Draw your own conclusions.",
+   "lang": "en",
+   "reach": 6537,
+   "shares": 226,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0135",
+   "narrative": "NAR-09",
+   "t": 52,
+   "platform": "facespace",
+   "account": "acct_dc4d5d",
+   "place": "llanfair-is-coed",
+   "text": "ARGAE YN TORRI. Gadewch Aberteg NAWR.",
+   "lang": "cy",
+   "reach": 2330,
+   "shares": 154,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0147",
+   "narrative": "NAR-10",
+   "t": 53,
+   "platform": "forumly",
+   "account": "acct_fdc949",
+   "place": "brennford",
+   "text": "The Halden Street lad has form, everyone in Brennford knows it.",
+   "lang": "en",
+   "reach": 363,
+   "shares": 465,
+   "flags": [
+    "possible contempt breach"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0058",
+   "narrative": "NAR-03",
+   "t": 55,
+   "platform": "vidstream",
+   "account": "acct_e96444",
+   "place": "port-ellery",
+   "text": "This is the harbour tonight, look at it",
+   "lang": "en",
+   "reach": 20332,
+   "shares": 285,
+   "flags": [
+    "recycled media"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0041",
+   "narrative": "NAR-02",
+   "t": 56,
+   "platform": "forumly",
+   "account": "acct_84e38c",
+   "place": "port-ellery",
+   "text": "Three hours and not a word on who did it. Cover-up as usual.",
+   "lang": "en",
+   "reach": 8767,
+   "shares": 54,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0109",
+   "narrative": "NAR-07",
+   "t": 60,
+   "platform": "vidstream",
+   "account": "acct_cf1d4e",
+   "place": "kingsbridge-centre",
+   "text": "Watch how gently they treat the other lot. Two-tier policing.",
+   "lang": "en",
+   "reach": 6193,
+   "shares": 480,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0017",
+   "narrative": "NAR-01",
+   "t": 62,
+   "platform": "facespace",
+   "account": "acct_95a7ad",
+   "place": "castlewick",
+   "text": "Everyone knows where he's from. They just won't say it.",
+   "lang": "en",
+   "reach": 17408,
+   "shares": 358,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0042",
+   "narrative": "NAR-02",
+   "t": 62,
+   "platform": "forumly",
+   "account": "acct_2c1242",
+   "place": "port-ellery",
+   "text": "If it was one of us they'd have his face everywhere by now.",
+   "lang": "en",
+   "reach": 4443,
+   "shares": 8,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0095",
+   "narrative": "NAR-06",
+   "t": 62,
+   "platform": "vidstream",
+   "account": "acct_45c808",
+   "place": "kingsbridge-centre",
+   "text": "Look at this. Kingsbridge police kneeling on a CHILD.",
+   "lang": "en",
+   "reach": 7609,
+   "shares": 296,
+   "flags": [
+    "likely AI-generated"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0110",
+   "narrative": "NAR-07",
+   "t": 62,
+   "platform": "facespace",
+   "account": "acct_824eb9",
+   "place": "kingsbridge-centre",
+   "text": "Different rules for different marches. Every time.",
+   "lang": "en",
+   "reach": 3129,
+   "shares": 161,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0136",
+   "narrative": "NAR-09",
+   "t": 62,
+   "platform": "facespace",
+   "account": "acct_c03f10",
+   "place": "aberteg",
+   "text": "Neighbour says the dam is going. Get to high ground.",
+   "lang": "en",
+   "reach": 9788,
+   "shares": 444,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0043",
+   "narrative": "NAR-02",
+   "t": 65,
+   "platform": "vidstream",
+   "account": "acct_6d07b0",
+   "place": "port-ellery",
+   "text": "Police statement says nothing. What are they hiding?",
+   "lang": "en",
+   "reach": 6457,
+   "shares": 97,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0059",
+   "narrative": "NAR-03",
+   "t": 65,
+   "platform": "chirp",
+   "account": "acct_a9d231",
+   "place": "port-ellery",
+   "text": "Riots already starting in Port Ellery. Stay away from town.",
+   "lang": "en",
+   "reach": 26737,
+   "shares": 226,
+   "flags": [
+    "recycled media"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0018",
+   "narrative": "NAR-01",
+   "t": 66,
+   "platform": "vidstream",
+   "account": "acct_5d19cd",
+   "place": "port-ellery",
+   "text": "Shared from Brightline: 'Harbourside suspect is recent arrival, sources say'",
+   "lang": "en",
+   "reach": 18714,
+   "shares": 60,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0060",
+   "narrative": "NAR-03",
+   "t": 66,
+   "platform": "vidstream",
+   "account": "acct_360919",
+   "place": "port-ellery",
+   "text": "Port Ellery right now. It's kicking off.",
+   "lang": "en",
+   "reach": 11659,
+   "shares": 225,
+   "flags": [
+    "recycled media"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0137",
+   "narrative": "NAR-09",
+   "t": 66,
+   "platform": "facespace",
+   "account": "acct_ef7f61",
+   "place": "aberteg",
+   "text": "DAM IS FAILING. Leave Aberteg NOW.",
+   "lang": "en",
+   "reach": 11691,
+   "shares": 322,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0019",
+   "narrative": "NAR-01",
+   "t": 67,
+   "platform": "chirp",
+   "account": "acct_83184d",
+   "place": "harrowgate-vale",
+   "text": "Hearing it was a bloke from the Harbourside hotel. Police won't say. Why not?",
+   "lang": "en",
+   "reach": 8621,
+   "shares": 416,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0096",
+   "narrative": "NAR-06",
+   "t": 67,
+   "platform": "vidstream",
+   "account": "acct_7e3f6a",
+   "place": "kingsbridge-centre",
+   "text": "This photo should end careers. Kingsbridge march today.",
+   "lang": "en",
+   "reach": 3406,
+   "shares": 18,
+   "flags": [
+    "likely AI-generated"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0020",
+   "narrative": "NAR-01",
+   "t": 70,
+   "platform": "chirp",
+   "account": "acct_956b82",
+   "place": "port-ellery",
+   "text": "My cousin works near the market. Says the guy came out of the hotel this morning.",
+   "lang": "en",
+   "reach": 22999,
+   "shares": 139,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0111",
+   "narrative": "NAR-07",
+   "t": 71,
+   "platform": "forumly",
+   "account": "acct_46cbf4",
+   "place": "kingsbridge-centre",
+   "text": "Kingsbridge police escorting one side, kettling the other. Two-tier.",
+   "lang": "en",
+   "reach": 1281,
+   "shares": 235,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0044",
+   "narrative": "NAR-02",
+   "t": 73,
+   "platform": "vidstream",
+   "account": "acct_843ae5",
+   "place": "port-ellery",
+   "text": "Silence from Northmoor Police. Draw your own conclusions.",
+   "lang": "en",
+   "reach": 8901,
+   "shares": 295,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0097",
+   "narrative": "NAR-06",
+   "t": 73,
+   "platform": "chirp",
+   "account": "acct_5bc373",
+   "place": "kingsbridge-centre",
+   "text": "Look at this. Kingsbridge police kneeling on a CHILD.",
+   "lang": "en",
+   "reach": 22144,
+   "shares": 427,
+   "flags": [
+    "likely AI-generated"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0021",
+   "narrative": "NAR-01",
+   "t": 78,
+   "platform": "chirp",
+   "account": "acct_299074",
+   "place": "harrowgate-vale",
+   "text": "So it's the hotel lot again. How many more times?",
+   "lang": "en",
+   "reach": 17918,
+   "shares": 356,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0061",
+   "narrative": "NAR-03",
+   "t": 78,
+   "platform": "chirp",
+   "account": "acct_281e98",
+   "place": "port-ellery",
+   "text": "This is the harbour tonight, look at it",
+   "lang": "en",
+   "reach": 14841,
+   "shares": 464,
+   "flags": [
+    "recycled media"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0022",
+   "narrative": "NAR-01",
+   "t": 79,
+   "platform": "forumly",
+   "account": "acct_9fc319",
+   "place": "port-ellery",
+   "text": "Name going round is foreign. Police confirming nothing. Make of that what you will.",
+   "lang": "en",
+   "reach": 16732,
+   "shares": 298,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0138",
+   "narrative": "NAR-09",
+   "t": 79,
+   "platform": "chirp",
+   "account": "acct_24af5f",
+   "place": "llanfair-is-coed",
+   "text": "ARGAE YN TORRI. Gadewch Aberteg NAWR.",
+   "lang": "cy",
+   "reach": 7597,
+   "shares": 536,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0023",
+   "narrative": "NAR-01",
+   "t": 80,
+   "platform": "forumly",
+   "account": "acct_1d82bc",
+   "place": "castlewick",
+   "text": "Everyone knows where he's from. They just won't say it.",
+   "lang": "en",
+   "reach": 14440,
+   "shares": 43,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0045",
+   "narrative": "NAR-02",
+   "t": 81,
+   "platform": "forumly",
+   "account": "acct_939de3",
+   "place": "port-ellery",
+   "text": "Three hours and not a word on who did it. Cover-up as usual.",
+   "lang": "en",
+   "reach": 3239,
+   "shares": 465,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0112",
+   "narrative": "NAR-07",
+   "t": 82,
+   "platform": "vidstream",
+   "account": "acct_c09dac",
+   "place": "kingsbridge-centre",
+   "text": "Watch how gently they treat the other lot. Two-tier policing.",
+   "lang": "en",
+   "reach": 6593,
+   "shares": 443,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0069",
+   "narrative": "NAR-04",
+   "t": 84,
+   "platform": "chirp",
+   "account": "acct_7471eb",
+   "place": "castlewick",
+   "text": "Curfew from 6pm tonight in Port Ellery, police notice here: northmoor-police-news.info",
+   "lang": "en",
+   "reach": 4435,
+   "shares": 175,
+   "flags": [
+    "spoof domain"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0139",
+   "narrative": "NAR-09",
+   "t": 84,
+   "platform": "chirp",
+   "account": "acct_2bdd36",
+   "place": "aberteg",
+   "text": "Neighbour says the dam is going. Get to high ground.",
+   "lang": "en",
+   "reach": 11081,
+   "shares": 219,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0046",
+   "narrative": "NAR-02",
+   "t": 86,
+   "platform": "forumly",
+   "account": "acct_27aef4",
+   "place": "port-ellery",
+   "text": "If it was one of us they'd have his face everywhere by now.",
+   "lang": "en",
+   "reach": 9842,
+   "shares": 115,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0062",
+   "narrative": "NAR-03",
+   "t": 86,
+   "platform": "vidstream",
+   "account": "acct_342be8",
+   "place": "port-ellery",
+   "text": "Riots already starting in Port Ellery. Stay away from town.",
+   "lang": "en",
+   "reach": 8996,
+   "shares": 201,
+   "flags": [
+    "recycled media"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0024",
+   "narrative": "NAR-01",
+   "t": 87,
+   "platform": "chirp",
+   "account": "acct_112524",
+   "place": "castlewick",
+   "text": "Shared from Brightline: 'Harbourside suspect is recent arrival, sources say'",
+   "lang": "en",
+   "reach": 14668,
+   "shares": 34,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0070",
+   "narrative": "NAR-04",
+   "t": 88,
+   "platform": "facespace",
+   "account": "acct_6dac74",
+   "place": "port-ellery",
+   "text": "Just got sent this, 6pm curfew for everyone? Is this real?",
+   "lang": "en",
+   "reach": 9361,
+   "shares": 195,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0098",
+   "narrative": "NAR-06",
+   "t": 90,
+   "platform": "vidstream",
+   "account": "acct_7054f8",
+   "place": "kingsbridge-centre",
+   "text": "This photo should end careers. Kingsbridge march today.",
+   "lang": "en",
+   "reach": 12259,
+   "shares": 142,
+   "flags": [
+    "likely AI-generated"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0071",
+   "narrative": "NAR-04",
+   "t": 91,
+   "platform": "chirp",
+   "account": "acct_656d9d",
+   "place": "castlewick",
+   "text": "Official: Northmoor Police curfew. Stay indoors after 6.",
+   "lang": "en",
+   "reach": 10388,
+   "shares": 234,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0079",
+   "narrative": "NAR-05",
+   "t": 91,
+   "platform": "facespace",
+   "account": "acct_8bb5a5",
+   "place": "port-ellery",
+   "text": "Harbourside hotel 7pm Saturday. Take back the harbour.",
+   "lang": "en",
+   "reach": 6576,
+   "shares": 82,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0025",
+   "narrative": "NAR-01",
+   "t": 92,
+   "platform": "vidstream",
+   "account": "acct_7bc501",
+   "place": "port-ellery",
+   "text": "Hearing it was a bloke from the Harbourside hotel. Police won't say. Why not?",
+   "lang": "en",
+   "reach": 7832,
+   "shares": 414,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0047",
+   "narrative": "NAR-02",
+   "t": 92,
+   "platform": "vidstream",
+   "account": "acct_22fdeb",
+   "place": "port-ellery",
+   "text": "Police statement says nothing. What are they hiding?",
+   "lang": "en",
+   "reach": 1444,
+   "shares": 133,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0063",
+   "narrative": "NAR-03",
+   "t": 93,
+   "platform": "chirp",
+   "account": "acct_a54bae",
+   "place": "port-ellery",
+   "text": "Port Ellery right now. It's kicking off.",
+   "lang": "en",
+   "reach": 11805,
+   "shares": 7,
+   "flags": [
+    "recycled media"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0048",
+   "narrative": "NAR-02",
+   "t": 97,
+   "platform": "chirp",
+   "account": "acct_d44eee",
+   "place": "port-ellery",
+   "text": "Silence from Northmoor Police. Draw your own conclusions.",
+   "lang": "en",
+   "reach": 10781,
+   "shares": 304,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0113",
+   "narrative": "NAR-07",
+   "t": 97,
+   "platform": "chirp",
+   "account": "acct_6a70bb",
+   "place": "kingsbridge-centre",
+   "text": "Different rules for different marches. Every time.",
+   "lang": "en",
+   "reach": 2525,
+   "shares": 497,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0064",
+   "narrative": "NAR-03",
+   "t": 98,
+   "platform": "chirp",
+   "account": "acct_e96444",
+   "place": "port-ellery",
+   "text": "This is the harbour tonight, look at it",
+   "lang": "en",
+   "reach": 5323,
+   "shares": 590,
+   "flags": [
+    "recycled media"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0080",
+   "narrative": "NAR-05",
+   "t": 99,
+   "platform": "facespace",
+   "account": "acct_362320",
+   "place": "port-ellery",
+   "text": "Everyone down the hotel tonight, bring your mates.",
+   "lang": "en",
+   "reach": 1794,
+   "shares": 327,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0081",
+   "narrative": "NAR-05",
+   "t": 99,
+   "platform": "facespace",
+   "account": "acct_de28e1",
+   "place": "port-ellery",
+   "text": "Time for talking is over. Hotel. 7pm.",
+   "lang": "en",
+   "reach": 6164,
+   "shares": 175,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0140",
+   "narrative": "NAR-09",
+   "t": 101,
+   "platform": "chirp",
+   "account": "acct_38b614",
+   "place": "aberteg",
+   "text": "DAM IS FAILING. Leave Aberteg NOW.",
+   "lang": "en",
+   "reach": 7782,
+   "shares": 676,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0026",
+   "narrative": "NAR-01",
+   "t": 102,
+   "platform": "facespace",
+   "account": "acct_c5b0b8",
+   "place": "harrowgate-vale",
+   "text": "My cousin works near the market. Says the guy came out of the hotel this morning.",
+   "lang": "en",
+   "reach": 24008,
+   "shares": 183,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0082",
+   "narrative": "NAR-05",
+   "t": 102,
+   "platform": "chirp",
+   "account": "acct_ff2550",
+   "place": "port-ellery",
+   "text": "[THREAT] They'll get what's coming at 7. (synthetic threat text for referral testing)",
+   "lang": "en",
+   "reach": 4328,
+   "shares": 341,
+   "flags": [
+    "possible illegal content"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0099",
+   "narrative": "NAR-06",
+   "t": 102,
+   "platform": "vidstream",
+   "account": "acct_45c808",
+   "place": "kingsbridge-centre",
+   "text": "Look at this. Kingsbridge police kneeling on a CHILD.",
+   "lang": "en",
+   "reach": 28217,
+   "shares": 347,
+   "flags": [
+    "likely AI-generated"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0072",
+   "narrative": "NAR-04",
+   "t": 104,
+   "platform": "facespace",
+   "account": "acct_346cd7",
+   "place": "port-ellery",
+   "text": "Curfew from 6pm tonight in Port Ellery, police notice here: northmoor-police-news.info",
+   "lang": "en",
+   "reach": 4471,
+   "shares": 14,
+   "flags": [
+    "spoof domain"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0083",
+   "narrative": "NAR-05",
+   "t": 104,
+   "platform": "facespace",
+   "account": "acct_0bf322",
+   "place": "port-ellery",
+   "text": "Harbourside hotel 7pm Saturday. Take back the harbour.",
+   "lang": "en",
+   "reach": 1667,
+   "shares": 217,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0065",
+   "narrative": "NAR-03",
+   "t": 105,
+   "platform": "chirp",
+   "account": "acct_a9d231",
+   "place": "port-ellery",
+   "text": "Riots already starting in Port Ellery. Stay away from town.",
+   "lang": "en",
+   "reach": 25155,
+   "shares": 62,
+   "flags": [
+    "recycled media"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0114",
+   "narrative": "NAR-07",
+   "t": 106,
+   "platform": "forumly",
+   "account": "acct_07cfa7",
+   "place": "kingsbridge-centre",
+   "text": "Kingsbridge police escorting one side, kettling the other. Two-tier.",
+   "lang": "en",
+   "reach": 2215,
+   "shares": 368,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0027",
+   "narrative": "NAR-01",
+   "t": 107,
+   "platform": "chirp",
+   "account": "acct_494ca9",
+   "place": "castlewick",
+   "text": "So it's the hotel lot again. How many more times?",
+   "lang": "en",
+   "reach": 21401,
+   "shares": 83,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0049",
+   "narrative": "NAR-02",
+   "t": 108,
+   "platform": "forumly",
+   "account": "acct_57a005",
+   "place": "port-ellery",
+   "text": "Three hours and not a word on who did it. Cover-up as usual.",
+   "lang": "en",
+   "reach": 11995,
+   "shares": 522,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0141",
+   "narrative": "NAR-09",
+   "t": 108,
+   "platform": "chirp",
+   "account": "acct_dc4d5d",
+   "place": "aberteg",
+   "text": "ARGAE YN TORRI. Gadewch Aberteg NAWR.",
+   "lang": "cy",
+   "reach": 16109,
+   "shares": 309,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0073",
+   "narrative": "NAR-04",
+   "t": 109,
+   "platform": "facespace",
+   "account": "acct_1c7a1e",
+   "place": "castlewick",
+   "text": "Just got sent this, 6pm curfew for everyone? Is this real?",
+   "lang": "en",
+   "reach": 14770,
+   "shares": 182,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0028",
+   "narrative": "NAR-01",
+   "t": 111,
+   "platform": "vidstream",
+   "account": "acct_130895",
+   "place": "harrowgate-vale",
+   "text": "Name going round is foreign. Police confirming nothing. Make of that what you will.",
+   "lang": "en",
+   "reach": 24457,
+   "shares": 148,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0084",
+   "narrative": "NAR-05",
+   "t": 113,
+   "platform": "chirp",
+   "account": "acct_4f2836",
+   "place": "port-ellery",
+   "text": "Everyone down the hotel tonight, bring your mates.",
+   "lang": "en",
+   "reach": 6467,
+   "shares": 260,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0115",
+   "narrative": "NAR-07",
+   "t": 114,
+   "platform": "forumly",
+   "account": "acct_2bb1b2",
+   "place": "kingsbridge-centre",
+   "text": "Watch how gently they treat the other lot. Two-tier policing.",
+   "lang": "en",
+   "reach": 6195,
+   "shares": 630,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0029",
+   "narrative": "NAR-01",
+   "t": 115,
+   "platform": "facespace",
+   "account": "acct_60d799",
+   "place": "port-ellery",
+   "text": "Everyone knows where he's from. They just won't say it.",
+   "lang": "en",
+   "reach": 22681,
+   "shares": 666,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0050",
+   "narrative": "NAR-02",
+   "t": 115,
+   "platform": "facespace",
+   "account": "acct_24675d",
+   "place": "port-ellery",
+   "text": "If it was one of us they'd have his face everywhere by now.",
+   "lang": "en",
+   "reach": 7416,
+   "shares": 70,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0074",
+   "narrative": "NAR-04",
+   "t": 116,
+   "platform": "chirp",
+   "account": "acct_7471eb",
+   "place": "castlewick",
+   "text": "Official: Northmoor Police curfew. Stay indoors after 6.",
+   "lang": "en",
+   "reach": 13868,
+   "shares": 378,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0142",
+   "narrative": "NAR-09",
+   "t": 116,
+   "platform": "facespace",
+   "account": "acct_c03f10",
+   "place": "aberteg",
+   "text": "Neighbour says the dam is going. Get to high ground.",
+   "lang": "en",
+   "reach": 8421,
+   "shares": 752,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0085",
+   "narrative": "NAR-05",
+   "t": 117,
+   "platform": "facespace",
+   "account": "acct_b9450c",
+   "place": "port-ellery",
+   "text": "Time for talking is over. Hotel. 7pm.",
+   "lang": "en",
+   "reach": 8210,
+   "shares": 290,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0100",
+   "narrative": "NAR-06",
+   "t": 118,
+   "platform": "chirp",
+   "account": "acct_7e3f6a",
+   "place": "kingsbridge-centre",
+   "text": "This photo should end careers. Kingsbridge march today.",
+   "lang": "en",
+   "reach": 28774,
+   "shares": 632,
+   "flags": [
+    "likely AI-generated"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0031",
+   "narrative": "NAR-01",
+   "t": 119,
+   "platform": "facespace",
+   "account": "acct_57e1d0",
+   "place": "port-ellery",
+   "text": "Hearing it was a bloke from the Harbourside hotel. Police won't say. Why not?",
+   "lang": "en",
+   "reach": 23996,
+   "shares": 168,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0066",
+   "narrative": "NAR-03",
+   "t": 119,
+   "platform": "chirp",
+   "account": "acct_360919",
+   "place": "port-ellery",
+   "text": "Port Ellery right now. It's kicking off.",
+   "lang": "en",
+   "reach": 13967,
+   "shares": 397,
+   "flags": [
+    "recycled media"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0030",
+   "narrative": "NAR-01",
+   "t": 120,
+   "platform": "chirp",
+   "account": "acct_ef05cd",
+   "place": "castlewick",
+   "text": "Shared from Brightline: 'Harbourside suspect is recent arrival, sources say'",
+   "lang": "en",
+   "reach": 18894,
+   "shares": 550,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0051",
+   "narrative": "NAR-02",
+   "t": 120,
+   "platform": "forumly",
+   "account": "acct_84e38c",
+   "place": "port-ellery",
+   "text": "Police statement says nothing. What are they hiding?",
+   "lang": "en",
+   "reach": 8027,
+   "shares": 582,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0086",
+   "narrative": "NAR-05",
+   "t": 123,
+   "platform": "facespace",
+   "account": "acct_7191a1",
+   "place": "port-ellery",
+   "text": "[THREAT] They'll get what's coming at 7. (synthetic threat text for referral testing)",
+   "lang": "en",
+   "reach": 5731,
+   "shares": 11,
+   "flags": [
+    "possible illegal content"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0075",
+   "narrative": "NAR-04",
+   "t": 125,
+   "platform": "chirp",
+   "account": "acct_6dac74",
+   "place": "port-ellery",
+   "text": "Curfew from 6pm tonight in Port Ellery, police notice here: northmoor-police-news.info",
+   "lang": "en",
+   "reach": 3256,
+   "shares": 398,
+   "flags": [
+    "spoof domain"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0087",
+   "narrative": "NAR-05",
+   "t": 127,
+   "platform": "facespace",
+   "account": "acct_8bb5a5",
+   "place": "port-ellery",
+   "text": "Harbourside hotel 7pm Saturday. Take back the harbour.",
+   "lang": "en",
+   "reach": 9531,
+   "shares": 420,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0032",
+   "narrative": "NAR-01",
+   "t": 129,
+   "platform": "forumly",
+   "account": "acct_b4751a",
+   "place": "port-ellery",
+   "text": "My cousin works near the market. Says the guy came out of the hotel this morning.",
+   "lang": "en",
+   "reach": 19085,
+   "shares": 288,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0067",
+   "narrative": "NAR-03",
+   "t": 132,
+   "platform": "vidstream",
+   "account": "acct_281e98",
+   "place": "port-ellery",
+   "text": "This is the harbour tonight, look at it",
+   "lang": "en",
+   "reach": 7909,
+   "shares": 134,
+   "flags": [
+    "recycled media"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0076",
+   "narrative": "NAR-04",
+   "t": 133,
+   "platform": "facespace",
+   "account": "acct_656d9d",
+   "place": "port-ellery",
+   "text": "Just got sent this, 6pm curfew for everyone? Is this real?",
+   "lang": "en",
+   "reach": 2864,
+   "shares": 516,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0101",
+   "narrative": "NAR-06",
+   "t": 133,
+   "platform": "vidstream",
+   "account": "acct_5bc373",
+   "place": "kingsbridge-centre",
+   "text": "Look at this. Kingsbridge police kneeling on a CHILD.",
+   "lang": "en",
+   "reach": 33267,
+   "shares": 554,
+   "flags": [
+    "likely AI-generated"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0116",
+   "narrative": "NAR-07",
+   "t": 133,
+   "platform": "forumly",
+   "account": "acct_e47c03",
+   "place": "kingsbridge-centre",
+   "text": "Different rules for different marches. Every time.",
+   "lang": "en",
+   "reach": 3225,
+   "shares": 521,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0033",
+   "narrative": "NAR-01",
+   "t": 134,
+   "platform": "chirp",
+   "account": "acct_8d4299",
+   "place": "castlewick",
+   "text": "So it's the hotel lot again. How many more times?",
+   "lang": "en",
+   "reach": 4178,
+   "shares": 391,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0052",
+   "narrative": "NAR-02",
+   "t": 134,
+   "platform": "forumly",
+   "account": "acct_2c1242",
+   "place": "port-ellery",
+   "text": "Silence from Northmoor Police. Draw your own conclusions.",
+   "lang": "en",
+   "reach": 4482,
+   "shares": 52,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0088",
+   "narrative": "NAR-05",
+   "t": 136,
+   "platform": "facespace",
+   "account": "acct_362320",
+   "place": "port-ellery",
+   "text": "Everyone down the hotel tonight, bring your mates.",
+   "lang": "en",
+   "reach": 2477,
+   "shares": 93,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0117",
+   "narrative": "NAR-07",
+   "t": 137,
+   "platform": "vidstream",
+   "account": "acct_2e74bf",
+   "place": "kingsbridge-centre",
+   "text": "Kingsbridge police escorting one side, kettling the other. Two-tier.",
+   "lang": "en",
+   "reach": 2059,
+   "shares": 432,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0068",
+   "narrative": "NAR-03",
+   "t": 140,
+   "platform": "chirp",
+   "account": "acct_342be8",
+   "place": "port-ellery",
+   "text": "Riots already starting in Port Ellery. Stay away from town.",
+   "lang": "en",
+   "reach": 44147,
+   "shares": 628,
+   "flags": [
+    "recycled media"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0034",
+   "narrative": "NAR-01",
+   "t": 141,
+   "platform": "forumly",
+   "account": "acct_8b0f2f",
+   "place": "castlewick",
+   "text": "Name going round is foreign. Police confirming nothing. Make of that what you will.",
+   "lang": "en",
+   "reach": 19676,
+   "shares": 222,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0035",
+   "narrative": "NAR-01",
+   "t": 141,
+   "platform": "forumly",
+   "account": "acct_95a7ad",
+   "place": "port-ellery",
+   "text": "Everyone knows where he's from. They just won't say it.",
+   "lang": "en",
+   "reach": 22655,
+   "shares": 439,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0089",
+   "narrative": "NAR-05",
+   "t": 143,
+   "platform": "groupcast",
+   "account": "acct_de28e1",
+   "place": "port-ellery",
+   "text": "Time for talking is over. Hotel. 7pm.",
+   "lang": "en",
+   "reach": 4913,
+   "shares": 405,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0053",
+   "narrative": "NAR-02",
+   "t": 144,
+   "platform": "forumly",
+   "account": "acct_6d07b0",
+   "place": "port-ellery",
+   "text": "Three hours and not a word on who did it. Cover-up as usual.",
+   "lang": "en",
+   "reach": 5953,
+   "shares": 706,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0102",
+   "narrative": "NAR-06",
+   "t": 147,
+   "platform": "vidstream",
+   "account": "acct_7054f8",
+   "place": "kingsbridge-centre",
+   "text": "This photo should end careers. Kingsbridge march today.",
+   "lang": "en",
+   "reach": 16995,
+   "shares": 649,
+   "flags": [
+    "likely AI-generated"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0036",
+   "narrative": "NAR-01",
+   "t": 150,
+   "platform": "forumly",
+   "account": "acct_5d19cd",
+   "place": "port-ellery",
+   "text": "Shared from Brightline: 'Harbourside suspect is recent arrival, sources say'",
+   "lang": "en",
+   "reach": 21107,
+   "shares": 437,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0077",
+   "narrative": "NAR-04",
+   "t": 150,
+   "platform": "facespace",
+   "account": "acct_346cd7",
+   "place": "castlewick",
+   "text": "Official: Northmoor Police curfew. Stay indoors after 6.",
+   "lang": "en",
+   "reach": 19889,
+   "shares": 301,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0090",
+   "narrative": "NAR-05",
+   "t": 150,
+   "platform": "facespace",
+   "account": "acct_ff2550",
+   "place": "port-ellery",
+   "text": "[THREAT] They'll get what's coming at 7. (synthetic threat text for referral testing)",
+   "lang": "en",
+   "reach": 9497,
+   "shares": 321,
+   "flags": [
+    "possible illegal content"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0118",
+   "narrative": "NAR-07",
+   "t": 152,
+   "platform": "vidstream",
+   "account": "acct_cf1d4e",
+   "place": "kingsbridge-centre",
+   "text": "Watch how gently they treat the other lot. Two-tier policing.",
+   "lang": "en",
+   "reach": 4752,
+   "shares": 626,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0054",
+   "narrative": "NAR-02",
+   "t": 153,
+   "platform": "chirp",
+   "account": "acct_843ae5",
+   "place": "port-ellery",
+   "text": "If it was one of us they'd have his face everywhere by now.",
+   "lang": "en",
+   "reach": 15322,
+   "shares": 240,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0091",
+   "narrative": "NAR-05",
+   "t": 154,
+   "platform": "facespace",
+   "account": "acct_0bf322",
+   "place": "port-ellery",
+   "text": "Harbourside hotel 7pm Saturday. Take back the harbour.",
+   "lang": "en",
+   "reach": 7701,
+   "shares": 594,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0092",
+   "narrative": "NAR-05",
+   "t": 161,
+   "platform": "groupcast",
+   "account": "acct_4f2836",
+   "place": "port-ellery",
+   "text": "Everyone down the hotel tonight, bring your mates.",
+   "lang": "en",
+   "reach": 10030,
+   "shares": 629,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0055",
+   "narrative": "NAR-02",
+   "t": 162,
+   "platform": "facespace",
+   "account": "acct_939de3",
+   "place": "port-ellery",
+   "text": "Police statement says nothing. What are they hiding?",
+   "lang": "en",
+   "reach": 2437,
+   "shares": 486,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0078",
+   "narrative": "NAR-04",
+   "t": 162,
+   "platform": "facespace",
+   "account": "acct_1c7a1e",
+   "place": "port-ellery",
+   "text": "Curfew from 6pm tonight in Port Ellery, police notice here: northmoor-police-news.info",
+   "lang": "en",
+   "reach": 20436,
+   "shares": 620,
+   "flags": [
+    "spoof domain"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0056",
+   "narrative": "NAR-02",
+   "t": 166,
+   "platform": "vidstream",
+   "account": "acct_27aef4",
+   "place": "port-ellery",
+   "text": "Silence from Northmoor Police. Draw your own conclusions.",
+   "lang": "en",
+   "reach": 4737,
+   "shares": 272,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0119",
+   "narrative": "NAR-07",
+   "t": 168,
+   "platform": "forumly",
+   "account": "acct_824eb9",
+   "place": "kingsbridge-centre",
+   "text": "Different rules for different marches. Every time.",
+   "lang": "en",
+   "reach": 1941,
+   "shares": 229,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0093",
+   "narrative": "NAR-05",
+   "t": 171,
+   "platform": "groupcast",
+   "account": "acct_b9450c",
+   "place": "port-ellery",
+   "text": "Time for talking is over. Hotel. 7pm.",
+   "lang": "en",
+   "reach": 3313,
+   "shares": 503,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0120",
+   "narrative": "NAR-07",
+   "t": 178,
+   "platform": "facespace",
+   "account": "acct_46cbf4",
+   "place": "kingsbridge-centre",
+   "text": "Kingsbridge police escorting one side, kettling the other. Two-tier.",
+   "lang": "en",
+   "reach": 6074,
+   "shares": 227,
+   "flags": [],
+   "synthetic": true
+  },
+  {
+   "id": "P0094",
+   "narrative": "NAR-05",
+   "t": 179,
+   "platform": "chirp",
+   "account": "acct_7191a1",
+   "place": "port-ellery",
+   "text": "[THREAT] They'll get what's coming at 7. (synthetic threat text for referral testing)",
+   "lang": "en",
+   "reach": 6205,
+   "shares": 648,
+   "flags": [
+    "possible illegal content"
+   ],
+   "synthetic": true
+  },
+  {
+   "id": "P0148",
+   "narrative": "NAR-10",
+   "t": 184,
+   "platform": "facespace",
+   "account": "acct_d73b7b",
+   "place": "brennford",
+   "text": "Why is nobody naming him? He's 16 not 6.",
+   "lang": "en",
+   "reach": 548,
+   "shares": 524,
+   "flags": [
+    "possible contempt breach"
+   ],
+   "synthetic": true
+  }
+ ],
+ "articles": [
+  {
+   "id": "A01",
+   "outlet": "brightline",
+   "t": 48,
+   "title": "Harbourside suspect 'recent arrival', unnamed sources claim",
+   "narrative": "NAR-01"
+  },
+  {
+   "id": "A02",
+   "outlet": "echo",
+   "t": 20,
+   "title": "Two hurt in Harbourside Market stabbing",
+   "narrative": null
+  },
+  {
+   "id": "A03",
+   "outlet": "nep",
+   "t": 75,
+   "title": "Police appeal for calm as rumours spread online",
+   "narrative": "NAR-02"
+  },
+  {
+   "id": "A04",
+   "outlet": "nbc1",
+   "t": 110,
+   "title": "Fake curfew notice circulating, say officials",
+   "narrative": "NAR-04"
+  },
+  {
+   "id": "A05",
+   "outlet": "ledger",
+   "t": 130,
+   "title": "Port Ellery: how a false name spread in two hours",
+   "narrative": "NAR-01"
+  },
+  {
+   "id": "A06",
+   "outlet": "spoof",
+   "t": 86,
+   "title": "NOTICE: Curfew in force from 18:00",
+   "narrative": "NAR-04"
+  },
+  {
+   "id": "A07",
+   "outlet": "nep",
+   "t": 5,
+   "title": "Brennford child found safe",
+   "narrative": "NAR-08"
+  }
+ ],
+ "events": [
+  {
+   "id": "EV01",
+   "date": "2026-11-21",
+   "title": "Kingsbridge march and counter-protest",
+   "force": "kmp",
+   "risk": "high",
+   "kind": "protest",
+   "prebunk": "Policing plan explainer and 'what to expect' Q&A"
+  },
+  {
+   "id": "EV02",
+   "date": "2026-11-23",
+   "title": "Halden Street trial resumes, Brennford Crown Court",
+   "force": "svc",
+   "risk": "medium",
+   "kind": "trial",
+   "prebunk": "Reporting restrictions reminder for partners"
+  },
+  {
+   "id": "EV03",
+   "date": "2026-11-26",
+   "title": "Northmoor mayoral by-election (pre-election period from 12 Nov)",
+   "force": "nmp",
+   "risk": "medium",
+   "kind": "election",
+   "prebunk": "Impartiality guidance for all Northmoor content",
+   "purdah": true
+  },
+  {
+   "id": "EV04",
+   "date": "2026-11-28",
+   "title": "Northmoor v Severnvale derby, Castlewick",
+   "force": "nmp",
+   "risk": "medium",
+   "kind": "sport",
+   "prebunk": "Travel and ticket fraud advice"
+  },
+  {
+   "id": "EV05",
+   "date": "2026-12-03",
+   "title": "Anniversary of the 2025 Castlewick disorder",
+   "force": "nmp",
+   "risk": "high",
+   "kind": "anniversary",
+   "prebunk": "Community reassurance message with partners"
+  },
+  {
+   "id": "EV06",
+   "date": "2026-12-08",
+   "title": "Sentencing: Rivermead case",
+   "force": "kmp",
+   "risk": "medium",
+   "kind": "sentencing",
+   "prebunk": "Complainant anonymity reminder"
+  },
+  {
+   "id": "EV07",
+   "date": "2026-12-12",
+   "title": "Winter festival, Kingsbridge",
+   "force": "kmp",
+   "risk": "low",
+   "kind": "major event",
+   "prebunk": "Safety campaign"
+  },
+  {
+   "id": "EV08",
+   "date": "2026-12-15",
+   "title": "Inspection report on online disorder response published",
+   "force": null,
+   "risk": "medium",
+   "kind": "publication",
+   "prebunk": "NPCC response lines"
+  }
+ ],
+ "lines": [
+  {
+   "id": "LN-001",
+   "title": "Misinformation during live investigations",
+   "status": "approved",
+   "expires": "2026-12-31",
+   "text": "We understand the public want answers quickly. We publish facts once they are confirmed. Please do not share speculation about people involved, which can harm victims and the course of justice.",
+   "cy": "Rydym yn deall bod y cyhoedd eisiau atebion yn gyflym. Rydym yn cyhoeddi ffeithiau unwaith y cânt eu cadarnhau. Peidiwch â rhannu dyfalu am bobl dan sylw.",
+   "checks": [
+    "Contempt",
+    "Impartiality"
+   ],
+   "owner": "nc-head"
+  },
+  {
+   "id": "LN-002",
+   "title": "Spoof police websites and notices",
+   "status": "approved",
+   "expires": "2027-03-31",
+   "text": "Only trust information on your force's official website and verified accounts. If you see a notice that claims to be from the police, check it on our website before sharing.",
+   "cy": "Ymddiriedwch yn unig mewn gwybodaeth ar wefan swyddogol eich heddlu a chyfrifon wedi'u dilysu.",
+   "checks": [
+    "Impartiality"
+   ],
+   "owner": "nc-head"
+  },
+  {
+   "id": "LN-003",
+   "title": "Protest policing is impartial",
+   "status": "approved",
+   "expires": "2026-12-31",
+   "text": "Police do not take sides. We facilitate lawful protest and act against crime whoever commits it.",
+   "cy": "Nid yw'r heddlu'n cymryd ochr. Rydym yn hwyluso protest gyfreithlon.",
+   "checks": [
+    "Impartiality",
+    "Pre-election"
+   ],
+   "owner": "nc-head"
+  },
+  {
+   "id": "LN-004",
+   "title": "AI-generated and recycled images",
+   "status": "expired",
+   "expires": "2026-10-31",
+   "text": "Old or fake images are being shared. Check the source before you share.",
+   "cy": "",
+   "checks": [],
+   "owner": "nc-head"
+  }
+ ],
+ "scenarios": [
+  {
+   "id": "SC-01",
+   "title": "Golden Hour: Harbourside Market stabbing",
+   "goal": "Shrink time to truth on a false suspect identity, with every release legally checked and signed off.",
+   "actors": [
+    "nm-gold",
+    "nm-press",
+    "nm-sio",
+    "nm-legal",
+    "nc-insight",
+    "nc-duty",
+    "nc-head",
+    "ho-press",
+    "sv-comms",
+    "dg-comms",
+    "km-comms",
+    "eth"
+   ],
+   "steps": [
+    {
+     "t": 0,
+     "actor": "nm-gold",
+     "view": "golden-hour",
+     "do": "Declare the critical incident and open the Golden Hour cell",
+     "check": "cellOpen:INC-NMP-0412"
+    },
+    {
+     "t": 10,
+     "actor": "nm-press",
+     "view": "golden-hour",
+     "do": "Log the first facts: time, place, two injured, one man arrested",
+     "check": "factCount:INC-NMP-0412:2"
+    },
+    {
+     "t": 15,
+     "actor": "nm-sio",
+     "view": "golden-hour",
+     "do": "Verify the facts in the fact log",
+     "check": "factsVerified:INC-NMP-0412:2"
+    },
+    {
+     "t": 20,
+     "actor": "nm-press",
+     "view": "safe-to-say",
+     "do": "Draft a holding statement and run it through Safe to Say",
+     "check": "statementAtLeast:INC-NMP-0412:checked"
+    },
+    {
+     "t": 25,
+     "actor": "nm-legal",
+     "view": "golden-hour",
+     "do": "Legal review of the holding statement",
+     "check": "statementAtLeast:INC-NMP-0412:legal"
+    },
+    {
+     "t": 28,
+     "actor": "nm-sio",
+     "view": "golden-hour",
+     "do": "SIO approves the statement",
+     "check": "statementAtLeast:INC-NMP-0412:sio"
+    },
+    {
+     "t": 30,
+     "actor": "nm-gold",
+     "view": "golden-hour",
+     "do": "Gold signs off; press officer publishes",
+     "check": "statementAtLeast:INC-NMP-0412:published"
+    },
+    {
+     "t": 60,
+     "actor": "nc-insight",
+     "view": "radar",
+     "do": "Radar alert on NAR-01 (false identity). Triage it and link it to the incident",
+     "check": "narrativeLinked:NAR-01"
+    },
+    {
+     "t": 70,
+     "actor": "nm-gold",
+     "view": "golden-hour",
+     "do": "Record a disclosure decision on nationality (interim ethnicity and nationality guidance)",
+     "check": "disclosureDecided:INC-NMP-0412"
+    },
+    {
+     "t": 75,
+     "actor": "ho-press",
+     "view": "inbox",
+     "do": "Home Office responds to the request to confirm immigration status",
+     "check": "hoResponded:INC-NMP-0412"
+    },
+    {
+     "t": 90,
+     "actor": "nc-duty",
+     "view": "lines",
+     "do": "Draft a national line on speculation about the suspect",
+     "check": "lineDrafted:SC-01"
+    },
+    {
+     "t": 95,
+     "actor": "nc-head",
+     "view": "lines",
+     "do": "Approve and cascade the national line to all forces",
+     "check": "lineCascaded:SC-01"
+    },
+    {
+     "t": 100,
+     "actor": "sv-comms",
+     "view": "lines",
+     "do": "Forces acknowledge the line (Severnvale, Dyfed-Glas with Welsh version, Kingsbridge)",
+     "check": "lineAcks:SC-01:3"
+    },
+    {
+     "t": 110,
+     "actor": "eth",
+     "view": "audit",
+     "do": "Ethics panel reviews the decision trail: every decision has a named person and a reason",
+     "check": "auditViewed"
+    }
+   ]
+  },
+  {
+   "id": "SC-02",
+   "title": "Spoof curfew notice with state-linked indicators",
+   "goal": "Debunk a spoof notice fast, pass indicators to CTP and government, and never attribute publicly.",
+   "actors": [
+    "nc-insight",
+    "nm-press",
+    "ctp",
+    "gov-info",
+    "nc-head"
+   ],
+   "steps": [
+    {
+     "t": 90,
+     "actor": "nc-insight",
+     "view": "radar",
+     "do": "Triage NAR-04 and hand state-linked indicators to CTP and government",
+     "check": "stateHandover:NAR-04"
+    },
+    {
+     "t": 95,
+     "actor": "ctp",
+     "view": "inbox",
+     "do": "CTP liaison accepts the handover",
+     "check": "stateAccepted:NAR-04"
+    },
+    {
+     "t": 100,
+     "actor": "nm-press",
+     "view": "safe-to-say",
+     "do": "Draft a rebuttal. Safe to Say blocks any public attribution to a state actor",
+     "check": "ruleFired:state-attribution"
+    },
+    {
+     "t": 105,
+     "actor": "nm-press",
+     "view": "safe-to-say",
+     "do": "Publish the corrected rebuttal (no attribution, points to official channels as in LN-002)",
+     "check": "publishedMatch:no curfew"
+    }
+   ]
+  },
+  {
+   "id": "SC-03",
+   "title": "Mobilisation and threats: platform referral",
+   "goal": "Refer possible illegal content to the platform and CTIRU, and track response times as evidence.",
+   "actors": [
+    "nc-insight",
+    "nm-head",
+    "ctp",
+    "sib"
+   ],
+   "steps": [
+    {
+     "t": 100,
+     "actor": "sib",
+     "view": "radar",
+     "do": "SIB analyst assesses community tension for Port Ellery from NAR-05",
+     "check": "tensionAssessed:port-ellery"
+    },
+    {
+     "t": 105,
+     "actor": "nc-insight",
+     "view": "escalations",
+     "do": "Log a referral of the threatening post to the platform",
+     "check": "referralCount:1"
+    },
+    {
+     "t": 140,
+     "actor": "nc-insight",
+     "view": "escalations",
+     "do": "Record the platform's response and time taken",
+     "check": "referralResolved:1"
+    }
+   ]
+  },
+  {
+   "id": "SC-04",
+   "title": "Two-tier narrative at a protest (lawful opinion)",
+   "goal": "Respond with facts about the policing plan without treating lawful opinion as a threat or profiling commentators.",
+   "actors": [
+    "km-comms",
+    "nc-insight",
+    "eth"
+   ],
+   "steps": [
+    {
+     "t": 30,
+     "actor": "nc-insight",
+     "view": "radar",
+     "do": "Try to add the commentator account behind NAR-07 to a watchlist: Line of Blue refuses (Tier D)",
+     "check": "guardrailRefused:tier-d"
+    },
+    {
+     "t": 40,
+     "actor": "km-comms",
+     "view": "safe-to-say",
+     "do": "Draft a policing plan explainer and pass the impartiality checks",
+     "check": "statementPublishedBy:km-comms"
+    }
+   ]
+  },
+  {
+   "id": "SC-05",
+   "title": "Bilingual flood hoax (civil emergency)",
+   "goal": "Counter a hoax in Welsh and English under the warning and informing duty.",
+   "actors": [
+    "dg-comms",
+    "nc-duty"
+   ],
+   "steps": [
+    {
+     "t": 35,
+     "actor": "dg-comms",
+     "view": "safe-to-say",
+     "do": "Draft a bilingual rebuttal. Safe to Say flags a missing Welsh version until one is added",
+     "check": "statementPublishedBy:dg-comms"
+    }
+   ]
+  },
+  {
+   "id": "SC-06",
+   "title": "Youth trial and complainant anonymity (hard blocks)",
+   "goal": "Prove that drafts naming a child defendant or identifying a complainant cannot be released.",
+   "actors": [
+    "sv-comms",
+    "km-comms",
+    "cps"
+   ],
+   "steps": [
+    {
+     "t": 0,
+     "actor": "sv-comms",
+     "view": "safe-to-say",
+     "do": "Draft about the Halden Street trial that names the defendant: hard block",
+     "check": "ruleFired:child-defendant"
+    },
+    {
+     "t": 0,
+     "actor": "km-comms",
+     "view": "safe-to-say",
+     "do": "Draft that mentions Rivermead Close and the complainant's age: hard block",
+     "check": "ruleFired:complainant-anonymity"
+    }
+   ]
+  },
+  {
+   "id": "SC-07",
+   "title": "Get ahead: pre-bunk the spoof curfew before it appears",
+   "goal": "Use the rumour forecast and the L.O.B Agent to publish a signed-off pre-bunk before the first spoof notice is posted.",
+   "actors": [
+    "nm-gold",
+    "nm-head",
+    "nm-press",
+    "nm-legal",
+    "nm-sio",
+    "nc-insight"
+   ],
+   "steps": [
+    {
+     "t": 0,
+     "actor": "nm-gold",
+     "view": "golden-hour",
+     "do": "Declare the critical incident. The rumour forecast appears in the cell",
+     "check": "cellOpen:INC-NMP-0412"
+    },
+    {
+     "t": 4,
+     "actor": "nm-head",
+     "view": "agent",
+     "do": "Ask the L.O.B Agent for a get-ahead plan, with the guidance it rests on",
+     "check": "agentAsked:plan"
+    },
+    {
+     "t": 8,
+     "actor": "nm-press",
+     "view": "golden-hour",
+     "do": "Send the spoof-notice pre-bunk from the forecast to Safe to Say and submit it",
+     "check": "prebunkAtLeast:NAR-04:checked"
+    },
+    {
+     "t": 12,
+     "actor": "nm-legal",
+     "view": "golden-hour",
+     "do": "Legal review of the pre-bunk",
+     "check": "prebunkAtLeast:NAR-04:legal"
+    },
+    {
+     "t": 14,
+     "actor": "nm-sio",
+     "view": "golden-hour",
+     "do": "SIO approves the pre-bunk",
+     "check": "prebunkAtLeast:NAR-04:sio"
+    },
+    {
+     "t": 16,
+     "actor": "nm-gold",
+     "view": "golden-hour",
+     "do": "Gold signs off the pre-bunk",
+     "check": "prebunkAtLeast:NAR-04:gold"
+    },
+    {
+     "t": 18,
+     "actor": "nm-press",
+     "view": "golden-hour",
+     "do": "Publish the pre-bunk",
+     "check": "prebunkAtLeast:NAR-04:published"
+    },
+    {
+     "t": 90,
+     "actor": "nc-insight",
+     "view": "picture",
+     "do": "On the National picture, confirm the police line was out before the first spoof notice",
+     "check": "aheadOf:NAR-04"
+    }
+   ]
+  }
+ ],
+ "knowledge": [
+  {
+   "id": "KB-CCA81",
+   "kind": "law",
+   "owner": "UK Parliament",
+   "title": "Contempt of Court Act 1981",
+   "url": "https://www.legislation.gov.uk/ukpga/1981/49",
+   "summary": "Strict liability rule (ss.1-2): a publication that creates a substantial risk of serious prejudice to active proceedings is contempt, whatever the intent. Proceedings are active from arrest or warrant. s.4(2) postponement orders and s.11 orders restrict reporting.",
+   "comms": "Once a suspect is arrested, avoid comment on guilt, motive, character or previous convictions. Stick to verified facts: what happened, where, when, and that a person is in custody."
+  },
+  {
+   "id": "KB-LAWCOM",
+   "kind": "reform",
+   "owner": "Law Commission",
+   "title": "Contempt of court report, part 1 (18 Nov 2025)",
+   "summary": "Recommends proceedings become active at charge rather than arrest, and that a suspect's name, age, nationality, ethnicity, religion and immigration status would generally not create a substantial risk of prejudice. Government has not yet legislated; part 2 due 2026.",
+   "comms": "Not yet law. Line of Blue keeps the active-proceedings trigger configurable so the rules can change the day the law does."
+  },
+  {
+   "id": "KB-SOAA92",
+   "kind": "law",
+   "owner": "UK Parliament",
+   "title": "Sexual Offences (Amendment) Act 1992",
+   "url": "https://www.legislation.gov.uk/ukpga/1992/34",
+   "summary": "Complainants of sexual offences have lifelong anonymity. Nothing likely to identify them may be published.",
+   "comms": "Hard block: no names, ages, streets, workplaces or other details that could identify a complainant, even in combination."
+  },
+  {
+   "id": "KB-CYPA49",
+   "kind": "law",
+   "owner": "UK Parliament",
+   "title": "Children and Young Persons Act 1933 s.49 and YJCEA 1999 s.45",
+   "url": "https://www.legislation.gov.uk/ukpga/1999/23/section/45",
+   "summary": "Automatic reporting restrictions for children in youth court, and discretionary restrictions for under-18s in adult courts. The Southport defendant was 17.",
+   "comms": "Do not name or describe a child defendant or witness unless the court lifts restrictions."
+  },
+  {
+   "id": "KB-APP",
+   "kind": "guidance",
+   "owner": "College of Policing",
+   "title": "Media and communications APP (replaces Media relations APP; consulted 5 Nov 2025 to 4 Jan 2026)",
+   "url": "https://www.college.police.uk/app",
+   "summary": "Six principles: open justice, privacy, legitimacy, accurate and lawful, timely and consistent, inclusive and impartial. Expects forces to tackle mis/disinformation that affects public safety or justice, and to keep better records. Suspects are not normally named before charge.",
+   "comms": "Fill the information void with verified facts quickly, record each disclosure decision and its reasons, and challenge false narratives that threaten safety or justice."
+  },
+  {
+   "id": "KB-ETHNAT",
+   "kind": "guidance",
+   "owner": "College of Policing and NPCC (with CPS and Home Office)",
+   "title": "Interim guidance on suspect ethnicity and nationality (Aug 2025)",
+   "summary": "In high-profile cases where misinformation is causing tension, forces should consider confirming a suspect's ethnicity and nationality. Only the Home Office confirms immigration status. Decisions and reasons should be recorded.",
+   "comms": "When a false identity claim is spreading on a live case, put a disclosure decision to Gold quickly; request Home Office confirmation before saying anything about immigration status."
+  },
+  {
+   "id": "KB-CHARTER",
+   "kind": "guidance",
+   "owner": "NPCC, College, CPS, Society of Editors, CRA, MLA",
+   "title": "Policing and Media Charter (17 Mar 2026)",
+   "summary": "Forces publish press office contact numbers, give direct updates to accredited media, and appoint a journalist safety liaison officer in every force.",
+   "comms": "Brief accredited media directly and early; they carry the verified line further and faster than police channels alone."
+  },
+  {
+   "id": "KB-CPSPROT",
+   "kind": "guidance",
+   "owner": "CPS and NPCC",
+   "title": "CPS-police Media Protocol",
+   "summary": "Sets what prosecution material can be released and when, before and after charge and at trial.",
+   "comms": "Check the protocol before releasing images, footage or case detail after charge."
+  },
+  {
+   "id": "KB-ART8",
+   "kind": "law",
+   "owner": "UK Parliament / courts",
+   "title": "Human Rights Act 1998 Art 8 and Sir Cliff Richard v BBC [2018]",
+   "url": "https://www.legislation.gov.uk/ukpga/1998/42",
+   "summary": "A suspect under investigation normally has a reasonable expectation of privacy. Interference must be lawful, necessary and proportionate.",
+   "comms": "Do not identify an uncharged suspect without a recorded, proportionate reason."
+  },
+  {
+   "id": "KB-DEFAM",
+   "kind": "law",
+   "owner": "UK Parliament",
+   "title": "Defamation Act 2013",
+   "url": "https://www.legislation.gov.uk/ukpga/2013/26",
+   "summary": "Statements and reposts can be defamatory; repeating an allegation can carry liability.",
+   "comms": "Describe a false claim rather than reposting it or linking to its source."
+  },
+  {
+   "id": "KB-PURDAH",
+   "kind": "guidance",
+   "owner": "Cabinet Office / Home Office",
+   "title": "Pre-election period guidance",
+   "summary": "During general, devolved, local, mayoral and PCC election periods, avoid any activity that could be seen as favouring a party or candidate. PCC elections end in May 2028.",
+   "comms": "In a pre-election period, talk about the policing plan and facts, never parties, candidates or politically loaded labels."
+  },
+  {
+   "id": "KB-IMPART",
+   "kind": "guidance",
+   "owner": "College of Policing / Home Office",
+   "title": "Code of Ethics (2024), Standards of Professional Behaviour, Police Regulations 2003 Sch.1",
+   "summary": "Police must act with impartiality and must not take part in politics or appear partisan.",
+   "comms": "Answer 'two-tier policing' claims with facts about how both sides are policed; never mock or label either side."
+  },
+  {
+   "id": "KB-EQUAL",
+   "kind": "law",
+   "owner": "UK Parliament",
+   "title": "Equality Act 2010 s.149 (public sector equality duty)",
+   "url": "https://www.legislation.gov.uk/ukpga/2010/15/section/149",
+   "summary": "Due regard to eliminating discrimination, advancing equality and fostering good relations.",
+   "comms": "Consider community impact of every line during tension; involve independent advisory groups early."
+  },
+  {
+   "id": "KB-WELSH",
+   "kind": "law",
+   "owner": "Senedd",
+   "title": "Welsh Language (Wales) Measure 2011 and Welsh Language Standards",
+   "url": "https://www.legislation.gov.uk/mwa/2011/1",
+   "summary": "Welsh forces must communicate bilingually and treat Welsh no less favourably than English.",
+   "comms": "Publish Welsh and English together in Wales; a hoax in Welsh needs a rebuttal in Welsh."
+  },
+  {
+   "id": "KB-CCA04",
+   "kind": "law",
+   "owner": "UK Parliament / Cabinet Office",
+   "title": "Civil Contingencies Act 2004 (warning and informing duty)",
+   "url": "https://www.legislation.gov.uk/ukpga/2004/36",
+   "summary": "Police are Category 1 responders with a legal duty to warn and inform the public in emergencies.",
+   "comms": "In a civil emergency, one joined-up public message with partners, repeated on every channel."
+  },
+  {
+   "id": "KB-JESIP",
+   "kind": "doctrine",
+   "owner": "Emergency services (JESIP)",
+   "title": "JESIP joint doctrine",
+   "summary": "Shared multi-agency situational awareness and joint decision-making, including public messaging.",
+   "comms": "Agree the public line with fire, ambulance, council and NHS so the public hears one story."
+  },
+  {
+   "id": "KB-RIPA",
+   "kind": "law",
+   "owner": "UK Parliament / Home Office",
+   "title": "RIPA 2000 Part II and Covert Surveillance Code of Practice (2018) paras 3.10-3.17",
+   "url": "https://www.legislation.gov.uk/ukpga/2000/23",
+   "summary": "Viewing public posts is usually fine. Systematically collecting and recording information about a particular person or group may be directed surveillance needing authorisation. Broad thematic research usually does not.",
+   "comms": "Monitor narratives and topics, not people. Any watchlist of individuals needs a recorded RIPA authorisation through intelligence channels."
+  },
+  {
+   "id": "KB-DPA",
+   "kind": "law",
+   "owner": "UK Parliament / ICO",
+   "title": "UK GDPR and Data Protection Act 2018 Part 3 (as amended by the Data (Use and Access) Act 2025)",
+   "url": "https://www.legislation.gov.uk/ukpga/2018/12",
+   "summary": "Lawful basis, purpose limitation, minimisation, retention limits and a DPIA. Politics, religion and ethnicity are special category data.",
+   "comms": "Aggregate and pseudonymise by default; keep decision records, not scraped personal data."
+  },
+  {
+   "id": "KB-HRA1011",
+   "kind": "law",
+   "owner": "UK Parliament",
+   "title": "Human Rights Act 1998 Art 10 and 11",
+   "url": "https://www.legislation.gov.uk/ukpga/1998/42",
+   "summary": "Expression, including views that offend, shock or disturb, and lawful assembly are protected.",
+   "comms": "Never treat lawful but unwelcome opinion as a threat. Respond with facts, not action against speakers."
+  },
+  {
+   "id": "KB-OSA",
+   "kind": "law",
+   "owner": "UK Parliament / Ofcom",
+   "title": "Online Safety Act 2023",
+   "url": "https://www.legislation.gov.uk/ukpga/2023/50",
+   "summary": "Platform duties regulated by Ofcom; offences including false communications (s.179) and threatening communications (s.181).",
+   "comms": "Police are not the regulator. Refer illegal content to platforms or Ofcom and log the response time."
+  },
+  {
+   "id": "KB-TACT",
+   "kind": "law",
+   "owner": "UK Parliament / Home Office",
+   "title": "Terrorism Act 2000 (proscription, ss.12-13) and CTIRU referrals",
+   "url": "https://www.legislation.gov.uk/ukpga/2000/11",
+   "summary": "Supporting or displaying support for a proscribed group is an offence. Terrorist content goes to CTIRU.",
+   "comms": "Route terrorist content to CTIRU, not to a comms response."
+  },
+  {
+   "id": "KB-NSA",
+   "kind": "law",
+   "owner": "UK Parliament / Home Office",
+   "title": "National Security Act 2023 and Foreign Influence Registration Scheme (live 1 Jul 2025)",
+   "url": "https://www.legislation.gov.uk/ukpga/2023/32",
+   "summary": "Foreign interference is an offence and a national security matter. Attribution is decided by government, not by police communications.",
+   "comms": "Debunk the content, pass indicators to CTP and government, never name a state in public lines."
+  },
+  {
+   "id": "KB-NCHI",
+   "kind": "policy",
+   "owner": "Home Office",
+   "title": "Government response on non-crime hate incidents (31 Mar 2026)",
+   "summary": "Non-crime hate incidents were scrapped; police should not record lawful speech against people.",
+   "comms": "Do not log lawful but offensive posts as incidents about the people who wrote them."
+  },
+  {
+   "id": "KB-RESIST",
+   "kind": "toolkit",
+   "owner": "Government Communication Service",
+   "title": "RESIST counter-disinformation toolkit and evaluation framework",
+   "summary": "Government standard to Recognise, Early warning, Situational insight, Impact analysis, Strategic communication and Track disinformation. Endorses pre-bunking and measuring outcomes.",
+   "comms": "Pre-bunk likely falsehoods before they spread, choose the response by impact, and measure whether it worked."
+  },
+  {
+   "id": "KB-HMIC24",
+   "kind": "inspection",
+   "owner": "HMICFRS",
+   "title": "Police response to the public disorder in July and August 2024 (Tranche 2)",
+   "summary": "Police 'have not kept pace' with online communications. 'Policing cannot be passive when public safety is at risk': forces must fill the information void and challenge false narratives. 1,804 arrests and 1,071 charged by 22 Jan 2025. Disorder mostly driven by disaffected individuals and online influencers, not one organised group.",
+   "comms": "Speed matters most. Narrative-first monitoring catches what watchlists miss."
+  },
+  {
+   "id": "KB-NPCC25",
+   "kind": "strategy",
+   "owner": "NPCC",
+   "title": "Policing took action, now others must step up (May 2025)",
+   "summary": "NPCC is developing misinformation monitoring built on the social listening used in 2024, wants a proactive communications model, and is working more closely with the Cabinet Office. Police should not regulate social media.",
+   "comms": "The stated national requirement Line of Blue answers: a proactive, coordinated comms model."
+  },
+  {
+   "id": "KB-WHITE26",
+   "kind": "strategy",
+   "owner": "Home Office",
+   "title": "From local to national: a new model for policing (Jan 2026)",
+   "summary": "A National Police Service absorbs NPCC coordination, the College and the Police Digital Service and provides 'a single national voice for communicating with the public'. Trust fell from 80% (2015/16) to 71% (2024/25). PCCs end in May 2028.",
+   "comms": "One national voice, consistent local delivery: national lines cascade, forces localise."
+  },
+  {
+   "id": "KB-ISD24",
+   "kind": "research",
+   "owner": "Institute for Strategic Dialogue",
+   "title": "From rumours to riots (31 Jul 2024)",
+   "summary": "The false Southport name was published by a small site and amplified by large accounts within hours. No foreign state role was found.",
+   "comms": "False identity claims appear within the first hour of a critical incident; prepare for them at declaration."
+  },
+  {
+   "id": "KB-SANCT24",
+   "kind": "policy",
+   "owner": "FCDO",
+   "title": "UK sanctions on Social Design Agency, Structura and ANO Dialog (28 Oct 2024)",
+   "summary": "Sanctioned for the Doppelganger network: at least 120 sites imitating real news and government pages, and attempts to incite protest in about six European countries.",
+   "comms": "Spoof official notices are a known tactic. Pre-bunk them: 'we only publish notices on our own website'."
+  }
+ ],
+ "playbooks": {
+  "Critical incident": [
+   {
+    "pattern": "False suspect identity",
+    "narrative": "NAR-01",
+    "likelihood": 0.9,
+    "window": [
+     10,
+     60
+    ],
+    "sources": [
+     "KB-ISD24",
+     "KB-ETHNAT"
+    ],
+    "prebunk": "A man has been arrested. Please do not share names or claims about who he is: they are not from us, and they can harm victims and the case. We will publish facts as soon as they are confirmed.",
+    "action": "Put a nationality disclosure decision to Gold now; ask the Home Office to stand by on immigration status."
+   },
+   {
+    "pattern": "Cover-up claims",
+    "narrative": "NAR-02",
+    "likelihood": 0.8,
+    "window": [
+     30,
+     90
+    ],
+    "sources": [
+     "KB-APP",
+     "KB-HMIC24"
+    ],
+    "prebunk": "We know people want to know more. We will update every hour, even when there is little new to say, and explain why some details cannot be shared yet.",
+    "action": "Commit to an hourly update rhythm and brief accredited media directly."
+   },
+   {
+    "pattern": "Recycled or fake footage",
+    "narrative": "NAR-03",
+    "likelihood": 0.7,
+    "window": [
+     40,
+     120
+    ],
+    "sources": [
+     "KB-RESIST"
+    ],
+    "prebunk": "Old and unrelated videos are often shared after incidents like this. If you see footage claiming to be from Port Ellery today, check our channels before sharing it.",
+    "action": "Have the insight analyst reverse-search viral clips as they appear."
+   },
+   {
+    "pattern": "Spoof official notices",
+    "narrative": "NAR-04",
+    "likelihood": 0.55,
+    "window": [
+     60,
+     150
+    ],
+    "sources": [
+     "KB-SANCT24",
+     "KB-NSA"
+    ],
+    "prebunk": "We only publish notices on our own website and verified accounts. If you see a police notice anywhere else, such as a curfew, check our website before you share it.",
+    "action": "Pre-approve national line LN-002 and alert CTP liaison to watch for spoof domains."
+   },
+   {
+    "pattern": "Calls to gather",
+    "narrative": "NAR-05",
+    "likelihood": 0.6,
+    "window": [
+     90,
+     240
+    ],
+    "sources": [
+     "KB-OSA",
+     "KB-HRA1011"
+    ],
+    "prebunk": "Officers are in Port Ellery to keep everyone safe. Lawful protest is facilitated; violence and threats will be dealt with.",
+    "action": "SIB tension assessment for Port Ellery; prepare platform referral route for threats."
+   }
+  ]
+ }
+}

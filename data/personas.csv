@@ -1,0 +1,21 @@
+id,name,role,org,caps,synthetic
+nc-head,Priya Hallam,Head of NPCC Communications,npcc,line:approve; radar:triage; cell:join; audit:view,True
+nc-duty,Tom Ashdown,NPCC duty press officer,npcc,line:draft; line:cascade; statement:draft; cell:join; radar:triage,True
+nc-insight,Leah Marwood,NPCC insight and narrative analyst,npcc,radar:triage; radar:alert; referral:log; referral:update; state:handover; cell:join,True
+sib,Dev Raman,NPoCC SIB analyst,npocc,radar:triage; tension:assess; cell:join,True
+nm-head,Claire Fenwick,"Head of Corporate Communications, Northmoor",nmp,statement:draft; line:ack; cell:open; cell:join; radar:triage; referral:log,True
+nm-press,Jordan Pike,"Duty press officer, Northmoor",nmp,statement:draft; statement:publish; fact:add; line:ack; cell:join; referral:log,True
+nm-sio,DCI Sam Oduya,"Senior Investigating Officer, Northmoor",nmp,fact:verify; fact:add; statement:approve-sio; disclosure:recommend; cell:join,True
+nm-gold,ACC Rachel Thorne,"Gold commander, Northmoor",nmp,cell:open; statement:approve-gold; disclosure:decide; cell:join,True
+nm-legal,Martin Leigh,"Force legal adviser, Northmoor",nmp,statement:legal; cell:join,True
+sv-comms,Aisha Bell,"Communications manager, Severnvale",svc,statement:draft; statement:publish; line:ack; radar:triage; referral:log; cell:join,True
+dg-comms,Rhys Pritchard,"Bilingual communications officer, Dyfed-Glas",dgp,statement:draft; statement:publish; line:ack; line:localise; radar:triage; cell:join,True
+km-comms,Nadia Cole,"Head of Media, Kingsbridge",kmp,statement:draft; statement:publish; line:ack; radar:triage; referral:log; cell:join,True
+ho-press,Oliver Grange,Home Office press officer,ho,immigration:confirm; brief:read,True
+ho-psg,Helen Marsh,Home Office public safety official,ho,brief:read,True
+gov-info,Ben Carver,Government online information team liaison,gov,state:receive; brief:read,True
+ctp,DS Imran Kade,Counter Terrorism Policing liaison,ctp,state:receive; referral:update; brief:read,True
+cps,Joanna Price,CPS area communications manager,cps,statement:cps; brief:read,True
+col,Dr Fiona Hale,College of Policing learning lead,col,audit:view; debrief:write,True
+pcc,Gareth Moss,"Communications lead, Northmoor PCC office",pcc,brief:read,True
+eth,Prof. Anne Lowry,"Chair, Independent Ethics Panel",eth,audit:view,True
