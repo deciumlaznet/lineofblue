@@ -11,15 +11,15 @@
   const STAGES = ['draft', 'checked', 'legal', 'sio', 'gold', 'published'];
   const STAGE_LABEL = { draft: 'Draft', checked: 'Safe to Say checked', legal: 'Legal reviewed', sio: 'SIO approved', gold: 'Gold signed off', published: 'Published' };
   const VIEWS = [
-    ['inbox', 'My work', 'Work'], ['picture', 'National picture', 'Listen'], ['nmap', 'National map', 'Listen'], ['radar', 'Narrative Radar', 'Listen'], ['agent', 'L.O.B Agent', 'Act'], ['golden-hour', 'Golden Hour cell', 'Act'], ['safe-to-say', 'Safe to Say', 'Act'],
-    ['lines', 'National lines', 'Act'], ['escalations', 'Platform referrals', 'Act'], ['horizon', 'Event horizon', 'Plan'],
+    ['inbox', 'My work', 'Work'], ['picture', 'National picture', 'Listen'], ['nmap', 'National map', 'Listen'], ['radar', 'Narrative Radar', 'Listen'], ['trends', 'Trend watch', 'Listen'], ['agent', 'L.O.B Agent', 'Act'], ['golden-hour', 'Golden Hour cell', 'Act'], ['safe-to-say', 'Safe to Say', 'Act'],
+    ['lines', 'National lines', 'Act'], ['review', 'Review and mark-up', 'Act'], ['escalations', 'Platform referrals', 'Act'], ['horizon', 'Event horizon', 'Plan'], ['strategy', 'Strategy library', 'Plan'],
     ['scenarios', 'Scenarios', 'Demo'], ['workflows', 'Workflows and autonomy', 'Assure'], ['audit', 'Decision log', 'Assure'], ['governance', 'Data and safeguards', 'Assure'],
   ];
 
   // ------------------------------------------------------------------ state
   const fresh = () => ({
     persona: 'nc-insight', clock: 0, threshold: 6, trigger: 'arrest', selNarr: 'NAR-01', selInc: 'INC-NMP-0412', scenario: 'SC-01',
-    cells: {}, narr: {}, releases: [], lines: [], acks: {}, referrals: [], handovers: {}, tension: {}, fired: [], guardrails: [], auditViewed: false, audit: [], seq: 1, agent: { msgs: [], asked: [] }, agentQ: '', kbSel: null, mapOff: [], mapSel: null, levels: {},
+    cells: {}, narr: {}, releases: [], lines: [], acks: {}, referrals: [], handovers: {}, tension: {}, fired: [], guardrails: [], auditViewed: false, audit: [], seq: 1, agent: { msgs: [], asked: [] }, agentQ: '', kbSel: null, mapOff: [], mapSel: null, levels: {}, review: {}, revSel: 'DR-01', revMode: 'markup', pasted: [], paste: '', stSel: 'ST-VAWG', stCluster: 'all', trendSel: null, trendOpened: [], trendLive: {}, trendPending: null,
   });
   let S;
   try { S = Object.assign(fresh(), JSON.parse(localStorage.getItem(STORE) || 'null') || {}); } catch (e) { S = fresh(); }
@@ -133,6 +133,12 @@
       case 'agentAsked': return (S.agent.asked || []).includes(a);
       case 'prebunkAtLeast': return S.releases.some((r) => r.prebunk === a && STAGES.indexOf(r.status) >= STAGES.indexOf(b));
       case 'aheadOf': return aheadBy(a) != null;
+      case 'reviewRequested': return !!(S.review[a] && S.review[a].requested);
+      case 'reviewDecided': return !!S.review[a] && Object.keys(S.review[a].decisions).length >= +b;
+      case 'reviewOutcome': return !!(S.review[a] && S.review[a].outcome);
+      case 'redResolved': { const d = DR[a], r = S.review[a]; return !!(r && r.requested) && d.issues.every((x, n) => x.sev !== 'red' || r.decisions[n] === 'accept'); }
+      case 'trendOpened': return (S.trendOpened || []).includes(a);
+      case 'trendLineChecked': return S.releases.some((r) => r.trend === a);
       case 'statementPublishedBy': return S.releases.some((r) => r.author === a && r.status === 'published');
       default: return false;
     }
@@ -617,6 +623,268 @@ Question: ${q}`;
       ${syn.slice(0, 10).map((s) => `<tr class="click ${s === sel ? 'sel' : ''}" data-action="mapSel" data-f="${esc(s.force)}"><td>${esc(s.force)}</td><td class="num">${s.volume}</td><td class="num">${s.trend > 0 ? '+' : ''}${Math.round(s.trend * 100)}%</td><td class="small">${esc(Object.entries(s.mix).sort((a, b) => b[1] - a[1])[0][0])}</td></tr>`).join('')}
     </tbody></table></div></section></div></div>`;
   };
+  // ------------------------------------------------------------------ Review and mark-up (strategy, policy and lines)
+  // Inbound drafts arrive with the agent's mark-up precomputed (so the demo works offline). A pasted draft is
+  // reviewed live by Claude through the sample capability, or by the offline rule set when Claude is not available.
+  const DR = byId(W.drafts), ST = byId(W.strategyTopics);
+  const SEV = { red: ['Must fix', 'crit'], amber: ['Should fix', 'warn'], blue: ['Would improve', 'plain'] };
+  const rv = (id) => (S.review[id] = S.review[id] || { requested: false, mode: null, decisions: {}, outcome: null });
+  const allDrafts = () => [...W.drafts, ...(S.pasted || [])];
+  const draftById = (id) => DR[id] || (S.pasted || []).find((d) => d.id === id);
+  const canReview = () => can('line:approve') || can('line:draft') || can('statement:draft');
+  // locate each issue in its paragraph; issues that cannot be located are dropped
+  function located(d) {
+    const out = [];
+    d.issues.forEach((iss, n) => { const p = d.paras.findIndex((x) => x.includes(iss.find)); if (p >= 0) out.push({ ...iss, n, p, at: d.paras[p].indexOf(iss.find) }); });
+    return out;
+  }
+  function markPara(d, p, mode) {
+    const txt = d.paras[p], dec = rv(d.id).decisions;
+    const iss = located(d).filter((x) => x.p === p).sort((a, b) => a.at - b.at);
+    let html = '', pos = 0;
+    iss.forEach((x) => {
+      if (x.at < pos) return; // overlapping span: shown in the margin only
+      html += esc(txt.slice(pos, x.at));
+      const st = dec[x.n] || 'pending', isIns = x.insert != null, newTxt = isIns ? x.insert : x.repl;
+      const sup = `<sup class="mkn sev-${x.sev}">${x.n + 1}</sup>`;
+      if (mode === 'clean') html += st === 'accept' ? (isIns ? esc(x.find) + esc(newTxt) : esc(newTxt)) : esc(x.find);
+      else if (st === 'accept') html += `<span class="mk acc">${isIns ? esc(x.find) : ''}<ins>${esc(newTxt)}</ins>${sup}</span>`;
+      else if (st === 'reject') html += `<span class="mk rej">${esc(x.find)}${sup}</span>`;
+      else html += `<span class="mk sev-${x.sev}">${isIns ? esc(x.find) : `<del>${esc(x.find)}</del>`}${newTxt ? `<ins>${esc(newTxt)}</ins>` : ''}${sup}</span>`;
+      pos = x.at + x.find.length;
+    });
+    html += esc(txt.slice(pos));
+    return `<p>${html.replace(/\n/g, '<br>')}</p>`;
+  }
+  const kbChips = (ids) => (ids || []).filter((k) => KB[k]).map((k) => `<button class="chip" data-action="kbOpen" data-k="${k}" title="${esc(KB[k].title)}">${k}</button>`).join(' ');
+  // ---- offline reviewer: span rules drawn from the knowledge base
+  const OFF_RULES = [
+    [/,? ?(who is |who's )?(known to police|previous convictions?|has a history of)[^,.]*,?/i, 'law', 'red', 'Police history or previous convictions must not be mentioned once proceedings are active.', ['KB-CCA81'], ''],
+    [/(we are confident|we believe) (we have|we've) (got )?the right (man|person)[^.]*\./i, 'law', 'red', 'Comment on guilt before trial risks contempt.', ['KB-CCA81', 'KB-CPSPROT'], 'Enquiries are continuing.'],
+    [/\b(is )?(believed|thought|understood) to be an? (asylum seeker|illegal immigrant|migrant|refugee|foreign national)\b/i, 'law', 'red', 'Police do not speculate on immigration status. Only the Home Office confirms it.', ['KB-ETHNAT'], ''],
+    [/\b(women|girls) should (avoid|not|always|never)[^.]*\./i, 'tone', 'red', 'Victim-blaming: put the focus on perpetrators and bystanders.', ['KB-VAWG'], 'Abuse is the perpetrator\'s choice. If you see it, say something; if it happens to you, report it and you will be believed.'],
+    [/never leave your drink unattended\.?/i, 'tone', 'amber', 'Puts the responsibility on potential victims. Say how to report and get tested.', ['KB-SPIKE', 'KB-VAWG'], 'If you think you have been spiked, report it straight away and get tested.'],
+    [/alleged victim/i, 'tone', 'amber', 'Signals disbelief to the people you need to come forward.', ['KB-VAWG'], 'victim'],
+    [/zero tolerance/i, 'tone', 'amber', 'An unprovable promise. Say what you will do.', ['KB-APP'], 'relentless pursuit of offenders'],
+    [/\b(manpower|policemen|policeman)\b/i, 'tone', 'amber', 'Gendered language deters applicants and excludes colleagues.', ['KB-EQUAL'], (m) => /manpower/i.test(m) ? 'officers' : 'police officers'],
+    [/lessons (have been|will be|must be) learn(ed|t)\.?/i, 'tone', 'amber', 'A cliché that reads as complacent. Name what will change and by when.', ['KB-APP'], '[Name the specific changes and dates.]'],
+    [/\bso-called\b ?/i, 'tone', 'amber', 'Minimises the issue.', ['KB-CSEAUDIT'], ''],
+    [/the vast majority of (our )?officers[^.]*\./i, 'tone', 'amber', 'Defensive framing that dismisses the concern. Acknowledge the evidence first.', ['KB-PRAP'], '[Acknowledge the evidence, then say what you are doing.]'],
+    [/\b(this government's|ministers do not care|reckless decision|ideological)\b[^.]*\.?/i, 'impartial', 'red', 'Party-political language breaches police impartiality.', ['KB-IMPART', 'KB-PURDAH'], '[State the operational impact, with evidence.]'],
+    [/\bvote (for|against)\b[^.]*\.?/i, 'impartial', 'red', 'Police must never advise people how to vote.', ['KB-IMPART', 'KB-PURDAH'], ''],
+    [/\b(hate marchers|thugs|mob)\b/i, 'impartial', 'red', 'Labels a whole group. Describe conduct and the law instead.', ['KB-IMPART', 'KB-POA'], 'anyone committing offences'],
+    [/(anyone|people) (waving|carrying|displaying) an? [A-Z][a-z]+ flag will be arrested\.?/, 'law', 'red', 'Displaying a national flag is lawful. Only support for a proscribed group or hate offences are crimes.', ['KB-POA', 'KB-TACT'], 'Support for a proscribed organisation, or hate offences, will be dealt with.'],
+    [/\b(epidemic|crisis|spate)\b/i, 'accuracy', 'amber', 'Alarmist and unsourced. Use a sourced figure and explain it.', ['KB-APP'], 'rise'],
+    [/\b(raise|raising) awareness\b/i, 'behaviour', 'blue', 'Awareness is not a behaviour. Name what people should do.', ['KB-COMB', 'KB-GCSBEH'], '[name the behaviour you want, from whom]'],
+    [/\b(RTC|MOPs?|RV|TBC|ETA|Op [A-Z]{3,})\b/, 'access', 'amber', 'Police jargon. Use plain English.', ['KB-EAST'], (m) => ({ RTC: 'crash', MOP: 'the public', MOPs: 'people', RV: 'meet', TBC: 'to be confirmed', ETA: 'expected time' }[m] || '')],
+    [/(impressions|number of press releases|engagement)\b/i, 'structure', 'amber', 'An output, not an outcome. Measure the behaviour or attitude you want to change.', ['KB-GCSEVAL'], null],
+  ];
+  function offlineReview(text) {
+    const paras = text.split(/\n\s*\n|\n/).map((s) => s.trim()).filter(Boolean);
+    const issues = [];
+    paras.forEach((p) => { OFF_RULES.forEach(([re, cat, sev, why, kb, repl]) => { const m = p.match(re); if (!m || issues.some((x) => x.find === m[0])) return; const r = typeof repl === 'function' ? repl(m[0].trim()) : repl; const iss = { find: m[0], cat, sev, why, kb }; if (r == null) { iss.insert = ' [Agent: replace with an outcome measure, with baseline and target.]'; } else iss.repl = r; issues.push(iss); }); });
+    const whole = runChecks(text, '', null, me().org).filter((r) => r.level === 'red' || r.level === 'amber');
+    if (!/101|999|online|report/i.test(text)) issues.push({ find: paras[paras.length - 1], cat: 'complete', sev: 'blue', why: 'No call to action. Tell people exactly what to do and how.', kb: ['KB-EAST'], insert: ' [Add one action: how to report or where to find out more.]' });
+    const reds = issues.filter((x) => x.sev === 'red').length;
+    return { paras, issues, assessment: { verdict: reds ? 'Do not publish' : issues.length ? 'Approve with changes' : 'Approve', summary: `Offline rule set: ${issues.length} suggested change(s), ${reds} must fix.${whole.length ? ' Safe to Say also flags: ' + whole.map((r) => r.title).join('; ') + '.' : ''} Claude gives a fuller reading when it is available.`, scores: oasisScore(text), comb: null } };
+  }
+  function oasisScore(text) {
+    if (text.length < 500) return null;
+    const t = text.toLowerCase(), has = (re) => re.test(t);
+    return { Objectives: (has(/objective|aim/) ? 1 : 0) + (has(/\d+ ?%|baseline|target/) ? 1 : 0) + (has(/by (20\d\d|january|march|june|december)/) ? 1 : 0),
+      'Audience insight': (has(/audience/) ? 1 : 0) + (has(/insight|survey|research|focus group/) ? 1 : 0) + (has(/men|young people|parents|students|bystander/) ? 1 : 0),
+      'Strategy and ideas': (has(/message|proposition/) ? 1 : 0) + (has(/messenger|partner|influencer|creator/) ? 1 : 0) + (has(/norm|easy|timely|behaviour/) ? 1 : 0),
+      Implementation: (has(/channel/) ? 1 : 0) + (has(/sign-off|approv/) ? 1 : 0) + (has(/risk|welsh|accessib/) ? 1 : 0),
+      Scoring: (has(/evaluat|measure/) ? 1 : 0) + (has(/outcome/) ? 1 : 0) + (has(/baseline|survey/) ? 1 : 0) };
+  }
+  function reviewPrompt(text) {
+    const kb = W.knowledge.map((e) => `[${e.id}] ${e.title}. For comms: ${e.comms}`).join('\n');
+    return `You are the L.O.B Agent in Line of Blue, a synthetic demo of a national policing communications system for England and Wales. The Head of NPCC Communications asks for composed, thoughtful feedback on the draft below, as tracked-change mark-up.
+Check: UK law (contempt, anonymity, defamation, Welsh language, equality duty), NPCC and College guidance, political impartiality and the pre-election period, accuracy and sourcing, tone (victim blaming, defensiveness, jargon, labels), behaviour change (COM-B, EAST, MINDSPACE, GCS OASIS and evaluation), completeness (call to action, signposting, risks, measures).
+Return JSON only, no prose outside it: {"verdict":"Do not publish|Return for revision|Approve with changes|Approve","summary":"2-3 sentences, UK English","issues":[{"find":"an exact, verbatim span copied from the draft","repl":"replacement text, or empty string to delete","cat":"law|accuracy|tone|behaviour|complete|impartial|access|structure","sev":"red|amber|blue","why":"one or two plain sentences","kb":["KB-..."]}]}
+Rules: at most 10 issues; each find must be copied exactly from the draft and must not overlap another; red only for legal or impartiality breaches; cite only ids from the knowledge base; never add facts about real people; keep everything fictional.
+Knowledge base:
+${kb}
+
+Draft:
+${text}`;
+  }
+  async function liveReview(id) {
+    const d = draftById(id), r = rv(id), sample = await sampler();
+    const text = d.paras.join('\n\n');
+    if (sample) {
+      try {
+        r.pending = true; render();
+        const res = await sample(reviewPrompt(text), { modelTier: 'default' });
+        const raw = (res.text || '').replace(/^[\s\S]*?(\{[\s\S]*\})[\s\S]*$/, '$1');
+        const j = JSON.parse(raw);
+        d.issues = (j.issues || []).filter((x) => x && typeof x.find === 'string' && x.find && text.includes(x.find)).slice(0, 12).map((x) => ({ find: x.find, repl: String(x.repl ?? ''), cat: CATS_OK.includes(x.cat) ? x.cat : 'tone', sev: ['red', 'amber', 'blue'].includes(x.sev) ? x.sev : 'amber', why: String(x.why || ''), kb: (x.kb || []).filter((k) => KB[k]) }));
+        d.assessment = { verdict: j.verdict || 'Return for revision', summary: j.summary || '', scores: oasisScore(text), comb: null };
+        r.mode = 'claude';
+      } catch (e) {
+        Object.assign(d, offlineReview(text)); r.mode = 'offline';
+        r.note = e && e.code === 'not_granted' ? 'Claude was not allowed on this page, so the offline rule set reviewed it.' : 'Claude was unavailable, so the offline rule set reviewed it.';
+      }
+    } else { Object.assign(d, offlineReview(text)); r.mode = 'offline'; }
+    r.pending = false; r.requested = true; render();
+  }
+  const CATS_OK = Object.keys(W.markCats);
+  V.review = () => {
+    const list = allDrafts(), d = draftById(S.revSel) || list[0], r = rv(d.id), iss = r.requested ? located(d) : [];
+    const decided = iss.filter((x) => r.decisions[x.n]).length, redsOpen = iss.filter((x) => x.sev === 'red' && r.decisions[x.n] !== 'accept').length;
+    const a = d.assessment || {};
+    const inboxRow = (x) => { const s = rv(x.id); return `<button class="kbrow ${x.id === d.id ? 'sel' : ''}" data-action="revSel" data-d="${x.id}" data-testid="draft-${x.id}"><span class="mono small">${esc(x.id)}</span> ${esc(x.title)}<br><span class="small muted">${x.kind === 'strategy' ? 'Strategy' : x.kind === 'pasted' ? 'Pasted draft' : 'Proposed line'} · from ${esc(P[x.from] ? P[x.from].name + ', ' + O[x.org].short : 'you')}</span> ${s.outcome ? pill(s.outcome, s.outcome === 'Approved' ? 'ok' : 'warn') : s.requested ? pill('marked up', 'plain') : pill('new', 'warn')}</button>`; };
+    const scores = a.scores ? `<div class="oasis" data-testid="oasis-scores">${Object.entries(a.scores).map(([k, v]) => `<div><span class="small">${esc(k)}</span><span class="meter" role="img" aria-label="${esc(k)} ${v} of 3">${[0, 1, 2].map((i) => `<i class="${i < v ? 'on' : ''}"></i>`).join('')}</span></div>`).join('')}</div>` : '';
+    const comb = a.comb ? `<div class="small">COM-B coverage: ${Object.entries(a.comb).map(([k, v]) => `${esc(k)} ${pill(v, v === 'missing' ? 'crit' : v === 'partly' ? 'warn' : 'ok')}`).join(' ')}</div>` : '';
+    const comments = iss.map((x) => { const st = r.decisions[x.n]; return `<div class="cm sev-${x.sev} ${st ? 'st-' + st : ''}" data-testid="cm-${x.n + 1}"><div class="row" style="justify-content:space-between"><b><span class="mkn sev-${x.sev}">${x.n + 1}</span> ${esc(W.markCats[x.cat] || x.cat)}</b>${pill(SEV[x.sev][0], SEV[x.sev][1])}</div><span class="small">${esc(x.why)}</span><div class="small">${kbChips(x.kb)}</div>
+      <div class="row">${st ? `${pill(st === 'accept' ? 'accepted' : 'rejected', st === 'accept' ? 'ok' : 'plain')} ${btn('Undo', 'revDecide', { d: d.id, n: x.n, v: '' }, { sm: true })}` : `${btn('Accept', 'revDecide', { d: d.id, n: x.n, v: 'accept' }, { sm: true, cls: 'primary', disabled: !canReview(), testid: `accept-${x.n + 1}` })}${btn('Reject', 'revDecide', { d: d.id, n: x.n, v: 'reject' }, { sm: true, disabled: !canReview(), testid: `reject-${x.n + 1}` })}`}</div></div>`; }).join('');
+    const legend = `<div class="legend small"><span><del class="lg">removed</del></span><span><ins class="lg">proposed</ins></span><span><span class="mkn sev-red">1</span> must fix</span><span><span class="mkn sev-amber">2</span> should fix</span><span><span class="mkn sev-blue">3</span> would improve</span></div>`;
+    return `${head('Review and mark-up', 'Inbound strategies, policy responses and proposed lines. Ask the L.O.B Agent for feedback and it marks the document up with tracked changes, each with the reason and the source. You accept or reject every change; nothing is sent without a person.')}
+    <div class="grid-rev">
+      <section class="panel" data-testid="review-inbox"><header><h2>Inbound for review</h2><span class="small muted">${list.length} drafts</span></header>
+        <div class="scroll" style="max-height:560px">${list.map(inboxRow).join('')}</div>
+        <h3>Paste a draft</h3><textarea id="pasteText" data-input="paste" placeholder="Paste any strategy, statement or line for the agent to mark up" aria-label="Draft to review" data-testid="paste-text">${esc(S.paste || '')}</textarea>
+        <div class="row">${btn('Add to review desk', 'revPaste', {}, { sm: true, disabled: !canReview(), testid: 'paste-add' })}</div>
+      </section>
+      <section class="panel doc-panel" data-testid="review-doc"><header><div><span class="eyebrow">${esc(d.id)} · ${d.kind === 'strategy' ? 'strategy' : d.kind === 'pasted' ? 'pasted draft' : 'proposed line'}${d.topic && ST[d.topic] ? ' · ' + esc(ST[d.topic].title) : ''}</span><h2>${esc(d.title)}</h2></div>
+        ${r.requested ? `<div class="seg">${['markup', 'clean'].map((m) => `<button class="${(S.revMode || 'markup') === m ? 'on' : ''}" data-action="revMode" data-m="${m}" data-testid="mode-${m}">${m === 'markup' ? 'Mark-up' : 'Clean copy'}</button>`).join('')}</div>` : ''}</header>
+        ${d.ask ? `<p class="small muted">${esc(d.ask)}</p>` : ''}
+        ${!r.requested ? `<div class="row">${btn(r.pending ? 'Reviewing…' : 'Ask L.O.B for feedback', 'revAsk', { d: d.id }, { cls: 'primary', disabled: !canReview() || r.pending, testid: 'ask-review' })}<span class="small muted">${d.kind === 'pasted' ? (agentMode === 'claude' ? 'Claude reviews it live against the knowledge base.' : 'Reviewed by the offline rule set.') : 'Mark-up is precomputed for the demo.'}</span></div>` : ''}
+        ${r.requested ? `<div class="sev ${a.verdict === 'Do not publish' ? 'red' : a.verdict === 'Return for revision' ? 'amber' : 'green'}" data-testid="assessment"><span class="eyebrow">L.O.B Agent assessment · ${esc(r.mode === 'claude' ? 'Claude' : r.mode === 'offline' ? 'offline rule set' : 'precomputed')}</span><b>${esc(a.verdict)}</b><span class="small">${esc(a.summary)}</span>${r.note ? `<span class="small muted">${esc(r.note)}</span>` : ''}${scores}${comb}</div>${legend}` : ''}
+        <div class="doc ${S.revMode === 'clean' ? 'clean' : ''}" data-testid="doc-body">${d.paras.map((_, p) => r.requested ? markPara(d, p, S.revMode === 'clean' ? 'clean' : 'markup') : `<p>${esc(d.paras[p]).replace(/\n/g, '<br>')}</p>`).join('')}</div>
+        ${r.requested ? `<div class="row"><span class="small">${decided}/${iss.length} decided${redsOpen ? ` · <b style="color:var(--crit)">${redsOpen} must-fix change(s) not accepted</b>` : ''}</span>
+          ${btn('Accept all', 'revAll', { d: d.id }, { sm: true, disabled: !canReview(), testid: 'accept-all' })}
+          ${btn('Return for revision', 'revOutcome', { d: d.id, o: 'Returned for revision' }, { sm: true, disabled: !canReview(), testid: 'return-draft' })}
+          ${btn('Approve with changes', 'revOutcome', { d: d.id, o: 'Approved' }, { sm: true, cls: 'primary', disabled: !canReview() || redsOpen > 0 || decided < iss.length, testid: 'approve-draft', title: 'All changes decided and every must-fix accepted' })}
+          ${btn('Send clean copy to Safe to Say', 'revToSts', { d: d.id }, { sm: true, cap: 'statement:draft', disabled: redsOpen > 0, testid: 'rev-to-sts' })}</div>` : ''}
+        ${r.outcome ? `<p class="small">${pill(r.outcome, r.outcome === 'Approved' ? 'ok' : 'warn')} by ${who(r.by)} at ${clockStr(r.at)}. The mark-up and every decision are in the decision log.</p>` : ''}
+      </section>
+      <section class="panel" data-testid="review-comments"><header><h2>Comments</h2><span class="small muted">${iss.length ? 'why each change is proposed' : ''}</span></header>
+        ${iss.length ? `<div class="cms">${comments}</div>` : `<p class="empty">${r.requested ? 'No changes proposed.' : 'Ask the agent for feedback to see its mark-up and reasons.'}</p>`}
+        ${S.kbSel && KB[S.kbSel] ? `<div class="sev green"><span class="eyebrow">${esc(S.kbSel)} · ${esc(KB[S.kbSel].owner)}</span><b>${esc(KB[S.kbSel].title)}</b><span class="small">${esc(KB[S.kbSel].comms)}</span>${KB[S.kbSel].url ? `<a class="small" href="${esc(KB[S.kbSel].url)}" target="_blank" rel="noopener">Open the source</a>` : ''}</div>` : ''}
+      </section>
+    </div>`;
+  };
+
+  // ------------------------------------------------------------------ Strategy library
+  V.strategy = () => {
+    const clusters = [...new Set(W.strategyTopics.map((t) => t.cluster))];
+    const f = S.stCluster || 'all', t = ST[S.stSel] || W.strategyTopics[0];
+    const frameworks = ['KB-OASIS', 'KB-COMB', 'KB-EAST', 'KB-MINDSPACE', 'KB-GCSBEH', 'KB-GCSEVAL', 'KB-COLLWW'].map((k) => KB[k]);
+    return `${head('Strategy library', `Templates for the ${W.strategyTopics.length} strategies NPCC Communications most often has to write, review or respond to. Each follows the GCS OASIS structure and builds in behaviour change: COM-B to find the barrier, EAST and MINDSPACE to design the ask, and the GCS evaluation framework to score it.`)}
+    <section class="panel"><header><h2>Behaviour change toolkit</h2><span class="small muted">academic and UK government frameworks the agent applies</span></header>
+      <div class="fw">${frameworks.map((e) => `<button class="fwc" data-action="kbOpen" data-k="${e.id}"><span class="eyebrow">${esc(e.owner)}</span><b>${esc(e.title)}</b><span class="small">${esc(e.comms)}</span></button>`).join('')}</div></section>
+    <div class="row">${['all', ...clusters].map((c) => `<button class="chip ${f === c ? 'on' : ''}" data-action="stCluster" data-c="${esc(c)}">${esc(c === 'all' ? 'All topics' : c)}</button>`).join('')}</div>
+    <div class="grid2"><section class="panel" data-testid="topic-list"><div class="topics">${W.strategyTopics.filter((x) => f === 'all' || x.cluster === f).map((x) => `<button class="topic ${x.id === t.id ? 'sel' : ''}" data-action="stSel" data-s="${x.id}" data-testid="topic-${x.id}"><span class="eyebrow">${esc(x.cluster)}</span><b>${esc(x.title)}</b><span class="small muted">${esc(x.challenge)}</span></button>`).join('')}</div></section>
+    <section class="panel" data-testid="topic-detail"><header><div><span class="eyebrow">${esc(t.cluster)} · ${esc(t.id)}</span><h2>${esc(t.title)}</h2></div></header>
+      <p class="small"><b>Why it is hard:</b> ${esc(t.challenge)}</p>
+      <p class="small"><b>The behaviour sought:</b> ${esc(t.behaviour)}</p>
+      <div class="small"><b>Audiences:</b> ${t.audiences.map((x) => pill(x, 'plain')).join(' ')}</div>
+      <div class="small"><b>Handle with care:</b> ${t.sensitivities.map((x) => pill(x, 'warn')).join(' ')}</div>
+      <div class="small"><b>Measures that matter:</b> ${t.measures.map(esc).join(' · ')}</div>
+      <div class="small"><b>Global best practice:</b> ${esc(t.exemplar)}</div>
+      <div class="small"><b>Sources:</b> ${kbChips(t.kb)}</div>
+      <h3>OASIS template</h3>
+      <ol class="oasis-t">${W.oasis.map(([k, v]) => `<li><b>${esc(k)}</b><span class="small">${esc(v)}</span>${k === 'Objectives' ? `<span class="small muted">For this topic: ${esc(t.behaviour)}</span>` : k === 'Audience insight' ? `<span class="small muted">Start with: ${esc(t.audiences.join(', '))}</span>` : k === 'Scoring' ? `<span class="small muted">Suggested: ${esc(t.measures.join('; '))}</span>` : k === 'Implementation' ? `<span class="small muted">Risks: ${esc(t.sensitivities.join('; '))}</span>` : ''}</li>`).join('')}</ol>
+      <div class="row">${btn('Start a draft from this template', 'stDraft', { s: t.id }, { sm: true, cls: 'primary', disabled: !canReview(), testid: 'start-template' })}<span class="small muted">Opens the skeleton on the review desk, where the agent can mark it up as you write.</span></div>
+    </section></div>`;
+  };
+  const templateText = (t) => `${t.title} communications strategy (draft)\n\n` + W.oasis.map(([k]) => `${k}. ` + ({ Objectives: `Policy aim: [ ]. Communication objective: ${t.behaviour} Target: [baseline] to [target] by [date].`, 'Audience insight': `Audiences: ${t.audiences.join(', ')}. Insight: [survey, focus groups, partner data]. Barrier (COM-B): [capability / opportunity / motivation].`, 'Strategy and ideas': `Proposition: [one line]. Messengers: [trusted voices, partners]. Behavioural levers: [Easy, Attractive, Social, Timely].`, Implementation: `Channels: [ ]. Timeline: [ ]. Sign-off: [ ]. Welsh language and accessibility: [ ]. Risks: ${t.sensitivities.join('; ')}.`, Scoring: `Measures: ${t.measures.join('; ')}. Baseline set before launch; review at [date].` }[k])).join('\n\n');
+
+  // ------------------------------------------------------------------ Trend watch
+  const TH = byId(W.trends.themes), TS = byId(W.trends.series);
+  const dayLabel = (d) => { const dt = new Date(Date.UTC(2026, 9, 8 + d)); return dt.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' }); };
+  const mean = (a) => a.reduce((s, x) => s + x, 0) / Math.max(1, a.length);
+  const sd = (a) => { const m = mean(a); return Math.sqrt(mean(a.map((x) => (x - m) ** 2))); };
+  function trendStats(id) {
+    const v = TS[id].daily, n = v.length, base = v.slice(0, 21), last7 = v.slice(n - 7), prior7 = v.slice(n - 14, n - 7);
+    const bm = mean(base), bs = Math.max(1, sd(base)), recent = mean(last7), peak = Math.max(...v.slice(n - 14)), peakDay = n - 14 + v.slice(n - 14).indexOf(peak);
+    const growth = bm ? recent / bm - 1 : 0, z = (mean(v.slice(n - 3)) - bm) / bs;
+    // simple least-squares slope over the last 7 days, projected 7 days ahead
+    const xs = [0, 1, 2, 3, 4, 5, 6], xm = 3, ym = recent, slope = xs.reduce((s, x, i) => s + (x - xm) * (last7[i] - ym), 0) / xs.reduce((s, x) => s + (x - xm) ** 2, 0);
+    const fc = [1, 2, 3, 4, 5, 6, 7].map((k) => Math.max(0, Math.round(ym + slope * (3 + k))));
+    // first day the three-day average broke out of the normal range (mean + 3 sd)
+    let first = null; for (let i = 23; i < n; i++) if (mean(v.slice(i - 2, i + 1)) > bm + 3 * bs) { first = i; break; }
+    let status;
+    if (peak >= bm + 3 * bs && mean(v.slice(n - 3)) < 0.6 * peak) status = 'Fading';
+    else if (z >= 3 && growth >= 1 && first != null && first >= n - 10) status = 'Emerging';
+    else if (growth >= 0.5 && slope >= -0.5) status = 'Rising';
+    else status = 'Steady';
+    return { first, bm, bs, recent, prior: mean(prior7), growth, z, slope, fc, status, peak, peakDay, total7: last7.reduce((s, x) => s + x, 0) };
+  }
+  const STATUS_CLS = { Emerging: 'crit', Rising: 'warn', Fading: 'plain', Steady: 'ok' };
+  const RANK = { Emerging: 0, Rising: 1, Fading: 2, Steady: 3 };
+  function spark(id) {
+    const v = TS[id].daily, w = 120, h = 28, mx = Math.max(...v, 1);
+    const pts = v.map((y, i) => `${(i / (v.length - 1)) * w},${h - 2 - (y / mx) * (h - 4)}`).join(' ');
+    return `<svg class="spark" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" aria-hidden="true"><polyline points="${pts}"/></svg>`;
+  }
+  function trendChart(id) {
+    const v = TS[id].daily, s = trendStats(id), n = v.length, all = [...v, ...s.fc];
+    const w = 640, h = 220, L = 34, R = 12, T = 12, B = 26, mx = Math.max(6, ...all, s.bm + 2 * s.bs) * 1.1;
+    const x = (i) => L + (i / (all.length - 1)) * (w - L - R), y = (val) => T + (1 - val / mx) * (h - T - B);
+    const band = `<rect x="${L}" y="${y(s.bm + 2 * s.bs)}" width="${w - L - R}" height="${Math.max(1, y(Math.max(0, s.bm - 2 * s.bs)) - y(s.bm + 2 * s.bs))}" class="band"/><line x1="${L}" x2="${w - R}" y1="${y(s.bm)}" y2="${y(s.bm)}" class="bline"/>`;
+    const ticks = [0, Math.round(mx / 2), Math.round(mx * 0.9)].map((t) => `<text x="${L - 6}" y="${y(t) + 4}" class="ax" text-anchor="end">${t}</text><line x1="${L}" x2="${w - R}" y1="${y(t)}" y2="${y(t)}" class="grid"/>`).join('');
+    const xt = [0, 14, 28, n - 1, all.length - 1].map((i) => `<text x="${x(i)}" y="${h - 8}" class="ax" text-anchor="${i === all.length - 1 ? 'end' : 'middle'}">${i === all.length - 1 ? '+7 days' : dayLabel(i)}</text>`).join('');
+    const line = `<polyline class="tl" points="${v.map((val, i) => `${x(i)},${y(val)}`).join(' ')}"/><polyline class="fl" points="${[v[n - 1], ...s.fc].map((val, i) => `${x(n - 1 + i)},${y(val)}`).join(' ')}"/>`;
+    const hits = v.map((val, i) => `<rect class="hit" x="${x(i) - 7}" y="${T}" width="14" height="${h - T - B}"><title>${dayLabel(i)}: ${val} items</title></rect><circle class="pt" cx="${x(i)}" cy="${y(val)}" r="${i >= n - 7 ? 3 : 0}"/>`).join('');
+    return `<svg class="tchart" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(TH[id].title)}: daily items over six weeks with the normal range and a seven-day projection">${ticks}${band}${line}${hits}<line x1="${x(n - 1)}" x2="${x(n - 1)}" y1="${T}" y2="${h - B}" class="now"/><text x="${x(n - 1) - 4}" y="${T + 10}" class="ax" text-anchor="end">yesterday</text>${xt}</svg>
+      <div class="legend small"><span><i class="sw" style="background:var(--accent)"></i>daily items</span><span><i class="sw band"></i>normal range (first three weeks, ±2 sd)</span><span><i class="sw dash"></i>agent projection</span></div>`;
+  }
+  function trendReading(id) {
+    const th = TH[id], s = trendStats(id), mix = TS[id].mix, pct = (x) => Math.round(x * 100);
+    const top = W.trends.sources.map((src, i) => [src, mix[i]]).sort((a, b) => b[1] - a[1]);
+    const out = [];
+    if (s.status === 'Emerging' || s.status === 'Rising') {
+      out.push(`Volume over the last 7 days is ${s.growth >= 0 ? '+' : ''}${pct(s.growth)}% against the first three weeks (${s.recent.toFixed(1)} a day against ${s.bm.toFixed(1)}).`);
+      if (s.first != null) out.push(`It broke out of its normal range on ${dayLabel(s.first)}.`);
+      out.push(`The last three days sit ${s.z.toFixed(1)} standard deviations above normal, and the projection for the next week is ${s.fc.reduce((a, b) => a + b, 0)} items.`);
+    } else if (s.status === 'Fading') out.push(`Peaked on ${dayLabel(s.peakDay)} at ${s.peak} items and is now falling. No new line needed; keep the existing one live.`);
+    else out.push('Within its normal range. No action needed.');
+    out.push(`Mostly ${top[0][0].toLowerCase()} (${pct(top[0][1])}%), then ${top[1][0].toLowerCase()} (${pct(top[1][1])}%). ${th.drivers}`);
+    if (th.truth) out.push(`What is known: ${th.truth}`);
+    return out;
+  }
+  V.trends = () => {
+    const rows = W.trends.themes.map((t) => ({ t, s: trendStats(t.id) })).sort((a, b) => RANK[a.s.status] - RANK[b.s.status] || b.s.growth - a.s.growth);
+    const sel = TH[S.trendSel] || rows[0].t, ss = trendStats(sel.id), live = (S.trendLive || {})[sel.id];
+    const sig = W.trends.signals.filter((x) => x.theme === sel.id).sort((a, b) => b.d - a.d);
+    const emerging = rows.filter((r) => r.s.status === 'Emerging' || r.s.status === 'Rising');
+    const total = W.trends.series.reduce((a, s) => a + s.daily.reduce((x, y) => x + y, 0), 0);
+    const brief = emerging.slice(0, 3).map((r) => `${r.t.title} (${r.s.status.toLowerCase()}, ${r.s.growth >= 0 ? '+' : ''}${Math.round(r.s.growth * 100)}%)`).join('; ');
+    return `${head('Trend watch', `Six weeks of synthetic events (${dayLabel(0)} to ${dayLabel(W.trends.days - 1)}): public posts, media enquiries, calls to 101 and partner reports, grouped into themes. The L.O.B Agent compares each theme with its normal range, flags what is emerging, explains why, and proposes a line for a person to check and sign off.`)}
+    <div class="strip"><div class="stat"><span class="eyebrow">Events in six weeks</span><span class="v">${total.toLocaleString('en-GB')}</span><span class="small muted">synthetic</span></div>
+      <div class="stat"><span class="eyebrow">Themes watched</span><span class="v">${rows.length}</span></div>
+      <div class="stat"><span class="eyebrow">Emerging or rising</span><span class="v" style="color:var(--crit)">${emerging.length}</span></div>
+      <div class="stat"><span class="eyebrow">Lines proposed</span><span class="v">${rows.filter((r) => r.t.line && (r.s.status === 'Emerging' || r.s.status === 'Rising')).length}</span></div></div>
+    <div class="sev amber" data-testid="trend-brief"><span class="eyebrow">L.O.B Agent · morning trend brief for the Head of NPCC Communications</span><span>${emerging.length} themes need attention: ${esc(brief)}. Proposed lines are ready for each; ${rows.filter((r) => r.s.status === 'Fading').length} earlier themes are fading and need no new line.</span></div>
+    <div class="grid2"><section class="panel" data-testid="trend-list"><header><h2>Themes</h2><span class="small muted">sorted by the agent's call</span></header>
+      <div class="scroll"><table><thead><tr><th>Theme</th><th>Six weeks</th><th class="num">Last 7 days</th><th class="num">vs normal</th><th>Agent's call</th></tr></thead><tbody>
+      ${rows.map(({ t, s }) => `<tr class="click ${t.id === sel.id ? 'sel' : ''}" data-action="trendSel" data-t="${t.id}" data-testid="trend-${t.id}"><td><span class="mono small">${t.id}</span> ${esc(t.title)}<br><span class="small muted">${esc(t.force === 'national' ? 'All forces' : O[t.force].name)}</span></td><td>${spark(t.id)}</td><td class="num">${s.total7}</td><td class="num">${s.growth >= 0 ? '+' : ''}${Math.round(s.growth * 100)}%</td><td>${pill(s.status, STATUS_CLS[s.status])}</td></tr>`).join('')}
+      </tbody></table></div></section>
+    <section class="panel" data-testid="trend-detail"><header><div><span class="eyebrow">${esc(sel.id)} · ${esc(sel.force === 'national' ? 'All forces' : O[sel.force].name)}${ST[sel.topic] ? ' · ' + esc(ST[sel.topic].title) : ''}</span><h2>${esc(sel.title)}</h2></div>${pill(ss.status, STATUS_CLS[ss.status])}</header>
+      ${trendChart(sel.id)}
+      <div class="srcmix" role="img" aria-label="Source mix">${W.trends.sources.map((src, i) => `<i style="flex:${TS[sel.id].mix[i]}" title="${esc(src)} ${Math.round(TS[sel.id].mix[i] * 100)}%" class="m${i}"></i>`).join('')}</div>
+      <div class="legend small">${W.trends.sources.map((src, i) => `<span><i class="sw m${i}"></i>${esc(src)}</span>`).join('')}</div>
+      <h3>Why the agent flagged it</h3><ul class="small" data-testid="trend-why">${trendReading(sel.id).map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
+      ${sel.line && (ss.status === 'Emerging' || ss.status === 'Rising') ? `<div class="sev green" data-testid="trend-line"><span class="eyebrow">Proposed line · ${live ? 'Claude' : 'agent playbook'}</span><span>${esc(live || sel.line)}</span><span class="small">Grounded in ${kbChips(sel.kb)}</span>${sel.prebunk ? `<span class="small"><b>Pre-bunk:</b> ${esc(sel.prebunk)}</span>` : ''}
+        <div class="row">${btn('Send to Safe to Say', 'trendLine', { t: sel.id }, { sm: true, cls: 'primary', cap: 'statement:draft', testid: 'trend-to-sts' })}${btn(S.trendPending === sel.id ? 'Drafting…' : 'Ask L.O.B for another version', 'trendAsk', { t: sel.id }, { sm: true, disabled: S.trendPending === sel.id, testid: 'trend-ask' })}${btn('Send to review desk', 'trendReview', { t: sel.id }, { sm: true, disabled: !canReview(), testid: 'trend-review' })}</div></div>` : ''}
+      <h3>Signals in this theme</h3>${sig.length ? `<ul class="feed">${sig.map((x) => `<li><span class="mono small">${dayLabel(x.d)}</span> ${pill(x.src, 'plain')} <span class="small">${esc(x.text)}</span></li>`).join('')}</ul>` : '<p class="empty">Background noise only.</p>'}
+    </section></div>`;
+  };
+  async function trendAsk(id) {
+    const th = TH[id], s = trendStats(id), sample = await sampler();
+    const kb = th.kb.map((k) => `[${k}] ${KB[k].title}. For comms: ${KB[k].comms}`).join('\n');
+    const prompt = `You are the L.O.B Agent in Line of Blue, a synthetic demo of a national police comms system for England and Wales. All names are fictional. Write one public police line (under 90 words, UK English, plain, no hashtags) for this emerging trend. Do not repeat the false claim, do not name or describe anyone beyond what is known, give one clear action, and be impartial. Return only the line.
+Trend: ${th.title}. Agent's call: ${s.status}, ${Math.round(s.growth * 100)}% above normal. Drivers: ${th.drivers} What is known: ${th.truth}
+Sources:
+${kb}`;
+    S.trendLive = S.trendLive || {};
+    if (sample) { try { S.trendPending = id; render(); const res = await sample(prompt, { modelTier: 'default' }); if (res.text && res.text.trim()) S.trendLive[id] = res.text.trim(); } catch (e) { toast('Claude was unavailable, so the playbook line stays.'); } }
+    else toast('Offline: the playbook line is the agent\'s proposal. Claude can offer other versions when it is available.');
+    S.trendPending = null; render();
+  }
+
   // ------------------------------------------------------------------ Workflows and autonomy: progress dashboard
   // Each sub-activity's status is read from the demo state for the Harbourside Market incident.
   const LV_SHORT = ['', 'Agent', 'Agent + sign-off', 'Iterative', 'Human + agent QA', 'Human'];
@@ -658,6 +926,13 @@ Question: ${q}`;
       case 'W7.3': return S.clock >= 180 ? S_('human', 'debrief due') : S_('waiting', 'after the incident');
       case 'W7.4': return S_('done', 'mandate approved (synthetic)');
       case 'W7.5': return S_('done', `${W.scenarios.length} scenarios available`);
+      case 'W8.1': return S_('agent', `${W.trends.themes.length} themes and policy feeds watched`);
+      case 'W8.2': return (S.trendOpened || []).length ? S_('done', 'trend brief read') : S_('human', 'morning trend brief waiting', 0);
+      case 'W8.3': return S_('waiting', 'no live policy position in this scenario');
+      case 'W8.4': return (S.pasted || []).length ? S_('done', 'draft started') : S_('waiting');
+      case 'W8.5': { const open = W.drafts.filter((d) => !(S.review[d.id] && S.review[d.id].outcome)); return open.length ? S_('human', `${open.length} inbound draft(s) awaiting a decision`, -30) : S_('done', 'all inbound drafts decided'); }
+      case 'W8.6': return S_('waiting');
+      case 'W8.7': return S_('agent', 'coverage tracked');
       default: return S_('waiting');
     }
   }
@@ -673,10 +948,10 @@ Question: ${q}`;
     const clock = (label, v, std, testid) => `<div class="stat" data-testid="${testid}"><span class="eyebrow">${label}</span><span class="v" style="color:${v == null ? 'var(--ink-3)' : v <= std ? 'var(--ok)' : 'var(--crit)'}">${v == null ? '–' : v + ' min'}</span><span class="small muted">standard ${std} min${v == null ? '' : v <= std ? ' · met' : ' · missed'}</span></div>`;
     const done = steps.filter((s) => s.st.status === 'done').length, byAgent = steps.filter((s) => s.st.status === 'agent' || (s.st.status === 'done' && s.lv <= 2)).length;
     const canEdit = can('line:approve');
-    return `${head('Workflows and autonomy', 'The seven core comms workflows (RESIST 3), 28 steps, each with an agreed autonomy level, from fully agentic to fully human. Status is live for the Harbourside Market incident. Whatever the level, the agent never publishes, contacts a third party or profiles a person on its own.')}
+    return `${head('Workflows and autonomy', `The ${W.workflows.length} core comms workflows (RESIST 3 plus strategy and policy), ${W.workflows.flatMap((w) => w.steps).length} steps, each with an agreed autonomy level, from fully agentic to fully human. Status is live for the Harbourside Market incident. Whatever the level, the agent never publishes, contacts a third party or profiles a person on its own.`)}
     <div class="strip">${clock('Time to first fact', ttff, 60, 'clock-ttff')}${clock('Since last update', sinceUpd, 60, 'clock-update')}${clock('Flag to rebuttal (median)', flagged.length ? flagged.sort((a, b) => a - b)[Math.floor(flagged.length / 2)] : null, 30, 'clock-rebuttal')}
       <div class="stat"><span class="eyebrow">Steps done</span><span class="v">${done}/${steps.length}</span><span class="small muted">${byAgent} carried by agents</span></div></div>
-    <div class="grid2 wfgrid"><section class="panel"><header><h2>Autonomy mix</h2><span class="small muted">how the 28 steps are split · the governance board can change a level</span></header>
+    <div class="grid2 wfgrid"><section class="panel"><header><h2>Autonomy mix</h2><span class="small muted">how the ${W.workflows.flatMap((w) => w.steps).length} steps are split · the governance board can change a level</span></header>
       <div class="mixbar5" role="img" aria-label="Autonomy mix: ${mix.map((n, i) => n + ' ' + W.autonomy[i + 1]).join(', ')}">${mix.map((n, i) => n ? `<i class="lv${i + 1}" style="flex:${n}" title="${esc(W.autonomy[i + 1])}: ${n}">${n}</i>` : '').join('')}</div>
       <div class="legend">${[1, 2, 3, 4, 5].map((l) => `<span><i class="sw lv${l}"></i>${esc(W.autonomy[l])}</span>`).join('')}</div></section>
     <section class="panel" data-testid="signoff-queue"><header><h2>Waiting on a person</h2><span class="small muted">longest wait first</span></header>
@@ -713,6 +988,21 @@ Question: ${q}`;
 
   // ------------------------------------------------------------------ actions
   const H = {
+    revSel: (d) => { S.revSel = d.d; },
+    revMode: (d) => { S.revMode = d.m; },
+    revAsk: (d) => { const x = draftById(d.d), r = rv(d.d); log('L.O.B Agent asked to review a draft', `${x.id} ${x.title}`); if (x.kind === 'pasted') { liveReview(d.d); return; } r.requested = true; r.mode = 'precomputed'; S.agent.asked.push('review'); toast(`${x.issues.length} suggested changes, each with a reason and source.`); },
+    revDecide: (d) => { const r = rv(d.d), x = draftById(d.d), iss = x.issues[+d.n]; if (d.v) r.decisions[d.n] = d.v; else delete r.decisions[d.n]; if (d.v) log(`Mark-up change ${d.v === 'accept' ? 'accepted' : 'rejected'}`, `${x.id} #${+d.n + 1} (${W.markCats[iss.cat] || iss.cat}, ${SEV[iss.sev][0].toLowerCase()}): ${iss.find.slice(0, 80)}`); },
+    revAll: (d) => { const r = rv(d.d), x = draftById(d.d); x.issues.forEach((_, n) => { if (!r.decisions[n]) r.decisions[n] = 'accept'; }); log('Mark-up: all remaining changes accepted', `${x.id} ${x.title}`); },
+    revOutcome: (d) => { const r = rv(d.d), x = draftById(d.d); r.outcome = d.o; r.by = S.persona; r.at = S.clock; const acc = Object.values(r.decisions).filter((v) => v === 'accept').length; log(d.o === 'Approved' ? 'Draft approved with changes' : 'Draft returned for revision', `${x.id} ${x.title}: ${acc} change(s) accepted, ${Object.values(r.decisions).filter((v) => v === 'reject').length} rejected; mark-up sent to ${x.from && P[x.from] ? P[x.from].name : 'author'}`); toast(d.o === 'Approved' ? 'Approved. The clean copy can go to Safe to Say.' : `Returned to ${x.from && P[x.from] ? P[x.from].name : 'the author'} with the mark-up and comments.`); },
+    revToSts: (d) => { const x = draftById(d.d), r = rv(d.d), text = x.paras.map((_, p) => markPara(x, p, 'clean')).join('\n').replace(/<br>/g, '\n').replace(/<\/p>/g, '\n').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").trim(); S.draft = { title: x.title, text, cy: '', incident: '' }; log('Reviewed draft sent to Safe to Say', `${x.id} clean copy`); location.hash = 'safe-to-say'; },
+    revPaste: () => { const t = (S.paste || '').trim(); if (!t) { toast('Paste a draft first.'); return; } const id = 'DR-P' + ((S.pasted || []).length + 1); S.pasted = [...(S.pasted || []), { id, kind: 'pasted', title: t.split('\n')[0].slice(0, 70), from: S.persona, org: me().org, paras: t.split(/\n\s*\n|\n/).map((x) => x.trim()).filter(Boolean), issues: [], assessment: null }]; S.revSel = id; S.paste = ''; log('Draft added to the review desk', id); },
+    stCluster: (d) => { S.stCluster = d.c; },
+    stSel: (d) => { S.stSel = d.s; },
+    stDraft: (d) => { S.paste = templateText(ST[d.s]); log('Strategy template opened', ST[d.s].title); location.hash = 'review'; toast('Template is in the paste box. Fill it in, then add it to the review desk.'); },
+    trendSel: (d) => { S.trendSel = d.t; if (!S.trendOpened.includes(d.t)) { S.trendOpened.push(d.t); log('Trend opened', `${d.t} ${TH[d.t].title}: agent's call ${trendStats(d.t).status}`); } },
+    trendLine: (d) => { const th = TH[d.t]; S.draft = { title: `Trend line: ${th.title}`, text: (S.trendLive || {})[d.t] || th.line, cy: '', incident: '', trend: d.t }; log('Trend line sent to Safe to Say', `${d.t} ${th.title}`); location.hash = 'safe-to-say'; },
+    trendAsk: (d) => { trendAsk(d.t); },
+    trendReview: (d) => { const th = TH[d.t], id = 'DR-P' + ((S.pasted || []).length + 1), text = (S.trendLive || {})[d.t] || th.line; S.pasted = [...(S.pasted || []), { id, kind: 'pasted', title: `Trend line: ${th.title}`, from: S.persona, org: me().org, paras: [text], issues: [], assessment: null }]; S.revSel = id; log('Trend line sent to the review desk', d.t); location.hash = 'review'; },
     selNarr: (d) => { S.selNarr = d.n; },
     triage: (d) => { narr(d.n).triaged = true; log('Alert triaged', `${d.n} ${N[d.n].title}`, { incident: N[d.n].incident }); toast('Alert triaged and logged.'); },
     linkNarr: (d) => { const n = N[d.n]; narr(d.n).linked = true; narr(d.n).triaged = true; log('Narrative linked to incident', `${d.n} linked to ${n.incident}`, { incident: n.incident }); toast(`${d.n} linked to ${n.incident}. The Golden Hour cell now shows it.`); },
@@ -749,7 +1039,7 @@ Question: ${q}`;
       const reason = ($('#dReason') || {}).value || '';
       if (amb.length && !reason.trim()) { toast('Add a decision record for the amber items before submitting.'); return; }
       const narrs = d.prebunk ? [d.prebunk] : d.incident ? W.narratives.filter((n) => n.incident === d.incident && narrStats(n).count).map((n) => n.id) : W.narratives.filter((n) => narrStats(n).count && n.places.some((pl) => PL[pl].force === me().org)).map((n) => n.id);
-      const r = { id: nid('REL'), title: d.title, text: d.text, cy: d.cy, incident: d.incident || null, org: me().org, author: S.persona, status: 'checked', decision: reason || null, narratives: narrs, prebunk: d.prebunk || null, history: [] };
+      const r = { id: nid('REL'), title: d.title, text: d.text, cy: d.cy, incident: d.incident || null, org: me().org, author: S.persona, status: 'checked', decision: reason || null, narratives: narrs, prebunk: d.prebunk || null, trend: d.trend || null, history: [] };
       if (r.incident && !I[r.incident].gold) r.incident = r.incident; // non-critical incidents use the short flow
       S.releases.push(r);
       log('Safe to Say check recorded', `${r.id} ${r.title}: ${amb.length ? amb.length + ' amber item(s) accepted. Reason: ' + reason : 'clear'}`, { incident: r.incident });
@@ -817,6 +1107,7 @@ Question: ${q}`;
   document.addEventListener('input', (e) => {
     const k = e.target.dataset.input; if (!k) return;
     if (k === 'agentQ') { S.agentQ = e.target.value; return save(); }
+    if (k === 'paste') { S.paste = e.target.value; return save(); }
     const map = { dTitle: 'title', dText: 'text', dCy: 'cy' }; S.draft[map[k]] = e.target.value;
     if (k === 'dTitle') return save();
     clearTimeout(tmr); tmr = setTimeout(() => { const pos = e.target.selectionStart, id = e.target.id; render(); const el = document.getElementById(id); if (el) { el.focus(); try { el.setSelectionRange(pos, pos); } catch (er) { /* ignore */ } } }, 350);

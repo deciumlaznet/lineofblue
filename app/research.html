@@ -366,8 +366,8 @@ footer p { max-width: 80ch; }
       <div class="spec" id="spec"></div>
       <div class="guard" id="guard"></div>
       <div class="wf">
-        <h3>Proposed workflow 8: policy and government response</h3>
-        <p class="muted" style="margin:6px 0 0">Not yet in the demo. The same autonomy scale applies: the agent does the scanning and drafting, people decide the position and who hears it first.</p>
+        <h3>Workflow 8: strategy, policy and government response</h3>
+        <p class="muted" style="margin:6px 0 0">Now in the demo, with a Review and mark-up desk (the agent marks up inbound strategies and lines with tracked changes and reasons), a Strategy library of 36 OASIS templates with behaviour change built in, and Trend watch. The same autonomy scale applies: the agent does the scanning and drafting, people decide the position and who hears it first.</p>
         <ol id="wf8"></ol>
       </div>
     </section>
@@ -623,7 +623,22 @@ footer p { max-width: 80ch; }
     ["inc", "Families of Itaewon crowd crush victims face online abuse", "South China Morning Post", 2023, "https://scmp.com/news/asia/east-asia/article/3216516/south-korea-families-itaewon-crowd-crush-victims-face-unspeakable-online-abuse", "Rumours and abuse aimed at victims and families."],
     ["inc", "Strategic communications and the Westgate attack", "ICCT", 2022, "https://icct.nl/sites/default/files/2022-12/StratComms-Report-3-Muindi-Final.pdf", "Contradictory official messages while attackers posted live."],
     ["inc", "Inside the Lagos #EndSARS panel report", "TheCable", 2021, "https://www.thecable.ng/soldiers-killed-protesters-lcc-manipulated-footage-inside-lagos-endsars-panel-report", "A judicial panel found official accounts and footage unreliable."],
-    ["inc", "Report of the expert panel into the July 2021 civil unrest", "South African Presidency (via Polity)", 2022, "https://polity.org.za/article/report-of-the-expert-panel-into-the-july-2021-civil-unrest-2022-02-07", "Social media used to organise and inflame unrest."]
+    ["inc", "Report of the expert panel into the July 2021 civil unrest", "South African Presidency (via Polity)", 2022, "https://polity.org.za/article/report-of-the-expert-panel-into-the-july-2021-civil-unrest-2022-02-07", "Social media used to organise and inflame unrest."],
+    ["ev", "COM-B model and the Behaviour Change Wheel (2011)", "Michie, van Stralen and West (UCL), Implementation Science", 2011, "https://implementationscience.biomedcentral.com/articles/10.1186/1748-5908-6-42", "Strategy reviews name the behaviour and the barrier (capability, opportunity, motivation)."],
+    ["ev", "EAST: four simple ways to apply behavioural insights (2014)", "Behavioural Insights Team", 2014, "https://www.bi.team/publications/east-four-simple-ways-to-apply-behavioural-insights/", "Mark-up checks every ask is easy, attractive, social and timely."],
+    ["ev", "MINDSPACE: influencing behaviour through public policy (2010)", "Cabinet Office and Institute for Government", 2010, "https://www.instituteforgovernment.org.uk/publication/report/mindspace", "Messenger, norms and affect checks in strategy review."],
+    ["ev", "Strategic communication: a behavioural approach (GCS, 2018)", "Government Communication Service", 2018, "https://gcs.civilservice.gov.uk/publications/strategic-communication-a-behavioural-approach/", "Objectives must be behaviours or attitudes, not outputs."],
+    ["ev", "OASIS campaign planning guide (GCS)", "Government Communication Service", 2023, "https://gcs.civilservice.gov.uk/guidance/marketing/delivering-government-campaigns/guide-to-campaign-planning-oasis/", "Spine of every strategy template and the first test in a review."],
+    ["ev", "GCS Evaluation Cycle and evaluation framework", "Government Communication Service", 2023, "https://gcs.civilservice.gov.uk/publications/gcs-evaluation-cycle/", "Scoring sections need baselines, targets and outcomes."],
+    ["ev", "What Works Centre for Crime Reduction and the Crime Reduction Toolkit", "College of Policing", 2024, "https://www.college.police.uk/research/crime-reduction-toolkit", "Prevention messages must have evidence and not shift blame to victims."],
+    ["over", "Policing VAWG national framework for delivery, and the government ambition to halve VAWG in a decade", "NPCC and College of Policing", 2021, "https://www.npcc.police.uk/our-work/violence-against-women-and-girls/", "VAWG template and victim-blaming checks."],
+    ["over", "National audit on group-based child sexual exploitation and abuse (June 2025)", "Baroness Casey for the Home Office", 2025, "https://www.gov.uk/government/publications/national-audit-on-group-based-child-sexual-exploitation-and-abuse", "Grooming gangs template and candour on ethnicity data."],
+    ["over", "Police Race Action Plan (2022, with progress reports)", "NPCC and College of Policing", 2022, "https://www.college.police.uk/support-forces/diversity-and-inclusion/police-race-action-plan", "Race Action Plan template; flags defensive framing."],
+    ["over", "CONTEST: UK counter-terrorism strategy (2023) and the Prevent duty", "Home Office", 2023, "https://www.gov.uk/government/publications/counter-terrorism-strategy-contest-2023", "Extremism, Prevent and preparedness templates."],
+    ["law", "Public Order Act 1986 ss.12 and 14, and Public Order Act 2023", "UK Parliament", 1986, "https://www.legislation.gov.uk/ukpga/1986/64", "Protest and war-protest lines: conditions and lawful flags."],
+    ["gov", "Spiking: government actions and new offence commitment", "Home Office", 2025, "https://www.gov.uk/government/news/spiking-to-be-made-a-specific-criminal-offence", "Spiking trend line: report and test, focus on perpetrators."],
+    ["guide", "Live facial recognition APP and Bridges v South Wales Police [2020] EWCA Civ 1058", "College of Policing", 2024, "https://www.college.police.uk/app/live-facial-recognition", "Facial recognition trend line: publish where, why and deletion."],
+    ["gov", "Fraud strategy and Stop! Think Fraud campaign; report to Report Fraud and 7726", "Home Office and City of London Police", 2023, "https://stopthinkfraud.campaign.gov.uk/", "Fake fine text trend line: one national call to action."]
   ];
   function ref(t) { for (var i = 0; i < REFS.length; i++) if (REFS[i][1].indexOf(t) === 0) return REFS[i]; return null; }
   function cite(t, label) { var r = ref(t); return r ? '<a class="cite" href="' + r[4] + '">' + esc(label || r[2]) + '</a>' : ""; }
@@ -644,7 +659,7 @@ footer p { max-width: 80ch; }
 
   /* ---------- The whole job ---------- */
   var REMIT = [
-    ["Policy and government relations", "Respond to white papers, bills, consultations and select committees; agree one position across chiefs; brief officials and PCCs without surprises.", "plan", "Proposed workflow 8, below"],
+    ["Policy and government relations", "Respond to white papers, bills, consultations and select committees; agree one position across chiefs; brief officials and PCCs without surprises.", "plan", "Workflow 8, below"],
     ["Incident and crisis communications", "The golden hour, holding lines, rebuttal and the update rhythm when something goes wrong.", "demo", "Golden Hour, Safe to Say, Narrative Radar"],
     ["Media relations", "A national press office: enquiries, briefings and interviews under the Policing and Media Charter.", "part", "Media enquiries step (W6.2)"],
     ["Public confidence and campaigns", "Recruitment, violence against women and girls, knife crime and prevention campaigns, planned and evaluated.", "part", "Pre-bunking calendar; campaign planning planned"],

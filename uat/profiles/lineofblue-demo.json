@@ -1400,6 +1400,413 @@
    ]
   },
   {
+   "id": "conductor-sc08",
+   "title": "SC-08 conductor: strategy review, mark-up and trend-led lines",
+   "viewports": [
+    "desktop"
+   ],
+   "scenarios": [
+    {
+     "id": "sc08",
+     "title": "Mark up a weak strategy and a non-compliant line; turn a trend into a checked line",
+     "steps": [
+      {
+       "do": "goto",
+       "path": "/#governance"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reset"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-head",
+       "note": "act as nc-head"
+      },
+      {
+       "do": "goto",
+       "path": "/#review"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "draft-DR-01"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "ask-review"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Return for revision"
+      },
+      {
+       "do": "expectText",
+       "text": "victim-blaming"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-1"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-2"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-3"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-4"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-5"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-6"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-7"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-8"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reject-9"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "9/12 decided"
+      },
+      {
+       "do": "judge",
+       "name": "markup-dr01",
+       "prompt": "Review and mark-up: does the VAWG strategy show tracked changes (struck-through original, proposed text), numbered markers coloured by severity, and a comment per change explaining why with a source?"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "mode-clean"
+       }
+      },
+      {
+       "do": "expectNotText",
+       "text": "Women should avoid walking alone"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "mode-markup"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "return-draft"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Returned for revision"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "draft-DR-02"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "ask-review"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Do not publish"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "css": "[data-testid='approve-draft'][disabled]"
+       },
+       "note": "approve-draft is disabled for this role"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "accept-all"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "4/4 decided"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "approve-draft"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Approved"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "draft-DR-07"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "ask-review"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Displaying a national flag is lawful"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "draft-DR-08"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "ask-review"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Welsh"
+      },
+      {
+       "do": "fill",
+       "target": {
+        "testid": "paste-text"
+       },
+       "value": "UAT synthetic: Northmoor Police needs more manpower. We have zero tolerance for crime and the vast majority of officers are brilliant."
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "paste-add"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "ask-review"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 600
+      },
+      {
+       "do": "expectText",
+       "text": "Gendered language"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-insight",
+       "note": "act as nc-insight"
+      },
+      {
+       "do": "goto",
+       "path": "/#trends"
+      },
+      {
+       "do": "expectText",
+       "text": "morning trend brief"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "trend-TR-01"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "broke out of its normal range"
+      },
+      {
+       "do": "expectText",
+       "text": "Emerging"
+      },
+      {
+       "do": "judge",
+       "name": "trend-chart",
+       "prompt": "Trend watch: does the chart show six weeks of daily items, a normal-range band, a dashed projection, and does the panel explain why the agent flagged the theme and propose a line with sources?"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "trend-TR-05"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Fading"
+      },
+      {
+       "do": "expectNotText",
+       "text": "Send to Safe to Say"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-duty",
+       "note": "act as nc-duty"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "trend-TR-01"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "trend-to-sts"
+       }
+      },
+      {
+       "do": "waitFor",
+       "ms": 600
+      },
+      {
+       "do": "expectText",
+       "text": "No legal or policy risks found"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "submit-draft"
+       }
+      },
+      {
+       "do": "goto",
+       "path": "/#strategy"
+      },
+      {
+       "do": "expectText",
+       "text": "Behaviour change toolkit"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "topic-ST-CSE"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Casey"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "topic-ST-WAR"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Impartiality"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "start-template"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Paste a draft"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-head",
+       "note": "act as nc-head"
+      },
+      {
+       "do": "goto",
+       "path": "/#workflows"
+      },
+      {
+       "do": "expectText",
+       "text": "Strategy, policy and review"
+      },
+      {
+       "do": "goto",
+       "path": "/#scenarios"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "scenario-SC-08"
+       }
+      },
+      {
+       "do": "expectHidden",
+       "target": {
+        "css": "[data-testid^='step-SC-08-'][data-done='false']"
+       },
+       "note": "every SC-08 step is ticked"
+      },
+      {
+       "do": "judge",
+       "name": "sc08-complete",
+       "prompt": "Scenario SC-08: are all six steps ticked, naming the Head of NPCC Comms, the insight analyst and the duty press officer?"
+      }
+     ]
+    }
+   ]
+  },
+  {
    "id": "role-agent-user",
    "title": "Analyst and press officer using the L.O.B Agent",
    "viewports": [
@@ -1902,7 +2309,31 @@
       },
       {
        "do": "goto",
+       "path": "/#trends"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
        "path": "/#agent"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#review"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#strategy"
       },
       {
        "do": "expectText",

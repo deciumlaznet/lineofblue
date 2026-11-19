@@ -12,6 +12,17 @@ import csv, hashlib, json, os, random
 import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from knowledge_base import KNOWLEDGE, PLAYBOOKS  # noqa: E402
+import review_data as RV  # noqa: E402
+KNOWLEDGE = KNOWLEDGE + RV.BEHAVIOUR_KB
+_kb_ids = {k["id"] for k in KNOWLEDGE}
+for _d in RV.DRAFTS:
+    _txt = "\n".join(_d["paras"])
+    for _i in _d["issues"]:
+        assert _txt.count(_i["find"]) == 1, (_d["id"], _i["find"])
+        assert all(k in _kb_ids for k in _i["kb"]), (_d["id"], _i["kb"])
+for _t in RV.STRATEGY_TOPICS + RV.THEMES:
+    assert all(k in _kb_ids for k in _t["kb"]), (_t["id"], _t["kb"])
+
 
 random.seed(20261121)
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -387,6 +398,17 @@ scenarios = [
         {"t": 18, "actor": "nm-press", "view": "golden-hour", "do": "Publish the pre-bunk", "check": "prebunkAtLeast:NAR-04:published"},
         {"t": 90, "actor": "nc-insight", "view": "picture", "do": "On the National picture, confirm the police line was out before the first spoof notice", "check": "aheadOf:NAR-04"},
      ]},
+    {"id": "SC-08", "title": "Strategy review and trend-led lines",
+     "goal": "The Head of NPCC Comms asks the L.O.B Agent to mark up an inbound force strategy and a non-compliant holding line, decides each change, and the insight team turns an emerging trend into a checked line.",
+     "actors": ["nc-head", "nc-insight", "nc-duty"],
+     "steps": [
+        {"t": 0, "actor": "nc-head", "view": "review", "do": "Open the Northmoor VAWG strategy and ask the L.O.B Agent for feedback", "check": "reviewRequested:DR-01"},
+        {"t": 2, "actor": "nc-head", "view": "review", "do": "Accept or reject at least eight of the agent's proposed changes", "check": "reviewDecided:DR-01:8"},
+        {"t": 4, "actor": "nc-head", "view": "review", "do": "Return the strategy to Northmoor for revision with the mark-up", "check": "reviewOutcome:DR-01"},
+        {"t": 6, "actor": "nc-head", "view": "review", "do": "Mark up the Kingsbridge holding line and accept every must-fix change", "check": "redResolved:DR-02"},
+        {"t": 8, "actor": "nc-insight", "view": "trends", "do": "Find the emerging trend the agent flagged and read why it was flagged", "check": "trendOpened:TR-01"},
+        {"t": 10, "actor": "nc-duty", "view": "trends", "do": "Send the agent's proposed line for the trend to Safe to Say and submit it", "check": "trendLineChecked:TR-01"},
+     ]},
 ]
 
 # ---------------------------------------------------------------- core comms workflows and autonomy levels
@@ -401,6 +423,7 @@ _wf = [
     ("W5", "Pre-bunking", "Strategic communication", [("Forecast likely rumours around events", 3, "Planner and agent refine"), ("Make pre-bunk content and local versions", 3, "Creative lead and agent"), ("Schedule, boost and repeat", 2, "Planner approves the calendar")]),
     ("W6", "Engagement", "Response", [("Answer routine public questions from approved lines", 1, "Reviews samples; new questions go to a human"), ("Media enquiries and briefings", 4, "Press officer leads; agent preps facts"), ("Contact with victims, families and affected communities", 5, "Family liaison and community leads only")]),
     ("W7", "Learning and governance", "Tracking", [("Log every decision, source and approval", 1, "Audit reviews"), ("Measure time to first fact, share of voice and narrative decay", 1, "Reviews the numbers"), ("Post-incident debrief and lessons", 3, "Debrief lead and agent"), ("Approve mandate, monitoring scope and keyword lists", 5, "Governance board"), ("Exercises and scenario training", 3, "Trainers and agent run scenarios")]),
+    ("W8", "Strategy, policy and review", "Strategic communication", [("Scan public trends, bills, white papers and consultations", 1, "Agent; policy lead reviews the weekly digest"), ("Summarise what each proposal or trend means for policing", 2, "Portfolio lead signs off"), ("Agree the national position: support, support with conditions, challenge", 5, "Chiefs' council or portfolio lead"), ("Draft the strategy, statement and Q&A from the template", 3, "Comms lead and agent refine together"), ("Review inbound strategies and lines: mark-up for law, tone and behaviour change", 4, "Comms lead decides; agent marks up"), ("Give partners notice before release", 4, "Named lead makes the calls; agent prepares the pack"), ("Track coverage, reaction and outcomes", 1, "Agent; insight lead reviews")]),
 ]
 workflows = [{"id": wid, "title": t, "resist": r, "steps": [{"id": f"{wid}.{i + 1}", "title": st, "level": lv, "role": role} for i, (st, lv, role) in enumerate(steps)]} for wid, t, r, steps in _wf]
 
@@ -413,6 +436,8 @@ world = {
     "narratives": narratives, "posts": posts, "articles": articles, "events": events, "lines": lines,
     "scenarios": scenarios,
     "knowledge": KNOWLEDGE, "playbooks": PLAYBOOKS, "workflows": workflows, "autonomy": AUTONOMY,
+    "strategyTopics": RV.STRATEGY_TOPICS, "oasis": RV.OASIS, "drafts": RV.DRAFTS, "markCats": RV.CATS,
+    "trends": {"days": RV.DAYS, "endDate": "2026-11-18", "sources": RV.SOURCES, "themes": RV.THEMES, "series": RV.trend_series(), "signals": RV.SIGNALS},
     "ukmap": json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "uk_map.json"))),
 }
 

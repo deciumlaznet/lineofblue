@@ -102,7 +102,26 @@ leader = [go("governance"), tid("reset"), act("nc-head"), go("nmap"), {"do": "ex
     act("pcc"), go("workflows"), txt("Only the Head of NPCC Communications"),
     judge("workflows", "Workflows and autonomy: are the seven workflows shown as lanes, each step coloured by autonomy level with a live status, an autonomy mix bar, clocks against standards, and a queue of what waits on a person?")]
 
-views = ["inbox", "picture", "nmap", "radar", "agent", "workflows", "golden-hour", "safe-to-say", "lines", "escalations", "horizon", "scenarios", "audit", "governance"]
+sc08 = [go("governance"), tid("reset"),
+    act("nc-head"), go("review"), tid("draft-DR-01"), tid("ask-review"), txt("Return for revision"), txt("victim-blaming"),
+    *[tid(f"accept-{n}") for n in (1, 2, 3, 4, 5, 6, 7, 8)], tid("reject-9"), txt("9/12 decided"),
+    judge("markup-dr01", "Review and mark-up: does the VAWG strategy show tracked changes (struck-through original, proposed text), numbered markers coloured by severity, and a comment per change explaining why with a source?"),
+    tid("mode-clean"), notxt("Women should avoid walking alone"), tid("mode-markup"),
+    tid("return-draft"), txt("Returned for revision"),
+    tid("draft-DR-02"), tid("ask-review"), txt("Do not publish"), disabled("approve-draft"), tid("accept-all"), txt("4/4 decided"), tid("approve-draft"), txt("Approved"),
+    tid("draft-DR-07"), tid("ask-review"), txt("Displaying a national flag is lawful"),
+    tid("draft-DR-08"), tid("ask-review"), txt("Welsh"),
+    fill({"testid": "paste-text"}, "UAT synthetic: Northmoor Police needs more manpower. We have zero tolerance for crime and the vast majority of officers are brilliant."), tid("paste-add"), tid("ask-review"), wait, txt("Gendered language"),
+    act("nc-insight"), go("trends"), txt("morning trend brief"), tid("trend-TR-01"), txt("broke out of its normal range"), txt("Emerging"),
+    judge("trend-chart", "Trend watch: does the chart show six weeks of daily items, a normal-range band, a dashed projection, and does the panel explain why the agent flagged the theme and propose a line with sources?"),
+    tid("trend-TR-05"), txt("Fading"), notxt("Send to Safe to Say"),
+    act("nc-duty"), tid("trend-TR-01"), tid("trend-to-sts"), wait, txt("No legal or policy risks found"), tid("submit-draft"),
+    go("strategy"), txt("Behaviour change toolkit"), tid("topic-ST-CSE"), txt("Casey"), tid("topic-ST-WAR"), txt("Impartiality"), tid("start-template"), txt("Paste a draft"),
+    act("nc-head"), go("workflows"), txt("Strategy, policy and review"),
+    *scen("SC-08"),
+    judge("sc08-complete", "Scenario SC-08: are all six steps ticked, naming the Head of NPCC Comms, the insight analyst and the duty press officer?")]
+
+views = ["inbox", "picture", "nmap", "radar", "trends", "agent", "review", "strategy", "workflows", "golden-hour", "safe-to-say", "lines", "escalations", "horizon", "scenarios", "audit", "governance"]
 
 profile = {
   "app": "lineofblue-demo",
@@ -136,6 +155,7 @@ profile = {
     {"id": "conductor-sc05", "title": "SC-05 conductor: bilingual flood hoax", "viewports": ["desktop", "mobile"], "scenarios": [{"id": "sc05", "title": "Welsh and English rebuttal", "steps": sc05}]},
     {"id": "conductor-sc06", "title": "SC-06 conductor: hard blocks", "viewports": ["desktop"], "scenarios": [{"id": "sc06", "title": "Child defendant and complainant anonymity", "steps": sc06}]},
     {"id": "conductor-sc07", "title": "SC-07 conductor: get ahead with the forecast and the L.O.B Agent", "viewports": ["desktop"], "scenarios": [{"id": "sc07", "title": "Pre-bunk the spoof notice before it appears", "steps": sc07}]},
+    {"id": "conductor-sc08", "title": "SC-08 conductor: strategy review, mark-up and trend-led lines", "viewports": ["desktop"], "scenarios": [{"id": "sc08", "title": "Mark up a weak strategy and a non-compliant line; turn a trend into a checked line", "steps": sc08}]},
     {"id": "role-agent-user", "title": "Analyst and press officer using the L.O.B Agent", "viewports": ["desktop", "mobile"], "charter": ["Every answer cites a public source.", "The agent never names a suspect or profiles a person."], "scenarios": [{"id": "agent", "title": "Ask, cite, check a draft", "steps": agent_role}]},
     {"id": "role-comms-leader", "title": "National comms leader: map and workflows", "viewports": ["desktop", "mobile"], "charter": ["Map separates real geography from synthetic messages.", "Only the governance role can change an autonomy level, and every change is logged."], "scenarios": [{"id": "lead", "title": "Map overlays, autonomy levels, sign-off queue", "steps": leader}]},
     {"id": "role-home-office", "title": "Home Office public safety official (read-only brief)", "viewports": ["desktop"],
