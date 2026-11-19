@@ -11,15 +11,15 @@
   const STAGES = ['draft', 'checked', 'legal', 'sio', 'gold', 'published'];
   const STAGE_LABEL = { draft: 'Draft', checked: 'Safe to Say checked', legal: 'Legal reviewed', sio: 'SIO approved', gold: 'Gold signed off', published: 'Published' };
   const VIEWS = [
-    ['inbox', 'My work', 'Work'], ['picture', 'National picture', 'Listen'], ['radar', 'Narrative Radar', 'Listen'], ['agent', 'L.O.B Agent', 'Act'], ['golden-hour', 'Golden Hour cell', 'Act'], ['safe-to-say', 'Safe to Say', 'Act'],
+    ['inbox', 'My work', 'Work'], ['picture', 'National picture', 'Listen'], ['nmap', 'National map', 'Listen'], ['radar', 'Narrative Radar', 'Listen'], ['agent', 'L.O.B Agent', 'Act'], ['golden-hour', 'Golden Hour cell', 'Act'], ['safe-to-say', 'Safe to Say', 'Act'],
     ['lines', 'National lines', 'Act'], ['escalations', 'Platform referrals', 'Act'], ['horizon', 'Event horizon', 'Plan'],
-    ['scenarios', 'Scenarios', 'Demo'], ['audit', 'Decision log', 'Assure'], ['governance', 'Data and safeguards', 'Assure'],
+    ['scenarios', 'Scenarios', 'Demo'], ['workflows', 'Workflows and autonomy', 'Assure'], ['audit', 'Decision log', 'Assure'], ['governance', 'Data and safeguards', 'Assure'],
   ];
 
   // ------------------------------------------------------------------ state
   const fresh = () => ({
     persona: 'nc-insight', clock: 0, threshold: 6, trigger: 'arrest', selNarr: 'NAR-01', selInc: 'INC-NMP-0412', scenario: 'SC-01',
-    cells: {}, narr: {}, releases: [], lines: [], acks: {}, referrals: [], handovers: {}, tension: {}, fired: [], guardrails: [], auditViewed: false, audit: [], seq: 1, agent: { msgs: [], asked: [] }, agentQ: '', kbSel: null,
+    cells: {}, narr: {}, releases: [], lines: [], acks: {}, referrals: [], handovers: {}, tension: {}, fired: [], guardrails: [], auditViewed: false, audit: [], seq: 1, agent: { msgs: [], asked: [] }, agentQ: '', kbSel: null, mapOff: [], mapSel: null, levels: {},
   });
   let S;
   try { S = Object.assign(fresh(), JSON.parse(localStorage.getItem(STORE) || 'null') || {}); } catch (e) { S = fresh(); }
@@ -560,6 +560,132 @@ Question: ${q}`;
       <p class="small muted">In production the agent would read the full texts from each owner, refresh them on a schedule and quote the passage it relied on.</p>
     </section></div>`;
   };
+  // ------------------------------------------------------------------ National map (real UK geography, synthetic message layer)
+  const MAP_LAYERS = [['msg', 'Message volume (synthetic)'], ['flow', 'Spread between areas (synthetic)'], ['forces', 'Territorial forces (HQ)'], ['btp', 'British Transport Police'], ['cnc', 'Civil Nuclear Constabulary'], ['mdp', 'Ministry of Defence Police'], ['mil', 'Service police'], ['port', 'Port police']];
+  const layerOn = (k) => !(S.mapOff || []).includes(k);
+  const mark = (k, x, y) => ({
+    btp: `<rect x="${x - 3.5}" y="${y - 3.5}" width="7" height="7" rx="1"/>`,
+    cnc: `<path d="M${x} ${y - 5}L${x + 4.6} ${y + 3.5}L${x - 4.6} ${y + 3.5}Z"/>`,
+    mdp: `<path d="M${x} ${y - 5}L${x + 5} ${y}L${x} ${y + 5}L${x - 5} ${y}Z"/>`,
+    mil: `<path d="M${x - 4.5} ${y - 1.5}H${x - 1.5}V${y - 4.5}H${x + 1.5}V${y - 1.5}H${x + 4.5}V${y + 1.5}H${x + 1.5}V${y + 4.5}H${x - 1.5}V${y + 1.5}H${x - 4.5}Z"/>`,
+    port: `<circle cx="${x}" cy="${y}" r="4"/>`,
+  }[k]);
+  const legendMark = (k) => `<svg width="14" height="14" viewBox="-7 -7 14 14" aria-hidden="true" class="lk ${k}">${k === 'msg' ? '<circle r="6"/>' : k === 'flow' ? '<path d="M-6 3Q0 -6 6 3"/>' : k === 'forces' ? '<circle r="2.5"/>' : mark(k, 0, 0)}</svg>`;
+  function ukMap() {
+    const M = W.ukmap, [, , w, h] = M.viewBox, F = byId(M.forces.map((f) => ({ ...f, id: f.name })));
+    const syn = M.synthetic.byForce, maxV = Math.max(...syn.map((s) => s.volume)), r = (v) => 3 + Math.sqrt(v / maxV) * 18;
+    const sel = S.mapSel;
+    const land = Object.entries(M.land).map(([n, d]) => `<path class="${n === 'France' ? 'land other' : n === 'Ireland' ? 'land other' : 'land'}" d="${d}"><title>${esc(n)}</title></path>`).join('');
+    const lyr = (k) => { const L = M.layers[k], P2 = byId(L.points.map((p) => ({ ...p, id: p.name })));
+      const lines = (L.lines || []).map((seq) => `<path class="rail" d="${seq.map((n, i) => `${i ? 'L' : 'M'}${P2[n].x} ${P2[n].y}`).join('')}"/>`).join('');
+      return `<g class="lyr ${k}">${lines}${L.points.map((p) => `<g class="site">${mark(k, p.x, p.y)}<title>${esc(p.name)} · ${esc(L.label)}</title></g>`).join('')}</g>`; };
+    const flows = M.synthetic.flows.map((f) => { const a = F[f.from], b = F[f.to]; const mx = (a.x + b.x) / 2 + (b.y - a.y) * 0.25, my = (a.y + b.y) / 2 - (b.x - a.x) * 0.25; return `<path class="flow" d="M${a.x} ${a.y}Q${mx} ${my} ${b.x} ${b.y}" stroke-width="${1 + f.share * 3}" marker-end="url(#flow-arrow)"><title>${esc(f.from)} to ${esc(f.to)}: ${Math.round(f.share * 100)}% of the claim's later posts (synthetic)</title></path>`; }).join('');
+    const bubbles = syn.slice().sort((a, b) => b.volume - a.volume).map((s) => { const f = F[s.force]; return `<circle class="bub ${sel === s.force ? 'sel' : ''}" cx="${f.x}" cy="${f.y}" r="${r(s.volume).toFixed(1)}" data-action="mapSel" data-f="${esc(s.force)}" data-testid="bub-${esc(s.force.replace(/\W+/g, '-'))}"><title>${esc(s.force)}: ${s.volume} posts in 24 h (synthetic), trend ${s.trend > 0 ? '+' : ''}${Math.round(s.trend * 100)}%</title></circle>`; }).join('');
+    const top = syn.slice().sort((a, b) => b.volume - a.volume).slice(0, 6).map((s) => s.force);
+    const forces = M.forces.map((f) => `<g class="hq"><circle cx="${f.x}" cy="${f.y}" r="2.2"/><title>${esc(f.name)} (force headquarters)</title></g>`).join('');
+    const labels = top.map((n) => { const f = F[n], right = f.x < w * 0.6; return `<text class="maplbl" x="${f.x + (right ? 1 : -1) * (r(syn.find((s) => s.force === n).volume) + 4)}" y="${f.y + 4}" text-anchor="${right ? 'start' : 'end'}">${esc(n)}</text>`; }).join('');
+    return `<svg class="ukmap" viewBox="0 0 ${w} ${h}" role="img" aria-label="Map of the UK with police forces, specialist police sites and synthetic message volume" data-testid="uk-map">
+      <defs><marker id="flow-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="flowhead"/></marker></defs>
+      <rect class="sea" x="0" y="0" width="${w}" height="${h}"/>${land}
+      ${layerOn('msg') ? `<g class="lyr msg">${bubbles}</g>` : ''}${layerOn('forces') ? `<g class="lyr forces">${forces}</g>` : ''}
+      ${['btp', 'cnc', 'mdp', 'mil', 'port'].filter(layerOn).map(lyr).join('')}${layerOn('flow') ? `<g class="lyr flows">${flows}</g>` : ''}${layerOn('msg') ? labels : ''}
+    </svg>`;
+  }
+  function nearby(force, km = 70) {
+    const M = W.ukmap, f = M.forces.find((x) => x.name === force); if (!f) return [];
+    const pxKm = M.viewBox[2] / (12.8 * Math.cos(54.5 * Math.PI / 180) * 111); // map pixels per km
+    return Object.entries(M.layers).flatMap(([k, L]) => L.points.filter((p) => Math.hypot(p.x - f.x, p.y - f.y) / pxKm <= km).map((p) => ({ k, name: p.name, label: L.label.split(':')[0] })));
+  }
+  V.nmap = () => {
+    const M = W.ukmap, syn = M.synthetic.byForce.slice().sort((a, b) => b.volume - a.volume);
+    const sel = syn.find((s) => s.force === S.mapSel) || syn[0];
+    const near = nearby(sel.force);
+    const mix = Object.entries(sel.mix).sort((a, b) => b[1] - a[1]);
+    return `${head('National map', 'Where claims are coming from, against every policing body that may need to act: territorial forces, British Transport Police, the Civil Nuclear Constabulary, the Ministry of Defence Police, service police and port police.')}
+    <div class="sev amber"><b>Real geography, synthetic messages.</b><span class="small">The coastline and the specialist police sites are real public information at approximate positions. The message volumes and spread are synthetic. In production they come from geotagged posts and place names in public posts, counted by area and never by person.</span></div>
+    <div class="grid2 mapgrid"><section class="panel"><header><h2>United Kingdom</h2><span class="small muted">select a bubble · hover any mark</span></header>
+      <div class="row layers" role="group" aria-label="Map layers">${MAP_LAYERS.map(([k, l]) => `<label class="lyrtog">${`<input type="checkbox" data-change="layer" data-k="${k}" ${layerOn(k) ? 'checked' : ''} data-testid="layer-${k}">`}${legendMark(k)} ${esc(l)}</label>`).join('')}</div>
+      ${ukMap()}
+      <p class="small muted">${esc(M.source)} Official police force area boundaries (ONS, Open Government Licence) will replace the HQ points once the build environment can reach the ONS geoportal.</p>
+    </section>
+    <div class="stack"><section class="panel" data-testid="map-detail"><header><h2>${esc(sel.force)}</h2>${pill((sel.trend > 0 ? 'rising ' : 'falling ') + Math.abs(Math.round(sel.trend * 100)) + '%', sel.trend > 0.4 ? 'crit' : sel.trend > 0 ? 'warn' : 'ok')}</header>
+      <div class="strip"><div class="stat"><span class="eyebrow">Posts, 24 h</span><span class="v">${sel.volume}</span><span class="small muted">synthetic</span></div><div class="stat"><span class="eyebrow">Rank</span><span class="v">${syn.indexOf(sel) + 1}</span><span class="small muted">of ${syn.length} areas</span></div></div>
+      <h3>What is being said</h3>${mix.map(([th, v]) => `<div class="mixrow"><span>${esc(th)}</span><span class="mixbar"><i style="width:${Math.round(v * 100)}%"></i></span><span class="num small">${Math.round(v * 100)}%</span></div>`).join('')}
+      <h3>Who else may need to act nearby</h3>${near.length ? `<ul class="plain">${near.map((n) => `<li>${legendMark(n.k)} ${esc(n.name)} <span class="small muted">${esc(n.label)}</span></li>`).join('')}</ul><p class="small muted">A claim near a nuclear, defence or rail site needs that force in the loop before any public line.</p>` : '<p class="small muted">No specialist police sites within about 70 km of the force headquarters.</p>'}
+    </section>
+    <section class="panel"><header><h2>Top areas</h2><span class="small muted">synthetic, last 24 hours</span></header><div class="scroll"><table><thead><tr><th>Area</th><th class="num">Posts</th><th class="num">Trend</th><th>Main claim</th></tr></thead><tbody>
+      ${syn.slice(0, 10).map((s) => `<tr class="click ${s === sel ? 'sel' : ''}" data-action="mapSel" data-f="${esc(s.force)}"><td>${esc(s.force)}</td><td class="num">${s.volume}</td><td class="num">${s.trend > 0 ? '+' : ''}${Math.round(s.trend * 100)}%</td><td class="small">${esc(Object.entries(s.mix).sort((a, b) => b[1] - a[1])[0][0])}</td></tr>`).join('')}
+    </tbody></table></div></section></div></div>`;
+  };
+  // ------------------------------------------------------------------ Workflows and autonomy: progress dashboard
+  // Each sub-activity's status is read from the demo state for the Harbourside Market incident.
+  const LV_SHORT = ['', 'Agent', 'Agent + sign-off', 'Iterative', 'Human + agent QA', 'Human'];
+  const level = (st) => (S.levels && S.levels[st.id]) || st.level;
+  function stepStatus(id) {
+    const inc = 'INC-NMP-0412', c = cell(inc), rel = (stg) => check(`statementAtLeast:${inc}:${stg}`);
+    const anyAlert = W.narratives.some((n) => narrStats(n).alert), triaged = W.narratives.some((n) => narr(n.id).triaged);
+    const last = (re) => { const d = S.audit.find((x) => re.test(x.action)); return d ? d.t : null; };
+    const rels = S.releases.filter((r) => r.incident === inc);
+    const stuck = rels.find((r) => r.status !== 'published' && r.status !== 'draft');
+    const owner = stuck ? { checked: 'Legal adviser', legal: 'SIO', sio: 'Gold', gold: 'Press officer (publish)' }[stuck.status] : null;
+    const S_ = (status, note, since) => ({ status, note: note || '', since: since ?? null });
+    switch (id) {
+      case 'W1.1': return S_('agent', `${livePosts().length} public posts read`);
+      case 'W1.2': return anyAlert ? S_('done', 'acceleration flagged') : S_('agent', 'watching');
+      case 'W1.3': return triaged ? S_('done', 'triaged') : anyAlert ? S_('human', 'alert waiting for the duty officer', Math.min(...W.narratives.filter((n) => narrStats(n).alert).map((n) => narrStats(n).first))) : S_('waiting');
+      case 'W1.4': return S.clock >= 60 ? S_('human', 'briefing drafted, waiting for sign-off', 60) : S_('waiting', 'due 14:50');
+      case 'W2.1': return S_('agent', `${W.narratives.filter((n) => narrStats(n).count).length} narratives grouped`);
+      case 'W2.2': return Object.keys(S.tension).length ? S_('done', 'tension assessed') : anyAlert ? S_('human', 'with the analyst') : S_('waiting');
+      case 'W2.3': return Object.keys(S.handovers).length ? S_('done', 'indicators handed to CTP') : narrStats(N['NAR-04']).count ? S_('human', 'possible coordinated activity on NAR-04', firstEver('NAR-04')) : S_('waiting');
+      case 'W2.4': return Object.keys(S.tension).length ? S_('done') : c.open ? S_('human', 'neighbourhood reports due') : S_('waiting');
+      case 'W3.1': return rel('checked') ? S_('done', 'holding line drafted and checked') : c.open ? S_('human', 'draft waiting for the press officer', c.openedAt) : S_('waiting', 'starts when a cell opens');
+      case 'W3.2': return c.disclosure ? S_('done', c.disclosure.decision) : c.open ? S_('human', 'Gold decides disclosure', c.openedAt) : S_('waiting');
+      case 'W3.3': return rel('legal') ? S_('done') : stuck && stuck.status === 'checked' ? S_('human', 'with the legal adviser', last(/Safe to Say check recorded/)) : S_('waiting');
+      case 'W3.4': return rel('published') ? S_('done', 'published') : stuck ? S_('human', `with the ${owner}`, last(/Release:|Safe to Say check recorded/)) : S_('waiting');
+      case 'W3.5': { if (!c.open) return S_('waiting'); const pub = rels.filter((r) => r.publishedAt != null).map((r) => r.publishedAt); const since = pub.length ? S.clock - Math.max(...pub) : null; return S_(since != null && since > 60 ? 'human' : 'agent', since == null ? 'no update yet' : `last update ${since} min ago`, pub.length ? Math.max(...pub) : c.openedAt); }
+      case 'W4.1': return W.narratives.some((n) => narr(n.id).linked) ? S_('done', 'response agreed') : anyAlert ? S_('human', 'comms lead to decide') : S_('waiting');
+      case 'W4.2': return S.lines.length ? S_('done', `${S.lines.length} line(s) drafted`) : anyAlert ? S_('agent', 'agent drafting') : S_('waiting');
+      case 'W4.3': return S.referrals.length ? S_('done', `${S.referrals.length} referral(s)`) : S_('waiting');
+      case 'W4.4': return S.lines.some((l) => l.cascadedAt != null) ? S_('done', 'line cascaded') : S.lines.length ? S_('human', 'waiting for the Head of NPCC Comms') : S_('waiting');
+      case 'W5.1': return c.open ? S_('done', 'forecast ready') : S_('agent', 'event calendar watched');
+      case 'W5.2': return S.releases.some((r) => r.prebunk) ? S_('done', 'pre-bunk drafted') : c.open ? S_('agent', 'pre-bunks suggested in the cell') : S_('waiting');
+      case 'W5.3': return S.releases.some((r) => r.prebunk && r.status === 'published') ? S_('done', 'pre-bunk out') : S.releases.some((r) => r.prebunk) ? S_('human', 'in sign-off') : S_('waiting');
+      case 'W6.1': return S_('agent', 'answering from approved lines');
+      case 'W6.2': return c.open ? S_('human', 'press office handling enquiries') : S_('waiting');
+      case 'W6.3': return c.open ? S_('human', 'family liaison, outside Line of Blue') : S_('waiting');
+      case 'W7.1': return S_('agent', `${S.audit.length} decisions logged`);
+      case 'W7.2': return S_('agent', 'metrics live');
+      case 'W7.3': return S.clock >= 180 ? S_('human', 'debrief due') : S_('waiting', 'after the incident');
+      case 'W7.4': return S_('done', 'mandate approved (synthetic)');
+      case 'W7.5': return S_('done', `${W.scenarios.length} scenarios available`);
+      default: return S_('waiting');
+    }
+  }
+  const STATUS_LABEL = { waiting: 'waiting', agent: 'with agent', human: 'with a person', done: 'done' };
+  V.workflows = () => {
+    const steps = W.workflows.flatMap((w) => w.steps.map((s) => ({ ...s, wf: w, lv: level(s), st: stepStatus(s.id) })));
+    const mix = [1, 2, 3, 4, 5].map((l) => steps.filter((s) => s.lv === l).length);
+    const queue = steps.filter((s) => s.st.status === 'human').sort((a, b) => (a.st.since ?? S.clock) - (b.st.since ?? S.clock));
+    const c = cell('INC-NMP-0412'), rels = S.releases.filter((r) => r.incident === 'INC-NMP-0412' && r.publishedAt != null);
+    const ttff = c.open && rels.length ? Math.min(...rels.map((r) => r.publishedAt)) - c.openedAt : null;
+    const sinceUpd = rels.length ? S.clock - Math.max(...rels.map((r) => r.publishedAt)) : null;
+    const flagged = W.narratives.map((n) => ({ n, thr: thresholdAt(n.id), t: truthAt(n) })).filter((x) => x.thr != null && x.t != null && x.t >= x.thr).map((x) => x.t - x.thr);
+    const clock = (label, v, std, testid) => `<div class="stat" data-testid="${testid}"><span class="eyebrow">${label}</span><span class="v" style="color:${v == null ? 'var(--ink-3)' : v <= std ? 'var(--ok)' : 'var(--crit)'}">${v == null ? '–' : v + ' min'}</span><span class="small muted">standard ${std} min${v == null ? '' : v <= std ? ' · met' : ' · missed'}</span></div>`;
+    const done = steps.filter((s) => s.st.status === 'done').length, byAgent = steps.filter((s) => s.st.status === 'agent' || (s.st.status === 'done' && s.lv <= 2)).length;
+    const canEdit = can('line:approve');
+    return `${head('Workflows and autonomy', 'The seven core comms workflows (RESIST 3), 28 steps, each with an agreed autonomy level, from fully agentic to fully human. Status is live for the Harbourside Market incident. Whatever the level, the agent never publishes, contacts a third party or profiles a person on its own.')}
+    <div class="strip">${clock('Time to first fact', ttff, 60, 'clock-ttff')}${clock('Since last update', sinceUpd, 60, 'clock-update')}${clock('Flag to rebuttal (median)', flagged.length ? flagged.sort((a, b) => a - b)[Math.floor(flagged.length / 2)] : null, 30, 'clock-rebuttal')}
+      <div class="stat"><span class="eyebrow">Steps done</span><span class="v">${done}/${steps.length}</span><span class="small muted">${byAgent} carried by agents</span></div></div>
+    <div class="grid2 wfgrid"><section class="panel"><header><h2>Autonomy mix</h2><span class="small muted">how the 28 steps are split · the governance board can change a level</span></header>
+      <div class="mixbar5" role="img" aria-label="Autonomy mix: ${mix.map((n, i) => n + ' ' + W.autonomy[i + 1]).join(', ')}">${mix.map((n, i) => n ? `<i class="lv${i + 1}" style="flex:${n}" title="${esc(W.autonomy[i + 1])}: ${n}">${n}</i>` : '').join('')}</div>
+      <div class="legend">${[1, 2, 3, 4, 5].map((l) => `<span><i class="sw lv${l}"></i>${esc(W.autonomy[l])}</span>`).join('')}</div></section>
+    <section class="panel" data-testid="signoff-queue"><header><h2>Waiting on a person</h2><span class="small muted">longest wait first</span></header>
+      ${queue.length ? `<table><thead><tr><th>Step</th><th>Who</th><th class="num">Waiting</th></tr></thead><tbody>${queue.map((s) => `<tr><td><span class="mono small">${s.id}</span> ${esc(s.title)}<br><span class="small muted">${esc(s.st.note)}</span></td><td class="small">${esc(s.role)}</td><td class="num">${s.st.since != null ? Math.max(0, S.clock - s.st.since) + ' min' : '–'}</td></tr>`).join('')}</tbody></table>` : '<p class="empty">Nothing is waiting on a person.</p>'}</section></div>
+    <section class="panel"><header><h2>Workflow lanes</h2><span class="small muted">card colour = autonomy level · pill = where the step is now</span></header>
+      <div class="lanes2" data-testid="wf-lanes">${W.workflows.map((w) => `<div class="lane"><div class="lanehead"><b>${esc(w.id.slice(1))}. ${esc(w.title)}</b><span class="small muted">RESIST: ${esc(w.resist)}</span></div><div class="cards">${steps.filter((s) => s.wf === w).map((s) => `<div class="card lv${s.lv}" data-testid="wf-${s.id}"><div class="row" style="justify-content:space-between;gap:6px"><span class="mono small">${s.id}</span>${pill(STATUS_LABEL[s.st.status], { done: 'ok', human: 'warn', agent: 'plain', waiting: 'plain' }[s.st.status])}</div><b class="small">${esc(s.title)}</b><span class="small muted">${esc(s.role)}</span>${s.st.note ? `<span class="small">${esc(s.st.note)}</span>` : ''}
+        ${canEdit ? `<select class="lvsel" data-change="level" data-s="${s.id}" aria-label="Autonomy level for ${esc(s.title)}">${[1, 2, 3, 4, 5].map((l) => `<option value="${l}" ${l === s.lv ? 'selected' : ''}>${esc(LV_SHORT[l])}</option>`).join('')}</select>` : `<span class="small lvtag">${esc(W.autonomy[s.lv])}</span>`}</div>`).join('')}</div></div>`).join('')}</div>
+      <p class="small muted">${canEdit ? 'You can change a level. Each change is recorded in the decision log.' : 'Only the Head of NPCC Communications (for the governance board) can change a level.'}</p></section>`;
+  };
   V.scenarios = () => {
     const sc = SC[S.scenario];
     return `${head('Scenarios', 'Scripted end-to-end exercises across forces, NPCC, NPoCC, government and partners. Each step names who acts. Steps tick automatically when the demo state shows they happened.')}
@@ -635,6 +761,7 @@ Question: ${q}`;
     approveLine: (d) => { const l = S.lines.find((x) => x.id === d.l); l.status = 'approved'; l.approvedBy = S.persona; l.cascadedAt = S.clock; l.expires = '2026-11-28'; log('National line approved and cascaded', `${l.id} sent to ${W.orgs.filter((o) => o.kind === 'force').length} forces`, { incident: N[l.narrative].incident }); toast('Cascaded to all forces with read receipts.'); },
     ackLine: (d) => { const l = S.lines.find((x) => x.id === d.l); if (d.cy) { l.cy = 'Rydym yn deall bod pobl eisiau atebion. Mae dyn yn y ddalfa. Peidiwch â rhannu honiadau heb eu cadarnhau.'; l.cyBy = S.persona; } (S.acks[l.id] = S.acks[l.id] || []).push(me().org); log('National line acknowledged', `${l.id} by ${org().name}${d.cy ? ' with Welsh version' : ''}`); },
     pickScenario: (d) => { S.scenario = d.s; },
+    mapSel: (d) => { S.mapSel = d.f; },
     prebunk: (d) => { const f = forecasts(d.inc).find((x) => x.narrative === d.n); if (!f) return; S.draft = { title: 'Pre-bunk: ' + f.pattern.toLowerCase(), text: f.prebunk, cy: '', incident: d.inc, prebunk: f.narrative }; log('Pre-bunk drafted from the rumour forecast', `${f.narrative} ${f.pattern}`, { incident: d.inc }); toast('Pre-bunk loaded into Safe to Say. Check it and submit it for sign-off.'); location.hash = 'safe-to-say'; },
     askQuick: (d) => { runAgent(QUICK[+d.i][1]); },
     askAgent: () => { const el = $('#agentQ'), q = ((el && el.value) || S.agentQ || '').trim(); if (!q) { toast('Type a question first.'); return; } S.agentQ = ''; runAgent(q); },
@@ -681,6 +808,8 @@ Question: ${q}`;
     else if (k === 'threshold') S.threshold = +e.target.value;
     else if (k === 'trigger') { S.trigger = e.target.value; log('Rule setting changed', `Proceedings active from ${S.trigger}`); }
     else if (k === 'selInc') S.selInc = e.target.value;
+    else if (k === 'level') { const id = e.target.dataset.s, st = W.workflows.flatMap((w) => w.steps).find((x) => x.id === id), from = (S.levels || {})[id] || st.level, to = +e.target.value; if (!can('line:approve')) return; S.levels = { ...(S.levels || {}), [id]: to }; log('Autonomy level changed', `${id} ${st.title}: ${W.autonomy[from]} to ${W.autonomy[to]}`); }
+    else if (k === 'layer') { const key = e.target.dataset.k; S.mapOff = (S.mapOff || []).filter((x) => x !== key); if (!e.target.checked) S.mapOff.push(key); }
     else if (k === 'dInc') S.draft.incident = e.target.value;
     render();
   });

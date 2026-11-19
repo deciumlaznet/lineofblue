@@ -389,6 +389,21 @@ scenarios = [
      ]},
 ]
 
+# ---------------------------------------------------------------- core comms workflows and autonomy levels
+# From the international research (19 Nov 2026): seven workflows, 28 sub-activities, five autonomy levels.
+# 1 fully agentic, 2 agentic with human sign-off, 3 iterative human and agent, 4 human-led with agent QA, 5 fully human.
+AUTONOMY = ["", "Fully agentic", "Agentic, human signs off", "Iterative human and agent", "Human-led, agent QA", "Fully human"]
+_wf = [
+    ("W1", "Early warning", "Identify", [("Watch public content against approved narrative and keyword sets", 1, "Approves the sets"), ("Spot acceleration and weak signals", 1, "Reviews flags"), ("Triage alerts and set severity", 2, "Duty officer confirms severity"), ("Daily national picture briefing", 2, "Head of comms signs off")]),
+    ("W2", "Situational insight", "Insight", [("Group posts into narratives and map spread", 1, "Spot checks"), ("Assess harm and impact", 3, "Analyst and agent refine together"), ("Judge coordination or foreign involvement", 4, "Analyst decides; refer to CTP or partners"), ("Read community mood with neighbourhood teams", 4, "Officers report; agent summarises")]),
+    ("W3", "Golden hour", "Response", [("Draft the holding line from confirmed facts", 2, "Gold or SIO approves"), ("Decide what to say, when and who says it", 5, "Gold, SIO and comms lead"), ("Legal and victim safety check", 4, "Comms lead or legal decides; agent flags risks"), ("Publish and cascade to forces, officers and partners", 2, "Approver presses send"), ("Keep the update rhythm and timeline", 3, "Comms lead sets rhythm")]),
+    ("W4", "Rebuttal", "Response", [("Decide whether to respond (amplification risk)", 3, "Comms lead decides on agent's evidence"), ("Draft rebuttal and platform versions", 2, "Approver edits and signs off"), ("Escalate to platforms, Ofcom and fact-checkers", 4, "Named liaison sends; agent prepares the pack"), ("Update the Rumour and fact page", 2, "Approver signs off")]),
+    ("W5", "Pre-bunking", "Strategic communication", [("Forecast likely rumours around events", 3, "Planner and agent refine"), ("Make pre-bunk content and local versions", 3, "Creative lead and agent"), ("Schedule, boost and repeat", 2, "Planner approves the calendar")]),
+    ("W6", "Engagement", "Response", [("Answer routine public questions from approved lines", 1, "Reviews samples; new questions go to a human"), ("Media enquiries and briefings", 4, "Press officer leads; agent preps facts"), ("Contact with victims, families and affected communities", 5, "Family liaison and community leads only")]),
+    ("W7", "Learning and governance", "Tracking", [("Log every decision, source and approval", 1, "Audit reviews"), ("Measure time to first fact, share of voice and narrative decay", 1, "Reviews the numbers"), ("Post-incident debrief and lessons", 3, "Debrief lead and agent"), ("Approve mandate, monitoring scope and keyword lists", 5, "Governance board"), ("Exercises and scenario training", 3, "Trainers and agent run scenarios")]),
+]
+workflows = [{"id": wid, "title": t, "resist": r, "steps": [{"id": f"{wid}.{i + 1}", "title": st, "level": lv, "role": role} for i, (st, lv, role) in enumerate(steps)]} for wid, t, r, steps in _wf]
+
 world = {
     "meta": {"name": "Line of Blue synthetic demo world", "version": "1.0.0", "scenarioDate": SCENARIO_DATE,
              "clockStart": "13:50", "notice": "Entirely fictional. No real people, accounts, forces, places or groups. For demonstration and testing only.",
@@ -397,7 +412,8 @@ world = {
     "actors": actors, "tierDRule": tier_d_rule, "incidents": incidents, "cases": cases,
     "narratives": narratives, "posts": posts, "articles": articles, "events": events, "lines": lines,
     "scenarios": scenarios,
-    "knowledge": KNOWLEDGE, "playbooks": PLAYBOOKS,
+    "knowledge": KNOWLEDGE, "playbooks": PLAYBOOKS, "workflows": workflows, "autonomy": AUTONOMY,
+    "ukmap": json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "uk_map.json"))),
 }
 
 os.makedirs(OUT, exist_ok=True)

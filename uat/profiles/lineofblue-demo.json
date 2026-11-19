@@ -1516,6 +1516,157 @@
    ]
   },
   {
+   "id": "role-comms-leader",
+   "title": "National comms leader: map and workflows",
+   "viewports": [
+    "desktop",
+    "mobile"
+   ],
+   "charter": [
+    "Map separates real geography from synthetic messages.",
+    "Only the governance role can change an autonomy level, and every change is logged."
+   ],
+   "scenarios": [
+    {
+     "id": "lead",
+     "title": "Map overlays, autonomy levels, sign-off queue",
+     "steps": [
+      {
+       "do": "goto",
+       "path": "/#governance"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "reset"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "nc-head",
+       "note": "act as nc-head"
+      },
+      {
+       "do": "goto",
+       "path": "/#nmap"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "testid": "uk-map"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Real geography, synthetic messages"
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "layer-cnc"
+       }
+      },
+      {
+       "do": "expectHidden",
+       "target": {
+        "css": ".ukmap .lyr.cnc"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "testid": "layer-cnc"
+       }
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "css": ".ukmap .lyr.cnc"
+       }
+      },
+      {
+       "do": "click",
+       "target": {
+        "css": "tr[data-f='Cumbria']"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Who else may need to act nearby"
+      },
+      {
+       "do": "expectText",
+       "text": "Sellafield"
+      },
+      {
+       "do": "judge",
+       "name": "national-map",
+       "prompt": "National map: is it a recognisable map of the UK with force HQs, British Transport Police rail hubs, civil nuclear, defence, service police and port sites as distinct marks, synthetic message bubbles, and a clear note on what is real and what is synthetic?"
+      },
+      {
+       "do": "goto",
+       "path": "/#workflows"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "testid": "wf-lanes"
+       }
+      },
+      {
+       "do": "expectText",
+       "text": "Autonomy mix"
+      },
+      {
+       "do": "expectVisible",
+       "target": {
+        "testid": "signoff-queue"
+       }
+      },
+      {
+       "do": "select",
+       "target": {
+        "css": "select[data-s='W1.3']"
+       },
+       "value": "1"
+      },
+      {
+       "do": "goto",
+       "path": "/#audit"
+      },
+      {
+       "do": "expectText",
+       "text": "Autonomy level changed"
+      },
+      {
+       "do": "select",
+       "target": {
+        "label": "Acting as"
+       },
+       "value": "pcc",
+       "note": "act as pcc"
+      },
+      {
+       "do": "goto",
+       "path": "/#workflows"
+      },
+      {
+       "do": "expectText",
+       "text": "Only the Head of NPCC Communications"
+      },
+      {
+       "do": "judge",
+       "name": "workflows",
+       "prompt": "Workflows and autonomy: are the seven workflows shown as lanes, each step coloured by autonomy level with a live status, an autonomy mix bar, clocks against standards, and a queue of what waits on a person?"
+      }
+     ]
+    }
+   ]
+  },
+  {
    "id": "role-home-office",
    "title": "Home Office public safety official (read-only brief)",
    "viewports": [
@@ -1735,6 +1886,14 @@
       },
       {
        "do": "goto",
+       "path": "/#nmap"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
        "path": "/#radar"
       },
       {
@@ -1744,6 +1903,14 @@
       {
        "do": "goto",
        "path": "/#agent"
+      },
+      {
+       "do": "expectText",
+       "text": "Synthetic demo."
+      },
+      {
+       "do": "goto",
+       "path": "/#workflows"
       },
       {
        "do": "expectText",

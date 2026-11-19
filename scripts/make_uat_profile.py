@@ -93,7 +93,16 @@ agent_role = [go("governance"), tid("reset"), act("nc-insight"), go("agent"),
     act("nm-press"), go("safe-to-say"), tid("example-1"), wait, go("agent"), tid("agent-quick-check"), {"do": "waitFor", "ms": 800}, txt("Not yet"), txt("KB-CCA81"),
     judge("agent-check", "L.O.B Agent: when asked about a risky draft, does it say what must be fixed, why, and cite the relevant law or guidance?")]
 
-views = ["inbox", "picture", "radar", "agent", "golden-hour", "safe-to-say", "lines", "escalations", "horizon", "scenarios", "audit", "governance"]
+leader = [go("governance"), tid("reset"), act("nc-head"), go("nmap"), {"do": "expectVisible", "target": {"testid": "uk-map"}}, txt("Real geography, synthetic messages"),
+    {"do": "click", "target": {"testid": "layer-cnc"}}, {"do": "expectHidden", "target": {"css": ".ukmap .lyr.cnc"}}, {"do": "click", "target": {"testid": "layer-cnc"}}, {"do": "expectVisible", "target": {"css": ".ukmap .lyr.cnc"}},
+    {"do": "click", "target": {"css": "tr[data-f='Cumbria']"}}, txt("Who else may need to act nearby"), txt("Sellafield"),
+    judge("national-map", "National map: is it a recognisable map of the UK with force HQs, British Transport Police rail hubs, civil nuclear, defence, service police and port sites as distinct marks, synthetic message bubbles, and a clear note on what is real and what is synthetic?"),
+    go("workflows"), {"do": "expectVisible", "target": {"testid": "wf-lanes"}}, txt("Autonomy mix"), {"do": "expectVisible", "target": {"testid": "signoff-queue"}},
+    {"do": "select", "target": {"css": "select[data-s='W1.3']"}, "value": "1"}, go("audit"), txt("Autonomy level changed"),
+    act("pcc"), go("workflows"), txt("Only the Head of NPCC Communications"),
+    judge("workflows", "Workflows and autonomy: are the seven workflows shown as lanes, each step coloured by autonomy level with a live status, an autonomy mix bar, clocks against standards, and a queue of what waits on a person?")]
+
+views = ["inbox", "picture", "nmap", "radar", "agent", "workflows", "golden-hour", "safe-to-say", "lines", "escalations", "horizon", "scenarios", "audit", "governance"]
 
 profile = {
   "app": "lineofblue-demo",
@@ -128,6 +137,7 @@ profile = {
     {"id": "conductor-sc06", "title": "SC-06 conductor: hard blocks", "viewports": ["desktop"], "scenarios": [{"id": "sc06", "title": "Child defendant and complainant anonymity", "steps": sc06}]},
     {"id": "conductor-sc07", "title": "SC-07 conductor: get ahead with the forecast and the L.O.B Agent", "viewports": ["desktop"], "scenarios": [{"id": "sc07", "title": "Pre-bunk the spoof notice before it appears", "steps": sc07}]},
     {"id": "role-agent-user", "title": "Analyst and press officer using the L.O.B Agent", "viewports": ["desktop", "mobile"], "charter": ["Every answer cites a public source.", "The agent never names a suspect or profiles a person."], "scenarios": [{"id": "agent", "title": "Ask, cite, check a draft", "steps": agent_role}]},
+    {"id": "role-comms-leader", "title": "National comms leader: map and workflows", "viewports": ["desktop", "mobile"], "charter": ["Map separates real geography from synthetic messages.", "Only the governance role can change an autonomy level, and every change is logged."], "scenarios": [{"id": "lead", "title": "Map overlays, autonomy levels, sign-off queue", "steps": leader}]},
     {"id": "role-home-office", "title": "Home Office public safety official (read-only brief)", "viewports": ["desktop"],
      "charter": ["Confirm nothing in the brief identifies a member of the public.", "Confirm the official cannot change any force release."],
      "scenarios": [{"id": "limits", "title": "Sees the brief, cannot act on force work", "steps": [go("governance"), tid("reset"), act("ho-psg"), go("inbox"), txt("National situation summary"), go("golden-hour"), disabled("open-cell"), go("safe-to-say"), tid("example-0"), wait, disabled("submit-draft")]}]},

@@ -182,3 +182,50 @@ td.mono, td.num { white-space: nowrap; }
 .kbrow:hover, .kbrow.sel { background: var(--accent-soft); }
 .btn.wrap { white-space: normal; text-align: left; height: auto; line-height: 1.3; padding-top: 5px; padding-bottom: 5px; }
 .chip { white-space: normal; text-align: left; }
+
+/* ---------- national map ---------- */
+.ukmap { width: 100%; height: auto; display: block; border-radius: var(--r); }
+.ukmap .sea { fill: var(--surface-2); }
+.ukmap .land { fill: var(--surface); stroke: var(--ink-3); stroke-width: .6; }
+.ukmap .land.other { fill: var(--bg); stroke: var(--line); }
+.ukmap .bub { fill: var(--crit); fill-opacity: .28; stroke: var(--crit); stroke-width: 1; cursor: pointer; }
+.ukmap .bub.sel { fill-opacity: .5; stroke-width: 2; }
+.ukmap .hq circle { fill: var(--ink-2); }
+.ukmap .rail { fill: none; stroke: var(--s1); stroke-width: 1.2; stroke-opacity: .6; stroke-dasharray: 4 2; }
+.ukmap .lyr.btp .site *, .lk.btp * { fill: var(--s1); }
+.ukmap .lyr.cnc .site *, .lk.cnc * { fill: var(--s4); }
+.ukmap .lyr.mdp .site *, .lk.mdp * { fill: var(--s3); }
+.ukmap .lyr.mil .site *, .lk.mil * { fill: var(--s5); }
+.ukmap .lyr.port .site *, .lk.port * { fill: none; stroke: var(--s2); stroke-width: 1.6; }
+.ukmap .site * { stroke: var(--surface); stroke-width: .8; }
+.ukmap .lyr.forces, .ukmap .rail { pointer-events: none; }
+.ukmap .lyr.port .site * { stroke: var(--s2); stroke-width: 1.6; }
+.ukmap .flow { pointer-events: none; fill: none; stroke: var(--accent); stroke-opacity: .8; }
+.ukmap .flowhead { fill: var(--accent); }
+.ukmap .maplbl { pointer-events: none; font-family: var(--font-body); font-size: 11px; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; }
+.lk.msg circle { fill: var(--crit); fill-opacity: .3; stroke: var(--crit); }
+.lk.flow path { fill: none; stroke: var(--accent); stroke-width: 1.6; }
+.lk.forces circle { fill: var(--ink-2); }
+.lk { vertical-align: -2px; }
+.layers { gap: 6px 14px; font-size: 12.5px; margin-bottom: 8px; }
+.lyrtog { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; }
+.mixrow { display: grid; grid-template-columns: 130px 1fr 40px; gap: 8px; align-items: center; font-size: 13px; margin: 4px 0; }
+.mixbar { height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+.mixbar i { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+ul.plain { list-style: none; padding: 0; margin: 4px 0; display: grid; gap: 4px; font-size: 13px; }
+@media (min-width: 1100px) { .mapgrid { grid-template-columns: 1.15fr 1fr; } }
+
+/* ---------- workflows and autonomy ---------- */
+.lv1 { --lv: var(--s1); } .lv2 { --lv: var(--s3); } .lv3 { --lv: var(--s4); } .lv4 { --lv: var(--s2); } .lv5 { --lv: var(--s5); }
+.mixbar5 { display: flex; gap: 2px; height: 28px; margin: 8px 0; }
+.mixbar5 i { background: var(--lv); color: #fff; font-style: normal; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; border-radius: 4px; min-width: 22px; }
+.legend .sw[class*="lv"] { background: var(--lv); height: 10px; width: 10px; border-radius: 2px; }
+.lanes2 { display: grid; gap: 10px; }
+.lane { display: grid; grid-template-columns: 170px 1fr; gap: 10px; align-items: start; border-top: 1px solid var(--line); padding-top: 10px; }
+.lanehead { display: grid; gap: 2px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
+.card { border: 1px solid var(--line); border-left: 5px solid var(--lv); border-radius: var(--r); padding: 8px 10px; display: grid; gap: 4px; background: var(--surface); }
+.lvsel { font: inherit; font-size: 12px; padding: 2px 4px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface-2); color: var(--ink); }
+.lvtag { color: var(--ink-2); }
+@media (max-width: 700px) { .lane { grid-template-columns: 1fr; } }
+@media (min-width: 1100px) { .wfgrid { grid-template-columns: 1fr 1.2fr; } }

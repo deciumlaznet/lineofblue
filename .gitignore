@@ -1,4 +1,3 @@
-dist/
 __pycache__/
-*.pyc
-uat/runs/*/shots/
+.DS_Store
+node_modules/
