@@ -54,6 +54,10 @@ Latest run: `uat/runs/2026-11-19T13-46-28/` (220 steps, 0 failures) with `verdic
 
 Regenerate the profile with `python3 scripts/make_uat_profile.py`.
 
+## Private site
+
+The hosted site is private: sign-in with a password and an authenticator-app code. See `docs/hosting.md`.
+
 ## Layout
 
 ```

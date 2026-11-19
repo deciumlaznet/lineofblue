@@ -1,0 +1,9 @@
+{
+  "name": "lineofblue-web",
+  "private": true,
+  "type": "module",
+  "description": "Private Line of Blue site: sign-in with password and authenticator-app code, then the splash, demo and research pages.",
+  "scripts": { "start": "node server.mjs", "test": "node --test test.mjs" },
+  "engines": { "node": ">=20" },
+  "dependencies": { "pg": "^8.13.1", "qrcode": "^1.5.4" }
+}

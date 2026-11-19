@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 uat/runs/*/shots/
 data/ingest/
+web/node_modules/
