@@ -1,0 +1,45 @@
+{
+ "note": "Round 2 (2026-11-19), written by hand from round 1 scoring: anchor on debunk wording and UK places; round 1 hit rates were P01 10%, P02 0%, P03 0%, P04 10%, P05 20%, P06 0%, P07 20%, P08 50%.",
+ "sets": [
+  {
+   "id": "P01a",
+   "label": "Fake police notices and curfews",
+   "query": "(\"fake police\" OR \"bogus police\" OR \"police impersonator\" OR \"not from the police\" OR \"fake curfew\") (warning OR leaflet OR letter OR notice OR doorstep) (UK OR England OR Scotland OR Wales OR constabulary OR \"Met Police\") -is:retweet lang:en"
+  },
+  {
+   "id": "P02a",
+   "label": "Spiking claims",
+   "query": "(spiked OR spiking) (\"my drink\" OR \"her drink\" OR needle OR injected) (pub OR nightclub OR uni OR freshers OR \"student union\") -is:retweet lang:en"
+  },
+  {
+   "id": "P03a",
+   "label": "Fake fines and penalty scams",
+   "query": "(scam OR phishing OR fake) (\"penalty charge\" OR PCN OR \"speeding fine\" OR \"parking fine\" OR DVLA OR \"unpaid fine\") (text OR sms OR message) -is:retweet lang:en"
+  },
+  {
+   "id": "P04a",
+   "label": "Suspect identity rumours after an attack",
+   "query": "(\"has been named\" OR \"named locally\" OR \"police have named\" OR \"won't tell us his\" OR \"hiding his identity\") (stabbing OR attack OR murder) (Bradford OR Southport OR Manchester OR London OR Birmingham OR Leeds OR Leicester OR Sheffield OR Liverpool OR constabulary) -is:retweet lang:en"
+  },
+  {
+   "id": "P05a",
+   "label": "Police cover-up claims",
+   "query": "(\"police are hiding\" OR \"police cover up\" OR \"covering it up\" OR \"won't tell us the truth\" OR \"what are they hiding\") (stabbing OR attack OR grooming OR riot OR murder) (UK OR Britain OR England OR constabulary OR \"Met Police\") -is:retweet lang:en"
+  },
+  {
+   "id": "P06a",
+   "label": "Calls to gather at sites",
+   "query": "(\"asylum hotel\" OR \"migrant hotel\") (protest OR \"be there\" OR saturday OR tonight OR \"meet at\" OR \"turn up\") -is:retweet lang:en"
+  },
+  {
+   "id": "P07a",
+   "label": "Old footage passed off as new",
+   "query": "(\"old footage\" OR \"old video\" OR \"recycled footage\" OR \"out of context\" OR \"this was filmed in\") (riot OR disorder OR protest OR attack OR police) (London OR England OR UK OR Britain OR Manchester OR Birmingham) -is:retweet lang:en"
+  },
+  {
+   "id": "P08a",
+   "label": "Fake official statements",
+   "query": "(fabricated OR \"not a real\" OR \"fake graphic\" OR doctored OR \"never said\") (\"Home Office\" OR police OR constabulary OR \"Met Police\") (UK OR Britain OR England OR London OR Telford) -is:retweet lang:en"
+  }
+ ]
+}

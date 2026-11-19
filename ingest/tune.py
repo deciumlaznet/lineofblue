@@ -1,6 +1,7 @@
 """Automatic search-term tuning. Run in Replit (it needs the secret OPENROUTER_API_KEY):
     python ingest/tune.py                      score the latest X probe round, write the next round's variants
     python ingest/tune.py --run --rounds 2     also run the next probe(s) itself, inside the normal X caps
+    python ingest/tune.py --next-probe         print the next probe file not yet run (used by scripts/tune_daily.sh)
 What it does for each round:
   1. Reads data/ingest/x-probe-roundN.json (made by ingest/x/probe.mjs).
   2. Asks a model, through OpenRouter, to judge every returned post against the topic definitions in
@@ -93,6 +94,8 @@ def tune_once(n):
     probe = json.loads((DATA / f"x-probe-round{n}.json").read_text())
     report_path = DATA / "x-tuning-report.json"
     report = json.loads(report_path.read_text()) if report_path.exists() else {"rounds": [], "best": {}}
+    if any(r["round"] == n for r in report["rounds"]):
+        print(f"Round {n} is already scored."); return False
     rows, tried = [], {}
     for v in probe["variants"]:
         if v.get("error"):
@@ -119,7 +122,9 @@ def tune_once(n):
     for r in rows:
         print(f"  {r['id']:<5} " + (f"{r['hitRate']:.0%} of {r['returned']}" if "hitRate" in r else r["error"]))
     print("Best so far: " + ", ".join(f"{k} {v['hitRate']:.0%}" for k, v in sorted(report["best"].items())))
-    if nxt:
+    if (PROBES / f"round{n + 1}.json").exists():
+        print(f"Round {n + 1} variants already exist; leaving them as they are.")
+    elif nxt:
         (PROBES / f"round{n + 1}.json").write_text(json.dumps({"note": f"Written by tune.py from round {n}.", "sets": nxt}, indent=1, ensure_ascii=False))
         print(f"Wrote {len(nxt)} new variants to ingest/x/probes/round{n + 1}.json")
     else:
@@ -127,7 +132,17 @@ def tune_once(n):
     return bool(nxt)
 
 
+def next_probe():
+    """Lowest-numbered probe file that has not been run yet, or None."""
+    for p in sorted(PROBES.glob("round*.json"), key=lambda q: int(re.sub(r"\D", "", q.stem) or 0)):
+        if not (DATA / f"x-probe-{p.stem}.json").exists():
+            return p
+    return None
+
+
 def main(args):
+    if "--next-probe" in args:
+        p = next_probe(); print(p or ""); return
     rounds = int(args[args.index("--rounds") + 1]) if "--rounds" in args else 1
     n = latest_round()
     if n is None:
