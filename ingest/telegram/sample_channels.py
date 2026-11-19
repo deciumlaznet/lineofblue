@@ -2,7 +2,8 @@
 much of each channel is about our topics, so a person can choose which channels to watch.
     python ingest/telegram/sample_channels.py                 (top 25 from data/ingest/telegram-candidates.json)
     python ingest/telegram/sample_channels.py chanA chanB     (named public channels)
-Reads only; joins nothing. Messages are scored in memory: the report keeps counts and up to 3 scrubbed
+Also lists the public channels that the sampled channels forward from most ("snowball"), which is how
+related channels are usually found. Reads only; joins nothing. Messages are scored in memory: the report keeps counts and up to 3 scrubbed
 example lines per channel, nothing else. Saved to data/ingest/telegram-channel-sample.json."""
 import asyncio, json, re, sys
 from pathlib import Path
@@ -43,24 +44,40 @@ def score(texts):
 
 async def main(names):
     from live import client
-    rows = []
+    rows, fwd = [], {}
     async with client() as c:
         for name in names:
             try:
                 ent = await c.get_entity(name)
                 if not getattr(ent, "broadcast", False):
                     rows.append({"channel": name, "skipped": "not a broadcast channel"}); continue
-                texts = [m.message async for m in c.iter_messages(ent, limit=N_MESSAGES) if m.message]
+                msgs = [m async for m in c.iter_messages(ent, limit=N_MESSAGES)]
+                texts = [m.message for m in msgs if m.message]
+                for m in msgs:
+                    cid = getattr(getattr(m.fwd_from, "from_id", None), "channel_id", None) if m.fwd_from else None
+                    if cid and cid != ent.id:
+                        fwd[cid] = fwd.get(cid, 0) + 1
                 rows.append({"channel": name, "title": getattr(ent, "title", ""), **score(texts)})
             except Exception as e:  # noqa: BLE001 - one bad channel must not stop the rest
                 rows.append({"channel": name, "skipped": str(e)[:120]})
             await asyncio.sleep(2)
+        sources = []
+        for cid, n in sorted(fwd.items(), key=lambda kv: -kv[1])[:20]:
+            try:
+                e = await c.get_entity(cid)
+                if getattr(e, "username", None) and getattr(e, "broadcast", False):
+                    sources.append({"channel": e.username, "title": getattr(e, "title", ""), "forwardedTimes": n})
+            except Exception:  # noqa: BLE001 - private or unknown to this account
+                pass
     rows.sort(key=lambda r: -(r.get("onTopicShare", 0) + r.get("ukShare", 0)))
     out = Path(__file__).resolve().parents[2] / "data" / "ingest"
     out.mkdir(parents=True, exist_ok=True)
-    (out / "telegram-channel-sample.json").write_text(json.dumps(rows, indent=1, ensure_ascii=False))
+    (out / "telegram-channel-sample.json").write_text(json.dumps({"channels": rows, "forwardedFrom": sources}, indent=1, ensure_ascii=False))
     for r in rows:
         print(f"{r['channel']:<30} " + (f"on-topic {r['onTopicShare']:.0%}  UK {r['ukShare']:.0%}  {r['topics']}" if "messages" in r else r["skipped"]))
+    print("\nMost forwarded-from public channels (candidates for the next sample):")
+    for f in sources:
+        print(f"  {f['channel']:<30} x{f['forwardedTimes']}  {f['title'][:50]}")
     print(f"\nSaved to {out / 'telegram-channel-sample.json'}.")
 
 
