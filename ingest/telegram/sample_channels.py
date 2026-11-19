@@ -2,6 +2,7 @@
 much of each channel is about our topics, so a person can choose which channels to watch.
     python ingest/telegram/sample_channels.py                 (top 25 from data/ingest/telegram-candidates.json)
     python ingest/telegram/sample_channels.py chanA chanB     (named public channels)
+    python ingest/telegram/sample_channels.py --snowball      (channels the last sample forwarded from, not yet sampled)
 Also lists the public channels that the sampled channels forward from most ("snowball"), which is how
 related channels are usually found. Reads only; joins nothing. Messages are scored in memory: the report keeps counts and up to 3 scrubbed
 example lines per channel, nothing else. Saved to data/ingest/telegram-channel-sample.json."""
@@ -73,6 +74,12 @@ async def main(names):
     rows.sort(key=lambda r: -(r.get("onTopicShare", 0) + r.get("ukShare", 0)))
     out = Path(__file__).resolve().parents[2] / "data" / "ingest"
     out.mkdir(parents=True, exist_ok=True)
+    hist = out / "telegram-sampled.json"
+    seen = json.loads(hist.read_text()) if hist.exists() else {}
+    for r in rows:
+        if "messages" in r:
+            seen[r["channel"]] = {k: r[k] for k in ("title", "onTopicShare", "ukShare", "topics")}
+    hist.write_text(json.dumps(seen, indent=1, ensure_ascii=False))
     (out / "telegram-channel-sample.json").write_text(json.dumps({"channels": rows, "forwardedFrom": sources}, indent=1, ensure_ascii=False))
     for r in rows:
         print(f"{r['channel']:<30} " + (f"on-topic {r['onTopicShare']:.0%}  UK {r['ukShare']:.0%}  {r['topics']}" if "messages" in r else r["skipped"]))
@@ -83,7 +90,15 @@ async def main(names):
 
 
 if __name__ == "__main__":
-    names = sys.argv[1:]
+    names = [a for a in sys.argv[1:] if not a.startswith("--")]
+    data = Path(__file__).resolve().parents[2] / "data" / "ingest"
+    if "--snowball" in sys.argv:
+        last, hist = data / "telegram-channel-sample.json", data / "telegram-sampled.json"
+        seen = json.loads(hist.read_text()) if hist.exists() else {}
+        prev = json.loads(last.read_text()).get("forwardedFrom", []) if last.exists() else []
+        names = [f["channel"] for f in prev if f["channel"] not in seen][:25]
+        if not names:
+            print("Snowball: no new channels to sample."); sys.exit(0)
     if not names:
         f = Path(__file__).resolve().parents[2] / "data" / "ingest" / "telegram-candidates.json"
         names = [r["channel"] for r in json.loads(f.read_text())["candidates"][:25]]
