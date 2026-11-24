@@ -115,6 +115,12 @@ export function createApp({ store, setupCode = '', root = ROOT, now = () => Date
   const locked = (u) => u && u.lockedUntil > now();
   const LOCKED_MSG = 'Too many attempts. Wait 15 minutes and try again.';
   const loginPage = (e, email) => P.loginPage(e, email, { google: Boolean(google) });
+  async function adminOf(req) {
+    const s = await sessionOf(req, 'lob_session');
+    if (!s || s.stage !== 'full') return null;
+    const u = await store.getUser(s.userId);
+    return u && (adminEmails.includes(u.email) || u.id === 1 || u.id === '1') ? u : null;
+  }
 
   // The account a verified Google email may use: the account with that email, or for an admin email with no
   // account yet, a new account that can only be reached through Google (random password, no recovery codes).
@@ -189,6 +195,25 @@ export function createApp({ store, setupCode = '', root = ROOT, now = () => Date
       const t = await newSession(user.id, 'full', LIMITS.sessionMs);
       console.log('signin.google', id.email.replace(/^(.).*@/, '$1…@'));
       redirect(res, '/', req, [clear(req, 'lob_google'), cookie(req, 'lob_session', t, LIMITS.sessionMs)]);
+    },
+
+    // Admins (ADMIN_EMAILS, or the first account) can add members, such as tester accounts.
+    'GET /members': async (req, res) => {
+      if (!await adminOf(req)) return redirect(res, '/login', req);
+      send(res, 200, P.membersPage(), { req });
+    },
+    'POST /members': async (req, res, f) => {
+      if (!await adminOf(req)) return redirect(res, '/login', req);
+      const email = String(f.email || '').trim().toLowerCase(), pw = String(f.password || '');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return send(res, 400, P.membersPage('Enter a valid email address.', email), { req });
+      if (pw.length < 12) return send(res, 400, P.membersPage('Use a password of at least 12 characters.', email), { req });
+      if (pw !== String(f.password2 || '')) return send(res, 400, P.membersPage('The two passwords do not match.', email), { req });
+      if (await store.getUserByEmail(email)) return send(res, 409, P.membersPage('That email already has an account.', email), { req });
+      const secret = totp.newSecret(), codes = C.recoveryCodes();
+      try { await store.createUser({ email, pwHash: await C.hashPassword(pw), totpSecret: secret, recovery: codes.map((c) => C.sha256(C.normRecovery(c))), lastStep: -1 }); }
+      catch { return send(res, 409, P.membersPage('That email already has an account.', email), { req }); }
+      const qr = await QRCode.toDataURL(totp.otpauthUrl(secret, email), { margin: 0, width: 220, errorCorrectionLevel: 'M' });
+      send(res, 200, P.memberCreatedPage(email, qr, secret, codes), { req });
     },
 
     'GET /logout': (req, res) => send(res, 200, P.logoutPage(), { req }),
