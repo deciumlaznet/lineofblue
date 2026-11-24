@@ -325,3 +325,38 @@ test('password and authenticator sign-in still works alongside Google', async ()
     assert.equal(r.location, '/');
   } finally { await s.close(); }
 });
+
+// ---------- Adding members (tester accounts) ----------
+test('the first account can add a member, who then signs in with password and code', async () => {
+  const s = await start();
+  try {
+    await setUp(s);
+    assert.match((await s.req('/members')).text, /Add a member/);
+    let r = await s.req('/members', { form: { email: 'Test-Member@lineofblue.co.uk', password: 'short', password2: 'short' } });
+    assert.equal(r.status, 400);
+    r = await s.req('/members', { form: { email: 'Test-Member@lineofblue.co.uk', password: 'a long tester password', password2: 'a long tester password' } });
+    assert.equal(r.status, 200);
+    const secret = r.text.match(/<div class="secret">([^<]+)<\/div>/)[1].replace(/\s/g, '');
+    assert.equal((await s.req('/members', { form: { email: 'test-member@lineofblue.co.uk', password: 'a long tester password', password2: 'a long tester password' } })).status, 409);
+
+    await s.req('/logout', { form: {} });
+    assert.equal((await s.req('/login', { form: { email: 'test-member@lineofblue.co.uk', password: 'a long tester password' } })).location, '/login/code');
+    s.clock.advance(60_000);
+    r = await s.req('/login/code', { form: { code: totp.codeAt(secret, totp.stepAt(s.clock.now())) } });
+    assert.equal(r.location, '/');
+
+    // A member who is not an admin can't add more members.
+    assert.equal((await s.req('/members')).location, '/login');
+    r = await s.req('/members', { form: { email: 'x@y.test', password: 'a long tester password', password2: 'a long tester password' } });
+    assert.equal(r.location, '/login');
+    assert.equal(await s.store.getUserByEmail('x@y.test'), null);
+  } finally { await s.close(); }
+});
+
+test('signed-out visitors cannot reach the members page', async () => {
+  const s = await start();
+  try {
+    await setUp(s); await s.req('/logout', { form: {} });
+    assert.equal((await s.req('/members')).location, '/login');
+  } finally { await s.close(); }
+});

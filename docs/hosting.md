@@ -17,6 +17,7 @@ Code: `web/` (Node, two packages: `pg` and `qrcode`). Tests: `node --test web/te
 | `/` | signed in | Splash (the line links to `/demo`) |
 | `/demo` | signed in | `dist/index.html` |
 | `/research` | signed in | `dist/research.html` |
+| `/members` | admins (`ADMIN_EMAILS` or the first account) | Add a member, such as a tester account: sets their password and shows their authenticator key and recovery codes once |
 | `/logout` | everyone | Sign out |
 
 ## Sign in with Google

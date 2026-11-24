@@ -117,3 +117,29 @@ export const logoutPage = () => page('Sign out', `
 <p class="small" style="margin-top:20px"><a href="/">Back</a></p>`);
 
 export const messagePage = (title, text) => page(title, `<h1>${esc(title)}</h1><p>${esc(text)}</p><p class="small"><a href="/login">Sign in</a></p>`);
+
+export const membersPage = (e, email = '', note = '') => page('Add a member', `
+<h1>Add a member</h1>
+<p>Create a sign-in for someone else, such as a tester account. They sign in with this email and password, then a code from an authenticator app, or with Google if the email is their Google account.</p>
+${note ? `<p>${esc(note)}</p>` : ''}
+<form method="post" action="/members" autocomplete="off">
+  <label for="email">Their email</label>
+  <input id="email" name="email" type="email" required value="${esc(email)}" autofocus>
+  <label for="password">Password for them (at least 12 characters)</label>
+  <input id="password" name="password" type="password" autocomplete="new-password" minlength="12" required>
+  <label for="password2">Password again</label>
+  <input id="password2" name="password2" type="password" autocomplete="new-password" minlength="12" required>
+  ${err(e)}
+  <button type="submit">Create account</button>
+</form>
+<p class="small" style="margin-top:20px"><a href="/">Back</a></p>`);
+
+export const memberCreatedPage = (email, qrDataUrl, secret, codes) => page('Member added', `
+<h1>Account created for ${esc(email)}</h1>
+<p>Pass these on safely. They are shown once. For a tester account, keep the key as the tester's TOTP secret.</p>
+<img class="qr" src="${esc(qrDataUrl)}" alt="QR code for their authenticator app" width="220" height="220">
+<p class="small">Authenticator key (time-based):</p>
+<div class="secret">${esc(secret.replace(/(.{4})/g, '$1 ').trim())}</div>
+<p class="small" style="margin-top:16px">Recovery codes, each usable once:</p>
+<div class="codes">${codes.map((c) => `<div>${esc(c)}</div>`).join('')}</div>
+<a class="button" href="/members">Add another</a>`);
