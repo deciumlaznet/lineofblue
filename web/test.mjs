@@ -228,3 +228,100 @@ test('behind https, cookies are Secure, HttpOnly and __Host- prefixed', async ()
     assert.match(r.headers.get('strict-transport-security'), /max-age=/);
   } finally { await s.close(); }
 });
+
+// ---------- Sign in with Google ----------
+import { adminEmailsFromEnv, GoogleSignIn } from './google.mjs';
+
+const CLIENT = 'client-123.apps.googleusercontent.com';
+const googleClaims = () => ({ iss: 'https://accounts.google.com', aud: CLIENT, exp: Math.floor(Date.now() / 1000) + 600, email_verified: true, sub: '1' });
+function fakeGoogle() {
+  const g = { email: '', nonce: '', extra: {} };
+  g.fetch = async (_url, init) => new URLSearchParams(init.body).get('code_verifier')
+    ? { ok: true, status: 200, json: async () => ({ id_token: `x.${Buffer.from(JSON.stringify({ ...googleClaims(), nonce: g.nonce, email: g.email, ...g.extra })).toString('base64url')}.sig` }) }
+    : { ok: false, status: 400, json: async () => ({}) };
+  g.client = new GoogleSignIn({ clientId: CLIENT, clientSecret: 'shh', redirectUri: 'http://x/login/google/callback' }, g.fetch);
+  return g;
+}
+async function googleSignIn(s, g, email) {
+  g.email = email;
+  const r = await s.req('/login/google');
+  assert.equal(r.status, 302);
+  const to = new URL(r.location);
+  assert.equal(to.origin + to.pathname, 'https://accounts.google.com/o/oauth2/v2/auth');
+  assert.equal(to.searchParams.get('code_challenge_method'), 'S256');
+  g.nonce = to.searchParams.get('nonce');
+  return s.req(`/login/google/callback?code=abc&state=${to.searchParams.get('state')}`);
+}
+
+test('admin list defaults to the owner and can be switched off', () => {
+  assert.deepEqual(adminEmailsFromEnv(undefined), ['expeditionup@gmail.com']);
+  assert.deepEqual(adminEmailsFromEnv('A@x.com, b@y.com'), ['a@x.com', 'b@y.com']);
+  assert.deepEqual(adminEmailsFromEnv('none'), []);
+});
+
+test('no Google button until Google sign-in is set up', async () => {
+  const s = await start();
+  try {
+    await setUp(s); await s.req('/logout', { form: {} });
+    const r = await s.req('/login');
+    assert.doesNotMatch(r.text, /Sign in with Google/);
+    assert.equal((await s.req('/login/google')).location, '/login');
+  } finally { await s.close(); }
+});
+
+test('the admin Google account signs straight in, even before any account exists', async () => {
+  const g = fakeGoogle();
+  const s = await start({ google: g.client });
+  try {
+    assert.match((await s.req('/login')).text, /href="\/login\/google"/, 'login shows Google instead of sending to setup');
+    const r = await googleSignIn(s, g, 'Expeditionup@Gmail.com');
+    assert.equal(r.location, '/');
+    assert.match((await s.req('/demo')).text, /SECRET-DEMO/);
+    const admin = await s.store.getUserByEmail('expeditionup@gmail.com');
+    assert.ok(admin, 'an account was made for the admin');
+    assert.equal(admin.recovery.length, 0);
+  } finally { await s.close(); }
+});
+
+test('Google signs in an existing account by its email; strangers and bad identities are refused', async () => {
+  const g = fakeGoogle();
+  const s = await start({ google: g.client });
+  try {
+    const { email } = await setUp(s, 'owner@example.test');
+    await s.req('/logout', { form: {} });
+    assert.equal((await googleSignIn(s, g, email)).location, '/');
+    assert.equal((await s.req('/')).status, 200);
+    await s.req('/logout', { form: {} });
+
+    let r = await googleSignIn(s, g, 'stranger@example.com');
+    assert.match(r.location, /^\/login\?err=.*account/);
+    assert.equal((await s.req('/demo')).location, '/login');
+    assert.equal(await s.store.getUserByEmail('stranger@example.com'), null, 'no account is made for a stranger');
+
+    g.extra = { email_verified: false };
+    r = await googleSignIn(s, g, email);
+    assert.match(decodeURIComponent(r.location), /isn't verified/);
+    g.extra = { aud: 'someone-else' };
+    r = await googleSignIn(s, g, email);
+    assert.match(decodeURIComponent(r.location), /not for this site/);
+    g.extra = {};
+
+    // A callback that was not started here is refused.
+    r = await s.req('/login/google/callback?code=abc&state=forged', { cookies: false });
+    assert.match(r.location, /^\/login\?err=/);
+    assert.equal((await s.req('/demo', { cookies: false })).location, '/login');
+  } finally { await s.close(); }
+});
+
+test('password and authenticator sign-in still works alongside Google', async () => {
+  const g = fakeGoogle();
+  const s = await start({ google: g.client });
+  try {
+    const { secret, email, pw } = await setUp(s);
+    await s.req('/logout', { form: {} });
+    assert.equal((await s.req('/login', { form: { email, password: pw } })).location, '/login/code');
+    s.clock.advance(60_000);
+    const r = await s.req('/login/code', { form: { code: totp.codeAt(secret, totp.stepAt(s.clock.now())) } });
+    assert.equal(r.location, '/');
+  } finally { await s.close(); }
+});
