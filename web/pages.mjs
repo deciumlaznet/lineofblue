@@ -25,6 +25,9 @@ button:focus-visible, a.button:focus-visible { outline: 2px solid var(--text); o
   background: #0a0f16; border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; word-break: break-all; }
 .codes { columns: 2; }
 a { color: var(--ink); }
+a.button.google { background: transparent; color: var(--text); border: 1px solid var(--ink); }
+a.button:active, button:active { opacity: .7; }
+.or { text-align: center; margin: 16px 0 0; font-size: 13px; }
 .small { font-size: 13px; }
 `;
 
@@ -44,9 +47,11 @@ export function page(title, body) {
 
 const err = (e) => e ? `<p class="err" role="alert">${esc(e)}</p>` : '';
 
-export const loginPage = (e, email = '') => page('Sign in', `
+export const loginPage = (e, email = '', { google = false } = {}) => page('Sign in', `
 <h1>Sign in</h1>
 <p>This site is private.</p>
+${google ? `<a class="button google" href="/login/google">Sign in with Google</a>
+<p class="or">or with your password and authenticator code</p>` : ''}
 <form method="post" action="/login" autocomplete="on">
   <label for="email">Email</label>
   <input id="email" name="email" type="email" autocomplete="username" required value="${esc(email)}" autofocus>

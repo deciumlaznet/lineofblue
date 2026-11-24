@@ -11,12 +11,26 @@ Code: `web/` (Node, two packages: `pg` and `qrcode`). Tests: `node --test web/te
 | Path | Open to | What |
 |---|---|---|
 | `/login`, `/login/code` | everyone | Password, then authenticator code |
+| `/login/google` | everyone | Sign in with Google (when set up) |
 | `/setup` | only while no account exists, and only with the setup code | Creates the first account |
 | `/robots.txt`, `/healthz` | everyone | Disallow all; health check |
 | `/` | signed in | Splash (the line links to `/demo`) |
 | `/demo` | signed in | `dist/index.html` |
 | `/research` | signed in | `dist/research.html` |
 | `/logout` | everyone | Sign out |
+
+## Sign in with Google
+
+Optional, alongside password and code (tester accounts and automated tests keep using those). Google only proves who
+someone is: it signs in the account with that email, or an `ADMIN_EMAILS` address (default `expeditionup@gmail.com`).
+An admin email with no account yet gets one on first Google sign-in, reachable only through Google; that also closes
+`/setup`. Anyone else is refused and no account is made.
+
+- Secrets: `GOOGLE_SIGNIN_CLIENT_ID`, `GOOGLE_SIGNIN_CLIENT_SECRET` (the shared OAuth client). Optional `ADMIN_EMAILS`,
+  `SITE_URL` (default `https://www.lineofblue.co.uk`).
+- Add `https://www.lineofblue.co.uk/login/google/callback` to the client's authorised redirect URIs.
+- OpenID Connect code flow with PKCE, state and nonce; the ID token's issuer, audience, expiry, nonce and verified email
+  are checked. Google accounts use Google's own two-step verification instead of the authenticator code.
 
 ## Safeguards
 

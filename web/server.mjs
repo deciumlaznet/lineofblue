@@ -1,5 +1,6 @@
 // Line of Blue private site. Every page needs a signed-in session: a password, then a 6-digit code from an
-// authenticator app (or a one-time recovery code). Only /login, /setup, /robots.txt and /healthz are open.
+// authenticator app (or a one-time recovery code), or "Sign in with Google" (web/google.mjs) for an account's own
+// email or an ADMIN_EMAILS address. Only /login, /login/google, /setup, /robots.txt and /healthz are open.
 //   DATABASE_URL     Postgres for accounts and sessions (Replit provides it). Without it, accounts live in memory.
 //   LOB_SETUP_CODE   phrase needed to create the first account at /setup. /setup closes once an account exists.
 //   PORT             default 5000
@@ -11,6 +12,7 @@ import QRCode from 'qrcode';
 import * as totp from './totp.mjs';
 import * as C from './crypto.mjs';
 import * as P from './pages.mjs';
+import { adminEmailsFromEnv, decodeFlow, encodeFlow, GoogleSignIn } from './google.mjs';
 import { MemoryStore, PgStore } from './store.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -55,7 +57,7 @@ async function readForm(req, limit = 8192) {
   return Object.fromEntries(new URLSearchParams(Buffer.concat(chunks).toString('utf8')));
 }
 
-export function createApp({ store, setupCode = '', root = ROOT, now = () => Date.now(), secureCookies } = {}) {
+export function createApp({ store, setupCode = '', root = ROOT, now = () => Date.now(), secureCookies, google, adminEmails = adminEmailsFromEnv(undefined) } = {}) {
   const pages = loadPages(root);
   const hits = new Map();
 
@@ -112,23 +114,34 @@ export function createApp({ store, setupCode = '', root = ROOT, now = () => Date
   }
   const locked = (u) => u && u.lockedUntil > now();
   const LOCKED_MSG = 'Too many attempts. Wait 15 minutes and try again.';
+  const loginPage = (e, email) => P.loginPage(e, email, { google: Boolean(google) });
+
+  // The account a verified Google email may use: the account with that email, or for an admin email with no
+  // account yet, a new account that can only be reached through Google (random password, no recovery codes).
+  async function accountForGoogle(email) {
+    const user = await store.getUserByEmail(email);
+    if (user) return user;
+    if (!adminEmails.includes(email)) return null;
+    try { return await store.createUser({ email, pwHash: await C.hashPassword(C.token()), totpSecret: totp.newSecret(), recovery: [], lastStep: -1 }); }
+    catch { return store.getUserByEmail(email); }
+  }
 
   const routes = {
     'GET /robots.txt': (req, res) => send(res, 200, 'User-agent: *\nDisallow: /\n', { type: 'text/plain; charset=utf-8', req }),
     'GET /healthz': (req, res) => send(res, 200, 'ok', { type: 'text/plain; charset=utf-8', req }),
 
     'GET /login': async (req, res) => {
-      if (await store.countUsers() === 0) return redirect(res, '/setup', req);
+      if (!google && await store.countUsers() === 0) return redirect(res, '/setup', req);
       if (await sessionOf(req, 'lob_session')) return redirect(res, '/', req);
-      send(res, 200, P.loginPage(), { req });
+      send(res, 200, loginPage(new URL(req.url, 'http://x').searchParams.get('err') || ''), { req });
     },
     'POST /login': async (req, res, f) => {
-      if (ipLimited(req)) return send(res, 429, P.loginPage(LOCKED_MSG), { req });
+      if (ipLimited(req)) return send(res, 429, loginPage(LOCKED_MSG), { req });
       const email = String(f.email || '').trim().toLowerCase(), pw = String(f.password || '');
       const user = await store.getUserByEmail(email);
-      if (locked(user)) return send(res, 429, P.loginPage(LOCKED_MSG, email), { req });
+      if (locked(user)) return send(res, 429, loginPage(LOCKED_MSG, email), { req });
       const ok = user ? await C.checkPassword(pw, user.pwHash) : (await C.burnTime(pw), false);
-      if (!ok) { if (user) await fail(user); return send(res, 401, P.loginPage('That email and password do not match.', email), { req }); }
+      if (!ok) { if (user) await fail(user); return send(res, 401, loginPage('That email and password do not match.', email), { req }); }
       const t = await newSession(user.id, 'pending', LIMITS.pendingMs);
       redirect(res, '/login/code', req, [cookie(req, 'lob_pending', t, LIMITS.pendingMs)]);
     },
@@ -141,7 +154,7 @@ export function createApp({ store, setupCode = '', root = ROOT, now = () => Date
       if (!pending || pending.stage !== 'pending') return redirect(res, '/login', req);
       if (ipLimited(req)) return send(res, 429, P.codePage(LOCKED_MSG), { req });
       const user = await store.getUser(pending.userId);
-      if (!user || locked(user)) { await store.deleteSession(pending.tokenHash); return send(res, 429, P.loginPage(LOCKED_MSG), { req, headers: { 'Set-Cookie': clear(req, 'lob_pending') } }); }
+      if (!user || locked(user)) { await store.deleteSession(pending.tokenHash); return send(res, 429, loginPage(LOCKED_MSG), { req, headers: { 'Set-Cookie': clear(req, 'lob_pending') } }); }
       const code = String(f.code || '').trim();
       let ok = false;
       if (/^\d[\d\s]{5,6}$/.test(code)) {
@@ -155,6 +168,27 @@ export function createApp({ store, setupCode = '', root = ROOT, now = () => Date
       await store.updateUser(user.id, { failedCount: 0, lockedUntil: 0 });
       const t = await newSession(user.id, 'full', LIMITS.sessionMs);
       redirect(res, '/', req, [clear(req, 'lob_pending'), cookie(req, 'lob_session', t, LIMITS.sessionMs)]);
+    },
+
+    'GET /login/google': async (req, res) => {
+      if (!google) return redirect(res, '/login', req);
+      const { flow, url } = google.start();
+      send(res, 302, '', { req, headers: { Location: url, 'Set-Cookie': cookie(req, 'lob_google', encodeFlow(flow), 10 * MIN) } });
+    },
+    'GET /login/google/callback': async (req, res) => {
+      const back = (msg) => redirect(res, `/login?err=${encodeURIComponent(msg)}`, req, [clear(req, 'lob_google')]);
+      if (!google) return redirect(res, '/login', req);
+      if (ipLimited(req)) return back(LOCKED_MSG);
+      let id;
+      try { id = await google.finish(decodeFlow(parseCookies(req.headers.cookie)[name(req, 'lob_google')]), Object.fromEntries(new URL(req.url, 'http://x').searchParams)); }
+      catch (e) { return back(e.message || 'Google sign-in failed. Please try again.'); }
+      const user = await accountForGoogle(id.email);
+      if (!user) { console.log('signin.google.unknown'); return back(`${id.email} does not have a Line of Blue account.`); }
+      if (locked(user)) return back(LOCKED_MSG);
+      await store.updateUser(user.id, { failedCount: 0, lockedUntil: 0 });
+      const t = await newSession(user.id, 'full', LIMITS.sessionMs);
+      console.log('signin.google', id.email.replace(/^(.).*@/, '$1…@'));
+      redirect(res, '/', req, [clear(req, 'lob_google'), cookie(req, 'lob_session', t, LIMITS.sessionMs)]);
     },
 
     'GET /logout': (req, res) => send(res, 200, P.logoutPage(), { req }),
@@ -236,7 +270,10 @@ export async function main() {
   const store = process.env.DATABASE_URL ? new PgStore(process.env.DATABASE_URL) : new MemoryStore();
   if (!process.env.DATABASE_URL) console.warn('DATABASE_URL is not set: accounts are kept in memory and lost on restart.');
   await store.init();
-  const handle = createApp({ store, setupCode: process.env.LOB_SETUP_CODE || '', secureCookies: process.env.NODE_ENV === 'production' ? true : undefined });
+  const google = GoogleSignIn.fromEnv(process.env);
+  if (!google) console.warn('GOOGLE_SIGNIN_CLIENT_ID / GOOGLE_SIGNIN_CLIENT_SECRET not set: Google sign-in is off.');
+  const handle = createApp({ store, setupCode: process.env.LOB_SETUP_CODE || '', secureCookies: process.env.NODE_ENV === 'production' ? true : undefined,
+    google, adminEmails: adminEmailsFromEnv(process.env.ADMIN_EMAILS) });
   const port = Number(process.env.PORT || 5000);
   http.createServer(handle).listen(port, '0.0.0.0', () => console.log(`Line of Blue site on port ${port}`));
 }
